@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -23,8 +24,8 @@
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		CABB57D22AEB4569AE217160 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F0A2FBEF4C454505AD86C1F5 /* libRNFetchBlob.a */; };
-		DDD786171FB8AFB900536C31 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DDD786161FB8AFB900536C31 /* FontAwesome.ttf */; };
 		DA05BB3553A54AB683044366 /* libRNSecureKeyStore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CB1AB45C10D44605ABD0974A /* libRNSecureKeyStore.a */; };
+		DDD786171FB8AFB900536C31 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DDD786161FB8AFB900536C31 /* FontAwesome.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -210,6 +211,13 @@
 			remoteGlobalIDString = 358F4ED71D1E81A9004DF814;
 			remoteInfo = RCTBlob;
 		};
+		DDA557FA1FC23C5200B0B1F2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = C50C9E8FD55E4C5A81370F36 /* RNSecureKeyStore.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNSecureKeyStore;
+		};
 		DDD785A11FB8AA3800536C31 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */;
@@ -327,13 +335,13 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		8FB5454E1B2F4CCDB38FB6F0 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/react-native-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		ADBDB91F1DFEBF0600ED6528 /* RCTBlob.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTBlob.xcodeproj; path = "../node_modules/react-native/Libraries/Blob/RCTBlob.xcodeproj"; sourceTree = "<group>"; };
+		C50C9E8FD55E4C5A81370F36 /* RNSecureKeyStore.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSecureKeyStore.xcodeproj; path = "../node_modules/react-native-secure-key-store/ios/RNSecureKeyStore.xcodeproj"; sourceTree = "<group>"; };
 		C9C5BCE8D9134C3598DA17F4 /* ReactNativeNavigation.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeNavigation.xcodeproj; path = "../node_modules/react-native-navigation/ios/ReactNativeNavigation.xcodeproj"; sourceTree = "<group>"; };
+		CB1AB45C10D44605ABD0974A /* libRNSecureKeyStore.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSecureKeyStore.a; sourceTree = "<group>"; };
 		DDD785E21FB8AEF300536C31 /* Passman.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Passman.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DDD786161FB8AFB900536C31 /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome.ttf; path = ../resources/FontAwesome.ttf; sourceTree = "<group>"; };
 		EA4F94BF525F4BE8AF49277E /* RNRandomBytes.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNRandomBytes.xcodeproj; path = "../node_modules/react-native-randombytes/RNRandomBytes.xcodeproj"; sourceTree = "<group>"; };
 		F0A2FBEF4C454505AD86C1F5 /* libRNFetchBlob.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFetchBlob.a; sourceTree = "<group>"; };
-		C50C9E8FD55E4C5A81370F36 /* RNSecureKeyStore.xcodeproj */ = {isa = PBXFileReference; name = "RNSecureKeyStore.xcodeproj"; path = "../node_modules/react-native-secure-key-store/ios/RNSecureKeyStore.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		CB1AB45C10D44605ABD0974A /* libRNSecureKeyStore.a */ = {isa = PBXFileReference; name = "libRNSecureKeyStore.a"; path = "libRNSecureKeyStore.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -533,6 +541,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		DDA557F71FC23C5200B0B1F2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				DDA557FB1FC23C5200B0B1F2 /* libRNSecureKeyStore.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		DDD785B71FB8AA3D00536C31 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -577,6 +593,7 @@
 			isa = PBXGroup;
 			children = (
 				F0A2FBEF4C454505AD86C1F5 /* libRNFetchBlob.a */,
+				CB1AB45C10D44605ABD0974A /* libRNSecureKeyStore.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -699,6 +716,10 @@
 				{
 					ProductGroup = DDD785C11FB8AA4600536C31 /* Products */;
 					ProjectRef = EA4F94BF525F4BE8AF49277E /* RNRandomBytes.xcodeproj */;
+				},
+				{
+					ProductGroup = DDA557F71FC23C5200B0B1F2 /* Products */;
+					ProjectRef = C50C9E8FD55E4C5A81370F36 /* RNSecureKeyStore.xcodeproj */;
 				},
 				{
 					ProductGroup = DDD785C61FB8AA4700536C31 /* Products */;
@@ -899,6 +920,13 @@
 			remoteRef = ADBDB9261DFEBF0700ED6528 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		DDA557FB1FC23C5200B0B1F2 /* libRNSecureKeyStore.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNSecureKeyStore.a;
+			remoteRef = DDA557FA1FC23C5200B0B1F2 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		DDD785A21FB8AA3800536C31 /* libRCTBlob-tvOS.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1076,6 +1104,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = de.jonasgeschke.passman;
 				PRODUCT_NAME = Passman;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1110,6 +1139,7 @@
 					"-ObjC",
 					"-lc++",
 				);
+				PRODUCT_BUNDLE_IDENTIFIER = de.jonasgeschke.passman;
 				PRODUCT_NAME = Passman;
 				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
