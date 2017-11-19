@@ -3,6 +3,7 @@ package com.passman;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactlibrary.securekeystore.RNSecureKeyStorePackage;
 import com.RNFetchBlob.RNFetchBlobPackage;
 import com.tradle.react.UdpSocketsModule;
 import com.peel.react.TcpSocketsModule;
@@ -28,6 +29,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNSecureKeyStorePackage(),
             new RNFetchBlobPackage(),
             new UdpSocketsModule(),
             new TcpSocketsModule(),

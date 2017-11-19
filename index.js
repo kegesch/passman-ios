@@ -1,6 +1,7 @@
 import {
-    AppRegistry
+    AppRegistry, AppState
 } from 'react-native';
+import LockScreen from './components/LockScreen';
 import LoginScreen from './components/LoginScreen';
 import VaultsScreen from './components/VaultsScreen';
 import VaultKeyScreen from './components/VaultKeyScreen'
@@ -8,7 +9,7 @@ import CredentialsScreen from './components/CredentialsScreen'
 import CredentialInfoScreen from './components/CredentialInfoScreen'
 import SettingsScreen from './components/SettingsScreen'
 import LoginSettingsScreen from './components/LoginSettingsScreen'
-import { StackNavigator, TabNavigator } from 'react-navigation';
+import { StackNavigator, TabNavigator, NavigationActions } from 'react-navigation';
 
 export const passmanAppUri = "index.php/apps/passman/api/v2/"
 
@@ -56,6 +57,7 @@ export const AppNavigator = TabNavigator({
 
 export const BaseAppNavigator = StackNavigator({
     LoginScreen: {screen: LoginScreen},
+    LockScreen: {screen: LockScreen},
     AppNavigator: {screen: AppNavigator}
 }, {
     navigationOptions: {
@@ -64,5 +66,8 @@ export const BaseAppNavigator = StackNavigator({
     }
 });
 
-
 AppRegistry.registerComponent('Passman', () => BaseAppNavigator);
+
+
+
+

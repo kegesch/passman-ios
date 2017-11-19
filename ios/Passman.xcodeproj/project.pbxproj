@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -25,6 +24,7 @@
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		CABB57D22AEB4569AE217160 /* libRNFetchBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F0A2FBEF4C454505AD86C1F5 /* libRNFetchBlob.a */; };
 		DDD786171FB8AFB900536C31 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DDD786161FB8AFB900536C31 /* FontAwesome.ttf */; };
+		DA05BB3553A54AB683044366 /* libRNSecureKeyStore.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CB1AB45C10D44605ABD0974A /* libRNSecureKeyStore.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -332,6 +332,8 @@
 		DDD786161FB8AFB900536C31 /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = FontAwesome.ttf; path = ../resources/FontAwesome.ttf; sourceTree = "<group>"; };
 		EA4F94BF525F4BE8AF49277E /* RNRandomBytes.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNRandomBytes.xcodeproj; path = "../node_modules/react-native-randombytes/RNRandomBytes.xcodeproj"; sourceTree = "<group>"; };
 		F0A2FBEF4C454505AD86C1F5 /* libRNFetchBlob.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNFetchBlob.a; sourceTree = "<group>"; };
+		C50C9E8FD55E4C5A81370F36 /* RNSecureKeyStore.xcodeproj */ = {isa = PBXFileReference; name = "RNSecureKeyStore.xcodeproj"; path = "../node_modules/react-native-secure-key-store/ios/RNSecureKeyStore.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		CB1AB45C10D44605ABD0974A /* libRNSecureKeyStore.a */ = {isa = PBXFileReference; name = "libRNSecureKeyStore.a"; path = "libRNSecureKeyStore.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -353,6 +355,7 @@
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				CABB57D22AEB4569AE217160 /* libRNFetchBlob.a in Frameworks */,
+				DA05BB3553A54AB683044366 /* libRNSecureKeyStore.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -493,6 +496,7 @@
 				4EE216EF770D4559B26BCAD6 /* TcpSockets.xcodeproj */,
 				4EA30959CC8D4431A10A5C3C /* UdpSockets.xcodeproj */,
 				8FB5454E1B2F4CCDB38FB6F0 /* RNFetchBlob.xcodeproj */,
+				C50C9E8FD55E4C5A81370F36 /* RNSecureKeyStore.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -1058,11 +1062,13 @@
 					"$(SRCROOT)/../node_modules/react-native-tcp/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-udp/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-secure-key-store/ios/**",
 				);
 				INFOPLIST_FILE = Passman/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/Passman\"",
 					"\"$(SRCROOT)/Passman\"",
 				);
 				OTHER_LDFLAGS = (
@@ -1090,11 +1096,13 @@
 					"$(SRCROOT)/../node_modules/react-native-tcp/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-udp/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-fetch-blob/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-secure-key-store/ios/**",
 				);
 				INFOPLIST_FILE = Passman/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/Passman\"",
 					"\"$(SRCROOT)/Passman\"",
 				);
 				OTHER_LDFLAGS = (

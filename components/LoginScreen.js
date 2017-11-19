@@ -11,17 +11,12 @@ import {
     Alert
 } from 'react-native';
 
-import TouchId from 'react-native-smart-touch-id';
 import { passmanAppUri } from '../index'
 import Base64 from '../model/Base64'
 import { NavigationActions } from "react-navigation";
 export default class LoginScreen extends Component {
 
     static navigationOptions = { title: 'Welcome', header: null };
-
-    constructor() {
-        super()
-    }
 
     componentDidMount() {
         this.setState({url: ""})
@@ -59,7 +54,7 @@ export default class LoginScreen extends Component {
         const resetAction = NavigationActions.reset({
             index: 0,
             actions: [
-                NavigationActions.navigate({ routeName: 'AppNavigator'})
+                NavigationActions.navigate({ routeName: 'LockScreen'})
             ]
         })
         this.props.navigation.dispatch(resetAction)

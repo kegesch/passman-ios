@@ -137,6 +137,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-secure-key-store')
     compile project(':react-native-fetch-blob')
     compile project(':react-native-udp')
     compile project(':react-native-tcp')

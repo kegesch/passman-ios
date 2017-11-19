@@ -46,6 +46,7 @@
     "react-native-navigation": "^1.1.194",
     "react-native-popover-tooltip": "^1.1.0",
     "react-native-randombytes": "^2.2.0",
+    "react-native-secure-key-store": "^1.0.8",
     "react-native-smart-touch-id": "^1.1.1",
     "react-native-tcp": "^2.0.4",
     "react-native-udp": "^1.2.9",
