@@ -45,7 +45,7 @@ export default class CredentialsScreen extends Component {
 
     constructor(props) {
         super(props)
-        this.state = {vaults: [], isLoading: true, imagesLoaded: false}
+        this.state = {vaults: [], isLoading: true, imagesLoaded: false, currentVault: null}
     }
 
     componentWillMount() {
@@ -64,6 +64,7 @@ export default class CredentialsScreen extends Component {
                         return
                     }
                     this.setState({vaultKeys: responseJsonKeys})
+                    this.setState({currentVault: responseJson})
                     this.loadCredentials(responseJson).then(() => {
                         this.setState({isLoading: false})
                     })
@@ -72,6 +73,7 @@ export default class CredentialsScreen extends Component {
                 var vaultKeys = []
                 vaultKeys[responseJson] = params.vaultKeys
                 this.setState({vaultKeys: vaultKeys})
+                this.setState({currentVault: responseJson})
                 this.loadCredentials(responseJson).then(() => {
                     this.setState({isLoading: false})
                 })
@@ -180,35 +182,47 @@ export default class CredentialsScreen extends Component {
 
     sectionize(credentials) {
         var sections = []
+        var lastchar = null;
+        var currentsection = null;
         for(i in credentials) {
             firstchar = credentials[i].label.charAt(0).toUpperCase()
-            if(sections[firstchar] == null) {
-                sections[firstchar] = {data: [], title: firstchar}
+            if(lastchar != firstchar) {
+                if(currentsection != null) sections.push(currentsection)
+                currentsection = {data: [], title: firstchar}
             }
-            sections[firstchar].data.push(credentials[i])
+            currentsection.data.push(credentials[i])
+            lastchar = firstchar
         }
         return sections
     }
 
 
     render() {
-        credView = []
-        credentials = this.mergeCredentials()
-        for (i in credentials) {
-            let cre = credentials[i]
-            credView.push(
-                <CredentialItem key={cre.guid} title={cre.label} subTitle={cre.url} url={cre.url} onPress={() => {this._pressCredential(cre)}} />
-            )
-        }
+
+        let sections = this.sectionize(this.mergeCredentials())
         return (
             <View style={styles.root}>
                 <StatusBar
                     barStyle="light-content"
                 />
-                <ActivityIndicator style={styles.loading} animating={this.state.isLoading}/>
-                <ScrollView>
-                    {credView}
-                </ScrollView>
+                <SectionList
+                    ItemSeparatorComponent={ItemSeparator}
+                    renderItem={({item}) => <CredentialItem key={item.guid} title={item.label} subTitle={item.url} url={item.url} onPress={() => {this._pressCredential(item)}} />}
+                    renderSectionHeader={({section}) =>
+                        <View style={styles.sectionHeader}>
+                            <Text style={styles.sectionHeaderText}>{section.title}</Text>
+                        </View>}
+                    stickySectionHeadersEnabled={true}
+                    renderSectionFooter={() => <View style={styles.sectionSeperator}/>}
+                    sections={sections}
+                    refreshing={this.state.isLoading}
+                    onRefresh={() => {
+                        this.loadCredentials(this.state.currentVault).then(() => {
+                            this.setState({isLoading: false})
+                        })
+                    }}
+                />
+
             </View>
         )
     }
@@ -223,13 +237,13 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         backgroundColor: '#fff',
-        borderTopWidth: 1,
-        borderTopColor: '#f1f1f1',
-        borderBottomWidth: 1,
-        borderBottomColor: '#f1f1f1',
-        marginBottom: 10,
+        marginBottom: 0,
         padding: 8,
         paddingLeft: 12
+    },
+    sectionSeperator: {
+        borderTopWidth: 1,
+        borderTopColor: '#f1f1f1',
     },
     loading: {
         position: 'absolute',
@@ -251,6 +265,16 @@ const styles = StyleSheet.create({
     vaultsButton : {
         color: 'white',
         padding: 10,
+    },
+    sectionHeader: {
+        borderBottomWidth: 1,
+        borderBottomColor: '#f1f1f1',
+    },
+    sectionHeaderText: {
+        fontSize: 20,
+        color: '#777',
+        paddingLeft: 10,
+        paddingTop: 5
     }
 })
 
@@ -272,5 +296,14 @@ class CredentialItem extends Component {
                 </View>
             </TouchableHighlight>
         )
+    }
+}
+
+class ItemSeparator extends Component {
+    render() {
+        return (
+            <View style={{height: 1, paddingLeft: 50, backgroundColor: "#fff"}}>
+                <View style={{backgroundColor: '#f1f1f1', height: 1}}/>
+            </View>)
     }
 }

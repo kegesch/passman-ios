@@ -25,37 +25,40 @@ export default class LockScreen extends Component {
 
     constructor(props) {
         super(props)
-        this.state = {screen: "unlock"}
+        this.state = {screen: "unlock", wrongPassword: false}
         AppState.addEventListener('change', this.handleAppStateChange)
     }
 
     componentWillMount() {
-        LockScreen.isMasterPasswordSet().then((res) => {
-            if (res) {
-                this.setState({screen: "unlock"})
-            } else {
-                this.setState({screen: "setmaster"})
-            }
+        RNSecureKeyStore.get("masterPassword").then((res) => {
+            console.log(res)
+            this.setState({screen: "unlock"})
+        }).catch((err) => {
+            this.setState({screen: "setmaster"})
         })
     }
 
      componentDidMount() {
          this.isFingerPrintSupported().then((supported) => {
              if(supported) {
-                 this.checkFingerprint()
+                 this.checkFingerprint().then((res) => {
+                     if(res) {
+                         this.navigateToAppScreen();
+                     } else {
+                         //TODO
+                     }
+                 })
+             } else {
+                 console.log("fingerprint not supported")
              }
+         }).catch(() => {
+             console.log("fingerprint not supported")
          })
-    }
-
-    static async isMasterPasswordSet() {
-        let pw = await RNSecureKeyStore.get("masterPassword");
-        return pw !== null;
     }
 
     saveMasterPassword(masterPassword) {
         RNSecureKeyStore.set("masterPassword", masterPassword)
             .then((res) => {
-                console.log(res);
                 this.navigateToAppScreen()
             }, (err) => {
                 console.log(err);
@@ -76,6 +79,8 @@ export default class LockScreen extends Component {
     async checkFingerprint() {
         let description = 'Verify to access your vaults.'
         let title = "Verify Password"   //fallback button title will be 'Verify Password'(unlocalized)
+        console.log(this.state.screen)
+        if(this.state.screen !== "unlock") return
         try {
             await TouchId.verify({
                 description,
@@ -97,14 +102,12 @@ export default class LockScreen extends Component {
     checkAuth() {
         RNSecureKeyStore.get("masterPassword")
             .then((res) => {
-                console.log(res);
-                var res = this.state.masterPasswordInput == res;
-                if(res) {
+                if(this.state.masterPasswordInput === res) {
                     this.navigateToAppScreen()
                 }
             }, (err) => {
                 console.log(err);
-                return false;
+               this.setState({wrongPassword: true})
             });
     }
 
@@ -121,8 +124,14 @@ export default class LockScreen extends Component {
     render() {
         if(this.state.screen === "unlock") {
             return (<UnlockComponent
-                onChangeText={(masterPasswordInput) => this.setState({masterPasswordInput: masterPasswordInput})}
-                onSubmit={() => {this.checkAuth()}}
+                onChangeText={(masterPasswordInput) => {
+                    this.setState({wrongPassword: false})
+                    this.setState({masterPasswordInput: masterPasswordInput})
+                }}
+                highlight={this.state.wrongPassword}
+                onSubmit={() => {
+                    this.checkAuth()
+                }}
             />);
         } else {
             return (
@@ -198,12 +207,11 @@ class UnlockComponent extends Component {
                             Password
                         </Text>
                         <TextInput
-                            style={styles.input}
+                            style={[styles.input, this.props.highlight  && styles.inputError]}
                             placeholder="Password"
                             autoCorrect={false}
                             autoCapitalize={'none'}
                             secureTextEntry={true}
-                            keyboardType={'url'}
                             returnKeyType={'done'}
                             onChangeText={this.props.onChangeText}
                             onSubmitEditing={this.props.onSubmit}
@@ -261,7 +269,6 @@ class SetMasterPasswordComponent extends Component {
                             autoCorrect={false}
                             autoCapitalize={'none'}
                             secureTextEntry={true}
-                            keyboardType={'url'}
                             returnKeyType={'done'}
                             onChangeText={(pw1) => {
                                 this.setState({pw1}); this.setState({passwordCorrect: true})
@@ -279,7 +286,6 @@ class SetMasterPasswordComponent extends Component {
                             autoCorrect={false}
                             autoCapitalize={'none'}
                             secureTextEntry={true}
-                            keyboardType={'url'}
                             returnKeyType={'done'}
                             onChangeText={(pw2) => {
                                 this.setState({pw2}); this.setState({passwordCorrect: true})
