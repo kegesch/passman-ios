@@ -12,7 +12,7 @@ iOS client for nextclouds password-manager extension [Passman](https://passman.c
 ### Setup
 1. Clone Project
 2. Run ```npm install``` in the folder
-3. Run  ````npm start```` and ```` npm run-ios````
+3. Run  ````npm start```` and ```` react-native run-ios````
 
 ### Creating App-Icon
 We are usign RN-Toolbox

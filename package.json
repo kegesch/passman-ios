@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "assert": "^1.4.1",
+    "asyncstorage-down": "^3.0.0",
     "browserify-zlib": "^0.1.4",
     "buffer": "^3.6.0",
     "console-browserify": "^1.1.0",
