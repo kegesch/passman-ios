@@ -184,6 +184,9 @@ export default class CredentialsScreen extends Component {
         var sections = []
         var lastchar = null;
         var currentsection = null;
+
+        if(credentials.length == 0) return []
+
         for(i in credentials) {
             firstchar = credentials[i].label.charAt(0).toUpperCase()
             if(lastchar != firstchar) {
@@ -193,6 +196,8 @@ export default class CredentialsScreen extends Component {
             currentsection.data.push(credentials[i])
             lastchar = firstchar
         }
+        sections.push(currentsection)
+
         return sections
     }
 
@@ -209,7 +214,7 @@ export default class CredentialsScreen extends Component {
                     ItemSeparatorComponent={ItemSeparator}
                     renderItem={({item}) => <CredentialItem key={item.guid} title={item.label} subTitle={item.url} url={item.url} onPress={() => {this._pressCredential(item)}} />}
                     renderSectionHeader={({section}) =>
-                        <View style={styles.sectionHeader}>
+                        <View key={section.title} style={styles.sectionHeader}>
                             <Text style={styles.sectionHeaderText}>{section.title}</Text>
                         </View>}
                     stickySectionHeadersEnabled={true}
