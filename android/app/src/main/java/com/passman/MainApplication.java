@@ -3,12 +3,6 @@ package com.passman;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.reactlibrary.securekeystore.RNSecureKeyStorePackage;
-import com.RNFetchBlob.RNFetchBlobPackage;
-import com.tradle.react.UdpSocketsModule;
-import com.peel.react.TcpSocketsModule;
-import com.bitgo.randombytes.RandomBytesPackage;
-import com.reactnativenavigation.NavigationReactPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -28,13 +22,7 @@ public class MainApplication extends Application implements ReactApplication {
     @Override
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-            new RNSecureKeyStorePackage(),
-            new RNFetchBlobPackage(),
-            new UdpSocketsModule(),
-            new TcpSocketsModule(),
-            new RandomBytesPackage(),
-            new NavigationReactPackage()
+          new MainReactPackage()
       );
     }
 
