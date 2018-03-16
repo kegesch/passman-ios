@@ -42,7 +42,6 @@
     "react-native-crypto": "^2.0.2",
     "react-native-fetch-blob": "^0.10.8",
     "react-native-fontawesome": "^5.7.0",
-    "react-native-http": "github:tradle/react-native-http#834492d",
     "react-native-level-fs": "^3.0.0",
     "react-native-navigation": "^1.1.194",
     "react-native-popover-tooltip": "^1.1.0",
