@@ -22,9 +22,5 @@ We are usign RN-Toolbox
 4. When asked for overwriting, reply with ```y```
 
 ### Troubleshooting
-#### Shims
-1. Install RN-Nodeify with ````npm install --gobal rn-nodeify````
-2. Run ````rn-nodeify --install --hacks````
-
 #### Linking new dependencies
 Run ```react-native  link```. This should do it unless the library says otherwise.
