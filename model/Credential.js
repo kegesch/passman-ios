@@ -1,4 +1,3 @@
-import '../shim.js'
 import sjcl from 'sjcl'
 import Base64 from './Base64'
 

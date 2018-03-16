@@ -1,6 +1,5 @@
-import {
-    AppRegistry, AppState
-} from 'react-native';
+import "node-libs-react-native/globals";
+import {AppRegistry, AppState} from 'react-native';
 import LockScreen from './components/LockScreen';
 import LoginScreen from './components/LoginScreen';
 import VaultsScreen from './components/VaultsScreen';
