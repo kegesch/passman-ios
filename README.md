@@ -21,6 +21,11 @@ We are usign RN-Toolbox
 3. Having a single .png file for the App-Icon we can run ```yo rn-toolbox:assets --icon resources/apple-touch-icon.png```
 4. When asked for overwriting, reply with ```y```
 
+## Creating screenshots and mockups
+To pimp up the advertizing these tools might be helpful: 
+ - [Shotbot](https://app.shotbot.io) to create screenshots for the AppStore
+ - [mockuphone](https://mockuphone.com/) to create mockup screenshots of specific device
+
 ### Troubleshooting
 #### Linking new dependencies
 Run ```react-native  link```. This should do it unless the library says otherwise.
