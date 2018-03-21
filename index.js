@@ -1,13 +1,13 @@
 import "node-libs-react-native/globals";
 import {AppRegistry, AppState} from 'react-native';
-import LockScreen from './components/LockScreen';
-import LoginScreen from './components/LoginScreen';
-import VaultsScreen from './components/VaultsScreen';
-import VaultKeyScreen from './components/VaultKeyScreen'
-import CredentialsScreen from './components/CredentialsScreen'
-import CredentialInfoScreen from './components/CredentialInfoScreen'
-import SettingsScreen from './components/SettingsScreen'
-import LoginSettingsScreen from './components/LoginSettingsScreen'
+import LockScreen from './src/components/LockScreen';
+import LoginScreen from './src/components/LoginScreen';
+import VaultsScreen from './src/components/VaultsScreen';
+import VaultKeyScreen from './src/components/VaultKeyScreen'
+import CredentialsScreen from './src/components/CredentialsScreen'
+import CredentialInfoScreen from './src/components/CredentialInfoScreen'
+import SettingsScreen from './src/components/SettingsScreen'
+import LoginSettingsScreen from './src/components/LoginSettingsScreen'
 import { StackNavigator, TabNavigator, NavigationActions } from 'react-navigation';
 
 export const passmanAppUri = "index.php/apps/passman/api/v2/"

@@ -11,7 +11,7 @@ import {
     TouchableHighlight,
     ActivityIndicator, Button, SectionList, ListItem, ScrollView
 } from 'react-native';
-import { passmanAppUri } from '../index'
+import { passmanAppUri } from '../../index'
 import Credential from '../model/Credential'
 import Vault from '../model/Vault'
 import Base64 from '../model/Base64'
@@ -210,23 +210,25 @@ export default class CredentialsScreen extends Component {
                 <StatusBar
                     barStyle="light-content"
                 />
-                <SectionList
-                    ItemSeparatorComponent={ItemSeparator}
-                    renderItem={({item}) => <CredentialItem key={item.guid} title={item.label} subTitle={item.url} url={item.url} onPress={() => {this._pressCredential(item)}} />}
-                    renderSectionHeader={({section}) =>
-                        <View key={section.title} style={styles.sectionHeader}>
-                            <Text style={styles.sectionHeaderText}>{section.title}</Text>
-                        </View>}
-                    stickySectionHeadersEnabled={true}
-                    renderSectionFooter={() => <View style={styles.sectionSeperator}/>}
-                    sections={sections}
-                    refreshing={this.state.isLoading}
-                    onRefresh={() => {
-                        this.loadCredentials(this.state.currentVault).then(() => {
-                            this.setState({isLoading: false})
-                        })
-                    }}
-                />
+                <ImageCacheProvider>
+                    <SectionList
+                        ItemSeparatorComponent={ItemSeparator}
+                        renderItem={({item}) => <CredentialItem key={item.guid} title={item.label} subTitle={item.url} url={item.url} onPress={() => {this._pressCredential(item)}} />}
+                        renderSectionHeader={({section}) =>
+                            <View key={section.title} style={styles.sectionHeader}>
+                                <Text style={styles.sectionHeaderText}>{section.title}</Text>
+                            </View>}
+                        stickySectionHeadersEnabled={true}
+                        renderSectionFooter={() => <View style={styles.sectionSeperator}/>}
+                        sections={sections}
+                        refreshing={this.state.isLoading}
+                        onRefresh={() => {
+                            this.loadCredentials(this.state.currentVault).then(() => {
+                                this.setState({isLoading: false})
+                            })
+                        }}
+                    />
+                </ImageCacheProvider>
 
             </View>
         )
@@ -289,7 +291,7 @@ class CredentialItem extends Component {
         return (
             <TouchableHighlight underlayColor='transparent' onPress={this.props.onPress}>
                 <View style={styles.credentialItem}>
-                    <Image style={{height: 30, width: 30}} source={{uri: "https://icons.better-idea.org/icon?url="+this.props.url+"&size=30..30..256"}}/>
+                    <CachedImage style={{height: 30, width: 30}} source={{uri: "https://icons.better-idea.org/icon?url="+this.props.url+"&size=30..30..256"}}/>
                     <View Style={{flex: 0, flexDirection: 'vertical'}}>
                         <Text style={styles.credentialsTextTitle}>
                             {this.props.title}

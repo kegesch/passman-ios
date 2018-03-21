@@ -194,7 +194,7 @@ class UnlockComponent extends Component {
                 <View style={{marginTop: 60, justifyContent: 'center', alignItems: 'center',}}>
                     <Image
                         style={styles.logo}
-                        source={require('../resources/app.png')}
+                        source={require('../../resources/app.png')}
                     />
                     <Text style={styles.logoText}>
                         Passman
@@ -249,7 +249,7 @@ class SetMasterPasswordComponent extends Component {
                 <View style={{marginTop: 60, justifyContent: 'center', alignItems: 'center',}}>
                     <Image
                         style={styles.logo}
-                        source={require('../resources/app.png')}
+                        source={require('../../resources/app.png')}
                     />
                     <Text style={styles.logoText}>
                         Passman

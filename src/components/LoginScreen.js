@@ -11,7 +11,7 @@ import {
     Alert
 } from 'react-native';
 
-import { passmanAppUri } from '../index'
+import { passmanAppUri } from '../../index'
 import Base64 from '../model/Base64'
 import { NavigationActions } from "react-navigation";
 export default class LoginScreen extends Component {
@@ -111,7 +111,7 @@ export default class LoginScreen extends Component {
               <View style={{marginTop: 60, justifyContent: 'center', alignItems: 'center',}}>
                   <Image
                       style={styles.logo}
-                      source={require('../resources/app.png')}
+                      source={require('../../resources/app.png')}
                   />
                   <Text style={styles.logoText}>
                       Passman
