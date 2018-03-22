@@ -1,6 +1,8 @@
 # Passman App for iOS <img src="https://passman.cc/img/icon128.png" height="30" />
 iOS client for nextclouds password-manager extension [Passman](https://passman.cc/) 
 
+[![Build Status](https://travis-ci.org/Y0nnyy/passman-ios.svg?branch=master)](https://travis-ci.org/Y0nnyy/passman-ios)
+
 <img src="https://github.com/Y0nnyy/passman-ios/raw/master/resources/screenshots/mock-ups/screenshot-setup_iphone8spacegrey_portrait.png" width="285"/> <img src="https://github.com/Y0nnyy/passman-ios/raw/master/resources/screenshots/mock-ups/screenshot-master-password_iphone8spacegrey_portrait.png" width="285"/> <img src="https://github.com/Y0nnyy/passman-ios/raw/master/resources/screenshots/mock-ups/screenshot-credentials_iphone8spacegrey_portrait.png" width="285"/>
 
 ## Current features
