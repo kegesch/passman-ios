@@ -10,6 +10,8 @@ npm-debug.*
 .idea/**/tasks.xml
 .idea/dictionaries
 .idea/dbnavigator.xml
+.idea/codeStyleSettings.xml
+.idea/typescript-compiler.xml
 
 
 # Sensitive or high-churn files:

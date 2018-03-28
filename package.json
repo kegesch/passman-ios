@@ -1,36 +1,74 @@
 {
   "name": "Passman",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
-  "main": "index.js",
-  "devDependencies": {
-    "babel-jest": "20.0.3",
-    "babel-preset-react-native": "2.1.0",
-    "jest": "20.0.4",
-    "react-test-renderer": "16.0.0-alpha.12"
-  },
   "scripts": {
+    "tsc": "tsc",
+    "clean": "rimraf artifacts",
+    "build": "npm run clean && npm run tsc --",
+    "lint": "xo",
     "start": "react-native start",
-    "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "test": "node node_modules/jest/bin/jest.js --watch",
-    "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/Passman/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios'"
+    "test": "jest",
+    "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/Passman/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios'",
+    "postinstall": "./postinstall.sh"
   },
   "jest": {
-    "preset": "react-native"
+    "preset": "react-native",
+    "transform": {
+      "^.+\\.jsx?$": "<rootDir>/node_modules/babel-jest",
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/tests/.*|(\\.|/)(test))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "globals": {
+      "ts-jest": {
+        "useBabelrc": true
+      }
+    }
+  },
+  "devDependencies": {
+    "@types/jest": "^22.2.2",
+    "@types/react": "^16.0.40",
+    "@types/react-native": "^0.52.19",
+    "babel-jest": "^20.0.3",
+    "babel-preset-react-native": "^2.1.0",
+    "eslint-config-xo-react": "^0.16.0",
+    "eslint-plugin-react": "^7.7.0",
+    "jest": "20.0.4",
+    "react-native-typescript-transformer": "^1.2.3",
+    "react-test-renderer": "16.0.0-alpha.12",
+    "rimraf": "^2.6.2",
+    "ts-jest": "^22.4.2",
+    "tslint-xo": "^0.6.0",
+    "typescript": "^2.7.2",
+    "xo": "^0.20.3"
   },
   "dependencies": {
+    "@types/crypto-js": "^3.1.38",
+    "@types/jssha": "0.0.29",
+    "@types/sjcl": "^1.0.28",
     "assert": "^1.4.1",
     "asyncstorage-down": "^3.0.0",
     "browserify-zlib": "^0.1.4",
     "buffer": "^3.6.0",
     "console-browserify": "^1.1.0",
     "constants-browserify": "0.0.1",
+    "crypto-js": "^3.1.9-1",
     "dns.js": "^1.0.1",
     "domain-browser": "^1.1.7",
     "events": "^1.1.1",
     "https-browserify": "0.0.1",
     "jssha": "^2.3.1",
+    "mobx": "^4.1.0",
+    "mobx-react": "^5.0.0",
     "node-libs-react-native": "^1.0.2",
     "os-browserify": "^0.1.2",
     "path-browserify": "0.0.0",
@@ -55,11 +93,17 @@
     "sjcl": "^1.0.7",
     "stream-browserify": "^1.0.0",
     "string_decoder": "^0.10.31",
+    "styled-components": "^3.2.3",
     "timers-browserify": "^1.4.2",
     "tty-browserify": "0.0.0",
-    "unstated": "^1.1.0",
     "url": "^0.10.3",
     "util": "^0.10.3",
     "vm-browserify": "0.0.4"
+  },
+  "xo": {
+    "extends": "xo-react",
+      "rules": {
+      "import/no-unassigned-import": 0
+    }
   }
 }
