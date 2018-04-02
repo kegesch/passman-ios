@@ -11,8 +11,6 @@ import {
     TouchableHighlight,
     ActivityIndicator, Button, SectionList, ListItem, ScrollView
 } from 'react-native';
-import { passmanAppUri } from '../../index.ios'
-import Credential from '../../model/Credential'
 import Vault from '../../lib/Interfaces'
 import Base64 from '../../lib/Base64'
 import { CachedImage, ImageCacheProvider } from 'react-native-cached-image';

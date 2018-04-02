@@ -1,4 +1,4 @@
-import {decrypt, encrypt} from '../src/lib/CryptoService'
+import {decrypt, encrypt} from '../src/lib/services/CryptoService'
 import Base64 from '../src/lib/Base64'
 
 const key = "testKey$123";
@@ -27,5 +27,5 @@ test('crypto decrypt', () => {
 })
 
 test('crypto encrypt', () => {
-	const ct = encrypt(text, key);
+	encrypt(text, key);
 })

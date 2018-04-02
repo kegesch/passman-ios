@@ -14,7 +14,6 @@ import {
 } from 'react-native';
 
 import PopoverTooltip from 'react-native-popover-tooltip';
-import Credential from '../../model/Credential'
 import TOTP from '../../lib/TOTP'
 
 export default class CredentialInfoScreen extends Component {

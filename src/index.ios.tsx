@@ -11,8 +11,13 @@ import {Provider} from 'mobx-react'
 import VaultStore from './components/stores/VaultStore'
 import * as React from 'react'
 import PassmanService from './lib/services/PassmanService'
+import ConnectionStore from './components/stores/ConnectionStore'
+import DefaultColors from './components/DefaultColors'
+import SetupMasterPasswordScreen from './components/screens/SetupMasterPasswordScreen'
+import MasterPasswordStore from './components/stores/MasterPasswordStore'
+import StorageService from './lib/services/StorageService'
 
-const credentialsNavigator = StackNavigator({
+const CredentialsNavigator = StackNavigator({
 	CredentialsScreen: { screen: CredentialsScreen },
 	VaultsScreen: {screen: VaultsScreen},
 	VaultKeyScreen: {screen: VaultKeyScreen},
@@ -20,44 +25,45 @@ const credentialsNavigator = StackNavigator({
 }, {
 	navigationOptions: {
 		headerTitleStyle: {
-			color: '#fff'
+			color: DefaultColors.white
 		},
 		headerStyle: {
-			backgroundColor: '#007AC7'
+			backgroundColor: DefaultColors.blue
 		},
 		headerTintColor: '#fff'
 	}
 })
 
-const optionsNavigator = StackNavigator({
+const OptionsNavigator = StackNavigator({
 	OptionsScreen: {screen: SettingsScreen},
 	LoginSettingsScreen: {screen: LoginSettingsScreen}
 }, {
 	navigationOptions: {
 		headerTitleStyle: {
-			color: '#fff'
+			color: DefaultColors.white
 		},
 		headerStyle: {
-			backgroundColor: '#007AC7'
+			backgroundColor: DefaultColors.blue
 		},
-		headerTintColor: '#fff'
+		headerTintColor: DefaultColors.white
 	}
 })
 
-const appNavigator = TabNavigator({
-	CredentialsTab: {screen: credentialsNavigator},
-	OptionsTab: {screen: optionsNavigator}
+const AppNavigator = TabNavigator({
+	CredentialsTab: {screen: CredentialsNavigator},
+	OptionsTab: {screen: OptionsNavigator}
 }, {
 	swipeEnabled: false,
 	tabBarOptions: {
-		activeTintColor: '#007AC7'
+		activeTintColor: DefaultColors.blue
 	}
 })
 
-const baseAppNavigator = StackNavigator({
+const BaseAppNavigator = StackNavigator({
 	LoginScreen: {screen: LoginScreen},
+	SetupMasterPasswordScreen: {screen: SetupMasterPasswordScreen},
 	LockScreen: {screen: LockScreen},
-	AppNavigator: {screen: appNavigator}
+	AppNavigator: {screen: AppNavigator}
 }, {
 	navigationOptions: {
 		header: undefined,
@@ -69,12 +75,23 @@ const passmanService = new PassmanService();
 
 const stores = {
 	vaultStore: new VaultStore(passmanService),
+	connectionStore: new ConnectionStore(passmanService),
+	masterPasswordStore: new MasterPasswordStore(),
 }
 
-export const App = () => {
-	return (
-		<Provider vaultStore={stores.vaultStore}>
-			{baseAppNavigator}
-		</Provider>
-	)
+export class App extends React.Component {
+
+	async componentWillMount() {
+		await stores.connectionStore.loadConnection();
+		await stores.masterPasswordStore.load
+	}
+
+	render() {
+		return (
+			<Provider {...stores}>
+				<BaseAppNavigator />
+			</Provider>
+		)
+	}
+
 }

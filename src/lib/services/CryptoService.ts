@@ -1,7 +1,8 @@
 import * as sjcl from 'sjcl'
-import Base64 from './Base64'
+import Base64 from '../Base64'
+import {SjclCipherParams} from 'sjcl'
 
-const cipherConfig = {
+const cipherConfig: SjclCipherParams = {
 	adata: '',
 	iter: 1000,
 	ks: 256,
@@ -31,6 +32,7 @@ export function encrypt(text: string, key: string): string {
 	}
 
 	try {
+		// @ts-ignore: TS2345: Argument of type 'string' is not assignable to parameter of type 'SjclElGamalPublicKey'.
 		const cipherEncrypted = sjcl.encrypt(key, text, cipherConfig)
 		return Base64.btoa(cipherEncrypted.toString());
 	} catch(err) {

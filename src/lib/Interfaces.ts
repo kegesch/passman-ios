@@ -43,8 +43,20 @@ export interface ICredential {
 	hidden?: boolean;
 }
 
+/**
+ * Connection information to nextcloud
+ */
 export interface IConnection {
 	url: string;
 	username: string;
 	password: string;
+}
+
+export interface ISettings {
+	activateBiometrics: boolean;
+}
+
+export interface INavigationScreenProps {
+	navigation?: any;
+	screenProps?: any;
 }

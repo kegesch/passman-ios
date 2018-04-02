@@ -6,18 +6,13 @@ export default class PassmanService {
 
 	// Endpoints
 	public PASSMAN_APP_URI = 'index.php/apps/passman/api/v2/';
-	private VAULTS_URI = 'vaults/';
-	private CREDENTIALS_URI = 'credentials/'
+	private VAULTS_URI = 'vaults';
+	private CREDENTIALS_URI = 'credentials'
+	private SETTINGS_URI = 'settings'
 
 	private username: string;
 	private password: string;
 	private url: string;
-
-	constructor () {
-		StorageService.loadConnection().then((connection: IConnection) => {
-			this.setAuth(connection.url, connection.username, connection.password);
-		})
-	}
 
 	public setAuth(url: string, username: string, password: string) {
 		this.url = url;
@@ -69,6 +64,25 @@ export default class PassmanService {
 		});
 
 		return await response.json();
-
 	}
+
+	public async checkAuth(): Promise<boolean> {
+		const url = this.url + "/" + this.PASSMAN_APP_URI  + this.SETTINGS_URI;
+		try {
+			const response = await fetch(url, {
+				method: 'GET',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json',
+					'Cache-Control': 'no-cache',
+					'Authorization': 'Basic ' + Base64.btoa(this.username + ":" + this.password)
+				}
+			});
+			return (response.status === 200);
+		} catch(e) {
+			console.log("Failed to fetch from " + url +":" + e);
+			return false;
+		}
+	}
+
 }

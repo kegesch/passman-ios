@@ -3,9 +3,9 @@
   "version": "0.2.0",
   "private": true,
   "scripts": {
-    "tsc": "tsc",
+    "tsc": "tsc --watch",
     "clean": "rimraf artifacts",
-    "build": "npm run clean && npm run tsc --",
+    "build": "npm run clean && tsc",
     "lint": "xo",
     "start": "react-native start",
     "ios": "react-native run-ios",
@@ -43,6 +43,7 @@
     "eslint-config-xo-react": "^0.16.0",
     "eslint-plugin-react": "^7.7.0",
     "jest": "20.0.4",
+    "mobx-remotedev": "^0.2.8",
     "react-native-typescript-transformer": "^1.2.3",
     "react-test-renderer": "16.0.0-alpha.12",
     "rimraf": "^2.6.2",
@@ -52,7 +53,6 @@
     "xo": "^0.20.3"
   },
   "dependencies": {
-    "@types/crypto-js": "^3.1.38",
     "@types/jssha": "0.0.29",
     "@types/sjcl": "^1.0.28",
     "assert": "^1.4.1",
@@ -61,7 +61,6 @@
     "buffer": "^3.6.0",
     "console-browserify": "^1.1.0",
     "constants-browserify": "0.0.1",
-    "crypto-js": "^3.1.9-1",
     "dns.js": "^1.0.1",
     "domain-browser": "^1.1.7",
     "events": "^1.1.1",
@@ -85,6 +84,7 @@
     "react-native-popover-tooltip": "^1.1.0",
     "react-native-randombytes": "^2.2.0",
     "react-native-secure-key-store": "^1.0.8",
+    "react-native-settings-list": "^1.8.0",
     "react-native-smart-touch-id": "^1.1.1",
     "react-native-tcp": "^2.0.4",
     "react-native-udp": "^1.2.9",
@@ -102,7 +102,7 @@
   },
   "xo": {
     "extends": "xo-react",
-      "rules": {
+    "rules": {
       "import/no-unassigned-import": 0
     }
   }
