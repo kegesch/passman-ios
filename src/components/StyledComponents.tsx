@@ -1,5 +1,8 @@
 import styled from 'styled-components'
-import {TextInput, View, Text, ScrollView, TouchableHighlight, ActivityIndicator, StatusBar, Image, Switch, SwitchProperties} from 'react-native'
+import {
+	TextInput, View, Text, ScrollView, TouchableHighlight, ActivityIndicator, StatusBar, Image, Switch, SwitchProperties, TextInputProperties,
+	ViewProperties, TouchableHighlightProperties
+} from 'react-native'
 import DefaultColors from './DefaultColors'
 import React from 'react'
 
@@ -103,17 +106,6 @@ export const SettingsList = (props: ISettingsListProps) => {
 	)
 }
 
-interface ISettingsInputProps {
-	label: string;
-	inputType: string;
-	placeholder: string;
-	style?: string;
-	keyboardType?: string;
-	secure?: boolean;
-	returnKeyType?: string;
-	onChangeText?: (text: string) => void;
-}
-
 const SettingsLabel = styled(Text)`
 	padding: 13px;
 	padding-left: 15px;
@@ -131,10 +123,9 @@ const SettingsTextInput = styled(TextInput)`
 	color: ${DefaultColors.darkGrey};
 `
 
-interface ISettingsRow {
+interface ISettingsRow extends ViewProperties {
 	label: string;
 	right: any;
-	style?: string;
 }
 
 export const SettingsRow = (props: ISettingsRow) => {
@@ -156,18 +147,17 @@ export const StyledSettingsRow = styled(SettingsRow)`
     align-items: flex-end;
 `
 
+interface ISettingsInputProps extends TextInputProperties{
+	label: string;
+}
 
 export const SettingsInput = (props: ISettingsInputProps) => {
 	return (
 		<StyledSettingsRow label={props.label} right={
 			<SettingsTextInput
-				placeholder={props.placeholder}
 				autoCorrect={false}
-				secureTextEntry={props.secure}
 				autoCapitalize={'none'}
-				keyboardType={props.keyboardType}
-				returnKeyType={props.returnKeyType}
-				onChangeText={props.onChangeText}
+				{...props}
 			/>}
 		/>
 	)
@@ -195,10 +185,8 @@ export const SettingsSwitch = (props: ISettingsSwitch) => {
 	)
 }
 
-interface ISettingsButtonProps {
-	style?: string;
+interface ISettingsButtonProps extends TouchableHighlightProperties{
 	title: string;
-	onPress: () => void;
 }
 
 const SettingsButtonView = styled(View)`
@@ -220,7 +208,7 @@ const SettingsButtonText = styled(Text)`
 
 export const SettingsButton = (props: ISettingsButtonProps) => {
 	return (
-		<TouchableHighlight style={props.style} onPress={props.onPress} underlayColor={"transparent"}>
+		<TouchableHighlight underlayColor={"transparent"} {...props}>
 			<SettingsButtonView>
 				<SettingsButtonText>
 					{props.title}

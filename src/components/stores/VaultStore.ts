@@ -1,14 +1,18 @@
 import {action, observable} from 'mobx'
 import PassmanService from '../../lib/services/PassmanService'
+import {Store} from '../../lib/Interfaces'
 
-export default class VaultStore {
+export default class VaultStore implements Store {
 
     @observable vaults: object[] = []
     @observable selectedVault: object = undefined
     @observable isLoading: boolean = true
     @observable vaultKeys: object[] = []
 
-    private passmanService: PassmanService;
+	initialize(): void {
+	}
+
+	private passmanService: PassmanService;
 
     constructor(passmanService: PassmanService){
         this.passmanService = passmanService;

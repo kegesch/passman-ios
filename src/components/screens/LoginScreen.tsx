@@ -13,21 +13,23 @@ import {INavigationScreenProps} from '../../lib/Interfaces';
 interface ILoginScreenProps extends INavigationScreenProps {
     style?: string;
     connectionStore?: ConnectionStore;
+    masterPasswordStore?: masterPasswordStore;
 }
 
 @inject('connectionStore')
+@inject('masterPasswordStore')
 @observer
 export default class LoginScreen extends Component<ILoginScreenProps, {}> {
 
     static navigationOptions = { title: 'Welcome', header: null };
 
     async componentWillMount() {
-	    await this.props.connectionStore.loadConnection();
+    	//await this.props.connectionStore.loadConnection();
 
     	// nextcloud credentials already saved?
 	    const isConnectionSaved = this.props.connectionStore.isConnectionSaved;
 	    if(isConnectionSaved) {
-	    	console.log("Connection is Saved! -> Navigating to LockScreen");
+	    	console.log("Connection is Saved! -> Navigating to SetupMasterPasswordScreen");
 	    	this.navigateFurther();
 	    } else {
 	    	console.log("Connection is not Saved!");
@@ -35,10 +37,12 @@ export default class LoginScreen extends Component<ILoginScreenProps, {}> {
     }
 
     navigateFurther() {
+    	let routeName = 'SetupMasterPasswordScreen';
+    	if(this.props.masterPasswordStore.isMasterPasswordValid) routeName = 'LockScreen';
         const resetAction = NavigationActions.reset({
             index: 0,
             actions: [
-                NavigationActions.navigate({ routeName: 'SetupMasterPasswordScreen'})
+                NavigationActions.navigate({ routeName: routeName})
             ]
         })
         this.props.navigation.dispatch(resetAction)
@@ -75,7 +79,7 @@ export default class LoginScreen extends Component<ILoginScreenProps, {}> {
 		          <SettingsInput
 			          label="Address"
 		              placeholder="https://next.cloud.com"
-			          keyBoardType="url"
+			          keyboardType="url"
 			          returnKeyType="next"
 			          onChangeText={(url) => this.props.connectionStore.setConnectionInfo("url", url)}
 		          />
@@ -88,7 +92,7 @@ export default class LoginScreen extends Component<ILoginScreenProps, {}> {
 		          />
 		          <SettingsListSeparator />
 		          <SettingsInput
-			          secure
+			          secureTextEntry
 			          label="Password"
 			          placeholder="password"
 			          returnKeyType="done"

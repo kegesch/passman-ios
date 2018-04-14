@@ -60,3 +60,7 @@ export interface INavigationScreenProps {
 	navigation?: any;
 	screenProps?: any;
 }
+
+export interface Store {
+	initialize(): void;
+}

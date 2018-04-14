@@ -1,6 +1,5 @@
 import Base64 from '../Base64'
-import {IConnection, ICredential, IVault} from '../Interfaces'
-import StorageService from './StorageService'
+import {ICredential, IVault} from '../Interfaces'
 
 export default class PassmanService {
 

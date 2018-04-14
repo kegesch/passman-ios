@@ -3,15 +3,15 @@ import {
 	StyledRootView, Header, StyledActivityIndicator, SettingsList, SettingsInput, SettingsListSeparator,
 	SettingsButton, CenteredView, SettingsSwitch
 } from '../StyledComponents';
-import ConnectionStore from '../stores/ConnectionStore';
 import {INavigationScreenProps} from '../../lib/Interfaces';
 import {inject, observer} from 'mobx-react/native';
 import {Alert} from 'react-native';
 import { NavigationActions } from "react-navigation";
+import MasterPasswordStore from '../stores/MasterPasswordStore'
 
 interface ISetupMasterPasswordScreenProps extends INavigationScreenProps {
 	style?: string;
-	masterPasswordStore?: ConnectionStore;
+	masterPasswordStore?: MasterPasswordStore;
 }
 
 @inject('masterPasswordStore')
@@ -21,9 +21,9 @@ export default class SetupMasterPasswordScreen extends React.Component<ISetupMas
 	static navigationOptions = { header: null };
 
 	async save() {
-		console.log("Save");
-		const successful = await this.props.masterPasswordStore.saveMasterPassword();
-		if(successful) {
+		if(this.props.masterPasswordStore.isMasterPasswordValid) {
+			await this.props.masterPasswordStore.save();
+			console.log("MasterPassword was saved successfully.");
 			this.navigateFurther();
 		} else {
 			Alert.alert("Passwords are not equal or could not be saved! Try again!");
@@ -41,6 +41,15 @@ export default class SetupMasterPasswordScreen extends React.Component<ISetupMas
 	}
 
 	render() {
+		let biometricsSwitch = null;
+		if(this.props.masterPasswordStore.supportedBiometrics) {
+			biometricsSwitch = <SettingsSwitch
+					label={this.props.masterPasswordStore.supportedBiometrics}
+					value={this.props.masterPasswordStore.activateBiometrics}
+					onValueChange={(value) => this.props.masterPasswordStore.setBiometricsActivation(value)}
+				/>
+		}
+
 		return (
 			<StyledRootView>
 				<Header />
@@ -54,7 +63,7 @@ export default class SetupMasterPasswordScreen extends React.Component<ISetupMas
 					</CenteredView>
 				}>
 					<SettingsInput
-						secure
+						secureTextEntry
 						label="Password"
 						placeholder="masterpassword"
 						returnKeyType="next"
@@ -62,18 +71,14 @@ export default class SetupMasterPasswordScreen extends React.Component<ISetupMas
 					/>
 					<SettingsListSeparator />
 					<SettingsInput
-						secure
+						secureTextEntry
 						label="Again"
 						placeholder="masterpassword"
 						returnKeyType="done"
 						onChangeText={(pw) => this.props.masterPasswordStore.setMasterPasswordAgain(pw)}
 					/>
 					<SettingsListSeparator />
-					<SettingsSwitch
-						label={"TouchID"}
-						value={this.props.masterPasswordStore.activateBiometrics}
-						onValueChange={(value) => this.props.masterPasswordStore.setBiometricsActivation(value)}
-					/>
+					{biometricsSwitch}
 				</SettingsList>
 			</StyledRootView>
 		)

@@ -1,9 +1,9 @@
 import {action, computed, flow, observable} from 'mobx'
-import {IConnection} from '../../lib/Interfaces'
+import {IConnection, Store} from '../../lib/Interfaces'
 import StorageService from '../../lib/services/StorageService'
 import PassmanService from '../../lib/services/PassmanService'
 
-export default class ConnectionStore {
+export default class ConnectionStore implements Store {
 
 	@observable connection: IConnection = {
 		url: "",
@@ -35,6 +35,10 @@ export default class ConnectionStore {
 
 	constructor(passmanService: PassmanService){
 		this.passmanService = passmanService;
+	}
+
+	async initialize(): Promise<void> {
+		await this.loadConnection();
 	}
 
 	@action("Set partial connection data")

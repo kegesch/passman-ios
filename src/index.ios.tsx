@@ -15,7 +15,7 @@ import ConnectionStore from './components/stores/ConnectionStore'
 import DefaultColors from './components/DefaultColors'
 import SetupMasterPasswordScreen from './components/screens/SetupMasterPasswordScreen'
 import MasterPasswordStore from './components/stores/MasterPasswordStore'
-import StorageService from './lib/services/StorageService'
+import {View} from 'react-native'
 
 const CredentialsNavigator = StackNavigator({
 	CredentialsScreen: { screen: CredentialsScreen },
@@ -71,7 +71,7 @@ const BaseAppNavigator = StackNavigator({
 	}
 })
 
-const passmanService = new PassmanService();
+const passmanService = new PassmanService()
 
 const stores = {
 	vaultStore: new VaultStore(passmanService),
@@ -79,14 +79,30 @@ const stores = {
 	masterPasswordStore: new MasterPasswordStore(),
 }
 
-export class App extends React.Component {
+interface IAppState {
+	isLoading: boolean;
+}
+
+export class App extends React.Component<{}, IAppState> {
+
+	constructor(props) {
+		super(props);
+
+		this.state = {isLoading: true};
+	}
 
 	async componentWillMount() {
-		await stores.connectionStore.loadConnection();
-		await stores.masterPasswordStore.load
+		//Object.keys(stores).forEach((key) => {
+		//	let store: Store = stores[key];
+		//	store.initialize();
+		//});
+
+		await Promise.all(Object.keys(stores).map((key) => stores[key].initialize()));
+		this.setState({isLoading: false})
 	}
 
 	render() {
+		if(this.state.isLoading) return <View />
 		return (
 			<Provider {...stores}>
 				<BaseAppNavigator />

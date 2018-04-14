@@ -1,13 +1,16 @@
 import {action, computed, flow, observable} from 'mobx'
 import StorageService from '../../lib/services/StorageService'
 import SettingsService from '../../lib/services/SettingsService'
+import {Store} from '../../lib/Interfaces'
+import BiometricService from '../../lib/services/BiometricService'
 
-export default class MasterPasswordStore {
+export default class MasterPasswordStore implements Store {
 
 	@observable masterpassword = null;
 	@observable masterpasswordAgain = null;
 	@observable isLoading = false;
 	@observable activateBiometrics = false;
+	@observable supportedBiometrics = null;
 
 	@computed
 	get isMasterPasswordValid() {
@@ -29,10 +32,13 @@ export default class MasterPasswordStore {
 		this.activateBiometrics = value;
 	}
 
-	saveMasterPassword = flow(function * (): boolean {
+	async initialize(): Promise<void> {
+		await this.load();
+	}
+
+	save = flow(function * () {
 		this.isLoading = true;
 		try {
-			console.log(this.isMasterPasswordValid)
 			if(this.isMasterPasswordValid) {
 				yield StorageService.saveMasterPassword(this.masterpassword);
 				yield SettingsService.setSetting("activateBiometrics", this.activateBiometrics);
@@ -41,6 +47,20 @@ export default class MasterPasswordStore {
 			return false;
 		} catch {
 			return false;
+		} finally {
+			this.isLoading = false;
+		}
+	});
+
+	load = flow(function * () {
+		this.isLoading = true;
+		try {
+			this.supportedBiometrics = yield BiometricService.supportedType();
+			this.masterpassword = this.masterpasswordAgain =  yield StorageService.loadMasterPassword();
+			this.activateBiometrics = yield SettingsService.getSetting("activateBiometrics");
+		} catch(err) {
+			//Do nothing
+			console.log("Error in loading master password: ", err);
 		} finally {
 			this.isLoading = false;
 		}
