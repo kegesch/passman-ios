@@ -2,6 +2,7 @@
 iOS client for nextclouds password-manager extension [Passman](https://passman.cc/) 
 
 [![Build Status](https://travis-ci.org/Y0nnyy/passman-ios.svg?branch=master)](https://travis-ci.org/Y0nnyy/passman-ios)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FY0nnyy%2Fpassman-ios.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FY0nnyy%2Fpassman-ios?ref=badge_shield)
 
 <img src="https://github.com/Y0nnyy/passman-ios/raw/master/resources/screenshots/mock-ups/screenshot-setup_iphone8spacegrey_portrait.png" width="285"/> <img src="https://github.com/Y0nnyy/passman-ios/raw/master/resources/screenshots/mock-ups/screenshot-master-password_iphone8spacegrey_portrait.png" width="285"/> <img src="https://github.com/Y0nnyy/passman-ios/raw/master/resources/screenshots/mock-ups/screenshot-credentials_iphone8spacegrey_portrait.png" width="285"/>
 
@@ -31,3 +32,7 @@ To pimp up the advertizing these tools might be helpful:
 ### Troubleshooting
 #### Linking new dependencies
 Run ```react-native  link```. This should do it unless the library says otherwise.
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FY0nnyy%2Fpassman-ios.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FY0nnyy%2Fpassman-ios?ref=badge_large)
