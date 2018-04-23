@@ -50,11 +50,8 @@ export default class SetupMasterPasswordScreen extends React.Component<ISetupMas
 				/>
 		}
 
-		return (
-			<StyledRootView>
-				<Header />
-				<StyledActivityIndicator animating={this.props.masterPasswordStore.isLoading}/>
-				<SettingsList button={
+		const settingsPassword =
+			<SettingsList button={
 					<CenteredView>
 						<SettingsButton
 							title="Save"
@@ -62,24 +59,34 @@ export default class SetupMasterPasswordScreen extends React.Component<ISetupMas
 						/>
 					</CenteredView>
 				}>
-					<SettingsInput
-						secureTextEntry
-						label="Password"
-						placeholder="masterpassword"
-						returnKeyType="next"
-						onChangeText={(pw) => this.props.masterPasswordStore.setMasterPassword(pw)}
-					/>
-					<SettingsListSeparator />
-					<SettingsInput
-						secureTextEntry
-						label="Again"
-						placeholder="masterpassword"
-						returnKeyType="done"
-						onChangeText={(pw) => this.props.masterPasswordStore.setMasterPasswordAgain(pw)}
-					/>
-					<SettingsListSeparator />
-					{biometricsSwitch}
-				</SettingsList>
+				<SettingsInput
+					secureTextEntry
+					label="Password"
+					placeholder="masterpassword"
+					returnKeyType="next"
+					onChangeText={(pw) => this.props.masterPasswordStore.setMasterPassword(pw)}
+				/>
+				<SettingsListSeparator />
+				<SettingsInput
+					secureTextEntry
+					label="Again"
+					placeholder="masterpassword"
+					returnKeyType="done"
+					onChangeText={(pw) => this.props.masterPasswordStore.setMasterPasswordAgain(pw)}
+				/>
+				<SettingsListSeparator />
+				{biometricsSwitch}
+			</SettingsList>
+
+		const loading = <StyledActivityIndicator animating={this.props.masterPasswordStore.isLoading}/>;
+
+		return (
+			<StyledRootView>
+				<Header />
+				{this.props.masterPasswordStore.isLoading
+					? loading
+					: settingsPassword
+				}
 			</StyledRootView>
 		)
 	}

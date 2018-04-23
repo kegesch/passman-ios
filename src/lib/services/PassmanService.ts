@@ -20,18 +20,22 @@ export default class PassmanService {
 	}
 
 	public async fetchVaults() : Promise<IVault[]> {
-
-		const response = await fetch(this.url + '/' + this.PASSMAN_APP_URI + this.VAULTS_URI, {
-			method: 'GET',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json',
-				'Cache-Control': 'no-cache',
-				'Authorization': 'Basic ' + Base64.btoa(this.username + ':' + this.password)
-			}
-		});
-
-		return await response.json();
+		const url = this.url + '/' + this.PASSMAN_APP_URI + this.VAULTS_URI;
+		try {
+			const response = await fetch(url, {
+				method: 'GET',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json',
+					'Cache-Control': 'no-cache',
+					'Authorization': 'Basic ' + Base64.btoa(this.username + ':' + this.password)
+				}
+			});
+			return await response.json();
+		} catch(err) {
+			console.log("Could not fetch Vaults from Passman API ("+url+")", err);
+			return [];
+		}
 	}
 
 	public async fetchCredentialsForVault(vaultGuid: string): Promise<ICredential[]> {

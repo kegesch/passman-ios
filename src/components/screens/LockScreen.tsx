@@ -5,6 +5,7 @@ import {inject, observer} from 'mobx-react/native'
 import {INavigationScreenProps} from '../../lib/Interfaces'
 import MasterPasswordStore from '../stores/MasterPasswordStore'
 import BiometricService from '../../lib/services/BiometricService'
+import FontAwesome, { Icons } from 'react-native-fontawesome';
 import {
 	CenteredView, Header, SettingsButton, SettingsInput, SettingsList, StyledActivityIndicator,
 	StyledRootView
@@ -72,21 +73,27 @@ export default class LockScreen extends React.Component<ILockScreenProps, {}> {
 				    </CenteredView>
 	    }
 
+	    const loading = <StyledActivityIndicator animating={this.props.masterPasswordStore.isLoading}/>;
+
+	    const masterPasswordSettings =
+		    <SettingsList button={button}>
+			    <SettingsInput
+				    secureTextEntry
+				    label="Password"
+				    placeholder="masterpassword"
+				    returnKeyType="done"
+				    onChangeText={(pw) => this.authenticate(pw)}
+				    onEndEditing={() => this.authenticateFinal()}
+			    />
+		    </SettingsList>;
+
 	    return (
 	    	<StyledRootView>
 			    <Header />
-			    <StyledActivityIndicator animating={this.props.masterPasswordStore.isLoading}/>
-			    <Text style={{color: DefaultColors.white}}><FontAwesome>{Icons.</FontAwesome></Text>
-			    <SettingsList button={button}>
-				    <SettingsInput
-					    secureTextEntry
-					    label="Password"
-					    placeholder="masterpassword"
-					    returnKeyType="done"
-					    onChangeText={(pw) => this.authenticate(pw)}
-					    onEndEditing={() => this.authenticateFinal()}
-				    />
-			    </SettingsList>
+			    {this.props.masterPasswordStore.isLoading
+				    ? loading
+				    : masterPasswordSettings
+			    }
 		    </StyledRootView>
 	    )
     }

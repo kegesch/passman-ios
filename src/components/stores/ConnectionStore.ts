@@ -1,9 +1,9 @@
 import {action, computed, flow, observable} from 'mobx'
-import {IConnection, Store} from '../../lib/Interfaces'
+import {IConnection, IStore} from '../../lib/Interfaces'
 import StorageService from '../../lib/services/StorageService'
 import PassmanService from '../../lib/services/PassmanService'
 
-export default class ConnectionStore implements Store {
+export default class ConnectionStore implements IStore {
 
 	@observable connection: IConnection = {
 		url: "",

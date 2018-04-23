@@ -1,6 +1,5 @@
 import LockScreen from "./components/screens/LockScreen"
 import LoginScreen from './components/screens/LoginScreen'
-import VaultsScreen from './components/screens/VaultsScreen'
 import VaultKeyScreen from './components/screens/VaultKeyScreen'
 import CredentialsScreen from './components/screens/CredentialsScreen'
 import CredentialInfoScreen from './components/screens/CredentialInfoScreen'
@@ -15,23 +14,16 @@ import ConnectionStore from './components/stores/ConnectionStore'
 import DefaultColors from './components/DefaultColors'
 import SetupMasterPasswordScreen from './components/screens/SetupMasterPasswordScreen'
 import MasterPasswordStore from './components/stores/MasterPasswordStore'
-import {View} from 'react-native'
+import {Text, View} from 'react-native'
+import CredentialsStore from './components/stores/CredentialsStore'
+import FontAwesome, { Icons } from 'react-native-fontawesome'
 
 const CredentialsNavigator = StackNavigator({
 	CredentialsScreen: { screen: CredentialsScreen },
-	VaultsScreen: {screen: VaultsScreen},
 	VaultKeyScreen: {screen: VaultKeyScreen},
 	CredentialInfoScreen: { screen: CredentialInfoScreen }
 }, {
-	navigationOptions: {
-		headerTitleStyle: {
-			color: DefaultColors.white
-		},
-		headerStyle: {
-			backgroundColor: DefaultColors.blue
-		},
-		headerTintColor: '#fff'
-	}
+	headerMode: 'none'
 })
 
 const OptionsNavigator = StackNavigator({
@@ -66,16 +58,18 @@ const BaseAppNavigator = StackNavigator({
 	AppNavigator: {screen: AppNavigator}
 }, {
 	navigationOptions: {
-		header: undefined,
+		headerMode: "none",
 		swipeEnabled: false
 	}
 })
 
-const passmanService = new PassmanService()
+const passmanService = new PassmanService();
+const vaultStore = new VaultStore(passmanService);
 
 const stores = {
-	vaultStore: new VaultStore(passmanService),
 	connectionStore: new ConnectionStore(passmanService),
+	vaultStore: vaultStore,
+	credentialsStore: new CredentialsStore(passmanService, vaultStore),
 	masterPasswordStore: new MasterPasswordStore(),
 }
 
@@ -92,11 +86,7 @@ export class App extends React.Component<{}, IAppState> {
 	}
 
 	async componentWillMount() {
-		//Object.keys(stores).forEach((key) => {
-		//	let store: Store = stores[key];
-		//	store.initialize();
-		//});
-
+		// initialize all stores
 		await Promise.all(Object.keys(stores).map((key) => stores[key].initialize()));
 		this.setState({isLoading: false})
 	}

@@ -29,7 +29,7 @@ export default class LoginScreen extends Component<ILoginScreenProps, {}> {
     	// nextcloud credentials already saved?
 	    const isConnectionSaved = this.props.connectionStore.isConnectionSaved;
 	    if(isConnectionSaved) {
-	    	console.log("Connection is Saved! -> Navigating to SetupMasterPasswordScreen");
+	    	console.log("Connection is Saved! -> Navigating further");
 	    	this.navigateFurther();
 	    } else {
 	    	console.log("Connection is not Saved!");
@@ -62,43 +62,50 @@ export default class LoginScreen extends Component<ILoginScreenProps, {}> {
     }
 
     render() {
+    	const loading = <StyledActivityIndicator animating={this.props.connectionStore.isLoading}/>
+
+	    const connectionSettings =
+		    <SettingsList
+			    button={
+				    <CenteredView>
+					    <SettingsButton
+						    title="Next"
+						    onPress={() => this.saveLoginData()}
+					    />
+				    </CenteredView>
+			    }
+		    >
+			    <SettingsInput
+				    label="Address"
+				    placeholder="https://next.cloud.com"
+				    keyboardType="url"
+				    returnKeyType="next"
+				    onChangeText={(url) => this.props.connectionStore.setConnectionInfo("url", url)}
+			    />
+			    <SettingsListSeparator />
+			    <SettingsInput
+				    label="Username"
+				    placeholder="John Appleseed"
+				    returnKeyType="next"
+				    onChangeText={(username) => this.props.connectionStore.setConnectionInfo("username", username)}
+			    />
+			    <SettingsListSeparator />
+			    <SettingsInput
+				    secureTextEntry
+				    label="Password"
+				    placeholder="password"
+				    returnKeyType="done"
+				    onChangeText={(password) => this.props.connectionStore.setConnectionInfo("password", password)}
+			    />
+		    </SettingsList>
+
         return (
           <StyledRootView>
 	          <Header />
-	          <StyledActivityIndicator animating={this.props.connectionStore.isLoading} color={DefaultColors.darkGrey}/>
-	          <SettingsList
-	                button={
-		                <CenteredView>
-			                <SettingsButton
-				                title="Next"
-				                onPress={() => this.saveLoginData()}
-			                />
-		                </CenteredView>
-	                }
-	          >
-		          <SettingsInput
-			          label="Address"
-		              placeholder="https://next.cloud.com"
-			          keyboardType="url"
-			          returnKeyType="next"
-			          onChangeText={(url) => this.props.connectionStore.setConnectionInfo("url", url)}
-		          />
-		          <SettingsListSeparator />
-		          <SettingsInput
-			          label="Username"
-			          placeholder="John Appleseed"
-			          returnKeyType="next"
-			          onChangeText={(username) => this.props.connectionStore.setConnectionInfo("username", username)}
-		          />
-		          <SettingsListSeparator />
-		          <SettingsInput
-			          secureTextEntry
-			          label="Password"
-			          placeholder="password"
-			          returnKeyType="done"
-			          onChangeText={(password) => this.props.connectionStore.setConnectionInfo("password", password)}
-		          />
-	          </SettingsList>
+	          {this.props.connectionStore.isLoading
+	            ? loading
+	            : connectionSettings
+	          }
           </StyledRootView>
         );
     }

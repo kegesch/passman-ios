@@ -1,16 +1,18 @@
-import {action, observable} from 'mobx'
+import {action, flow, observable} from 'mobx'
 import PassmanService from '../../lib/services/PassmanService'
-import {Store} from '../../lib/Interfaces'
+import {IVault, IStore} from '../../lib/Interfaces'
+import SettingsService from '../../lib/services/SettingsService'
+import StorageService from '../../lib/services/StorageService'
 
-export default class VaultStore implements Store {
+export default class VaultStore implements IStore {
 
-    @observable vaults: object[] = []
-    @observable selectedVault: object = undefined
+	private SETTING_KEY_SELECTED_VAULT = "selectedVault";
+	private STORAGE_KEY_VAULT_KEYS = "vaultKeys";
+
+    @observable vaults: IVault[] = []
+    @observable selectedVault: IVault = null;
     @observable isLoading: boolean = true
     @observable vaultKeys: object[] = []
-
-	initialize(): void {
-	}
 
 	private passmanService: PassmanService;
 
@@ -18,22 +20,33 @@ export default class VaultStore implements Store {
         this.passmanService = passmanService;
     }
 
+    initialize() {
+    }
+
     @action
-    selectVault(vault) {
-        this.isLoading = true
-
-        this.selectedVault = vault
+    async selectVault(vault) {
+        this.selectedVault = vault;
+        this.isLoading = true;
+        try {
+	        await SettingsService.setSetting(this.SETTING_KEY_SELECTED_VAULT);
+        } catch (err) {
+        	console.log("Could not select vault", err);
+        } finally {
+        	this.isLoading = false;
+        }
     }
 
-
-
-    @action('Load vaults from nextcloud')
-    async loadVaults() {
-        this.isLoading = true
-        this.passmanService.fetchVaults().then((vaults) => {
-            this.vaults = vaults
-            this.isLoading = false
-        })
-    }
+    loadVaults = flow(function * () {
+        this.isLoading = true;
+        try {
+	        this.vaults = yield this.passmanService.fetchVaults();
+	        this.selectedVault = yield SettingsService.getSetting(this.SETTING_KEY_SELECTED_VAULT);
+	        this.vaultKeys = yield StorageService.loadObjectSecure(this.STORAGE_KEY_VAULT_KEYS);
+        } catch(err) {
+        	console.log("Error in loading vaults", err);
+        } finally {
+	        this.isLoading = false;
+        }
+    });
 
 }

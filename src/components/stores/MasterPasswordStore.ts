@@ -1,10 +1,10 @@
 import {action, computed, flow, observable} from 'mobx'
 import StorageService from '../../lib/services/StorageService'
 import SettingsService from '../../lib/services/SettingsService'
-import {Store} from '../../lib/Interfaces'
+import {IStore} from '../../lib/Interfaces'
 import BiometricService from '../../lib/services/BiometricService'
 
-export default class MasterPasswordStore implements Store {
+export default class MasterPasswordStore implements IStore {
 
 	@observable masterpassword = null;
 	@observable masterpasswordAgain = null;
