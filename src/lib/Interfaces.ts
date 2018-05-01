@@ -9,6 +9,12 @@ export interface IVault {
 	challenge_password: string;
 }
 
+export interface IVaultKey {
+	vaultGuid: string;
+	key: string;
+	shouldBeSaved: boolean;
+}
+
 export interface ICredentialFile {
 	filename: string;
 	size: number;

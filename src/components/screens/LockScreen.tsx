@@ -1,16 +1,14 @@
 import React from 'react'
-import {Text, Alert} from 'react-native'
+import {Alert} from 'react-native'
 import { NavigationActions } from "react-navigation"
 import {inject, observer} from 'mobx-react/native'
 import {INavigationScreenProps} from '../../lib/Interfaces'
 import MasterPasswordStore from '../stores/MasterPasswordStore'
 import BiometricService from '../../lib/services/BiometricService'
-import FontAwesome, { Icons } from 'react-native-fontawesome';
 import {
 	CenteredView, Header, SettingsButton, SettingsInput, SettingsList, StyledActivityIndicator,
 	StyledRootView
 } from '../StyledComponents'
-import DefaultColors from '../DefaultColors'
 
 interface ILockScreenProps extends INavigationScreenProps {
     style?: string;
@@ -59,7 +57,7 @@ export default class LockScreen extends React.Component<ILockScreenProps, {}> {
                 NavigationActions.navigate({ routeName: 'AppNavigator'})
             ]
         })
-       this.props.navigation.dispatch(resetAction);
+       this.props.navigation.dispatch(resetAction)
     }
 
     render() {
@@ -73,7 +71,7 @@ export default class LockScreen extends React.Component<ILockScreenProps, {}> {
 				    </CenteredView>
 	    }
 
-	    const loading = <StyledActivityIndicator animating={this.props.masterPasswordStore.isLoading}/>;
+	    const loading = <StyledActivityIndicator animating={this.props.masterPasswordStore.isLoading}/>
 
 	    const masterPasswordSettings =
 		    <SettingsList button={button}>
@@ -85,7 +83,7 @@ export default class LockScreen extends React.Component<ILockScreenProps, {}> {
 				    onChangeText={(pw) => this.authenticate(pw)}
 				    onEndEditing={() => this.authenticateFinal()}
 			    />
-		    </SettingsList>;
+		    </SettingsList>
 
 	    return (
 	    	<StyledRootView>

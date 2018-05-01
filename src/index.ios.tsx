@@ -14,9 +14,8 @@ import ConnectionStore from './components/stores/ConnectionStore'
 import DefaultColors from './components/DefaultColors'
 import SetupMasterPasswordScreen from './components/screens/SetupMasterPasswordScreen'
 import MasterPasswordStore from './components/stores/MasterPasswordStore'
-import {Text, View} from 'react-native'
+import {View} from 'react-native'
 import CredentialsStore from './components/stores/CredentialsStore'
-import FontAwesome, { Icons } from 'react-native-fontawesome'
 
 const CredentialsNavigator = StackNavigator({
 	CredentialsScreen: { screen: CredentialsScreen },
@@ -86,6 +85,9 @@ export class App extends React.Component<{}, IAppState> {
 	}
 
 	async componentWillMount() {
+		//make sure connection is loaded (and passmanservice knows it)
+		await stores.connectionStore.initialize();
+
 		// initialize all stores
 		await Promise.all(Object.keys(stores).map((key) => stores[key].initialize()));
 		this.setState({isLoading: false})

@@ -10,8 +10,7 @@
     "start": "react-native start",
     "ios": "react-native run-ios",
     "test": "jest",
-    "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/Passman/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios'",
-    "postinstall": "./postinstall.sh"
+    "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/Passman/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios'"
   },
   "jest": {
     "preset": "react-native",

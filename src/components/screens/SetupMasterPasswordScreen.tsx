@@ -66,7 +66,6 @@ export default class SetupMasterPasswordScreen extends React.Component<ISetupMas
 					returnKeyType="next"
 					onChangeText={(pw) => this.props.masterPasswordStore.setMasterPassword(pw)}
 				/>
-				<SettingsListSeparator />
 				<SettingsInput
 					secureTextEntry
 					label="Again"
@@ -74,7 +73,6 @@ export default class SetupMasterPasswordScreen extends React.Component<ISetupMas
 					returnKeyType="done"
 					onChangeText={(pw) => this.props.masterPasswordStore.setMasterPasswordAgain(pw)}
 				/>
-				<SettingsListSeparator />
 				{biometricsSwitch}
 			</SettingsList>
 

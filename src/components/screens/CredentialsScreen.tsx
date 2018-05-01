@@ -4,28 +4,33 @@ import {
 	Text,
 	StatusBar,
 	TouchableHighlight,
-	SectionList, ListItem, View, Modal
+	SectionList, ListItem, View, Modal, Alert
 } from 'react-native'
-import {INavigationScreenProps} from '../../lib/Interfaces'
-import { CachedImage, ImageCacheProvider } from 'react-native-cached-image'
+import {ICredential, INavigationScreenProps} from '../../lib/Interfaces'
+import {ImageCacheProvider } from 'react-native-cached-image'
 import DefaultColors from '../DefaultColors'
 import {
-	CredentialItem, CredentialSectionHeader, SettingsListSeparator, StyledRootView
+	CredentialItem, CredentialSectionHeader, SettingsList, SettingsListSeparator, StyledActivityIndicator, StyledRootView, TitleItem,
+	TouchableSettingsText
 } from '../StyledComponents'
 import {inject, observer} from 'mobx-react/native'
 import CredentialsStore from '../stores/CredentialsStore'
 import VaultScreen from './VaultScreen'
+import VaultKeyScreen from './VaultKeyScreen'
+import VaultStore from '../stores/VaultStore'
 
 interface ICredentialsScreenProps extends INavigationScreenProps {
     style?: string;
     credentialsStore: CredentialsStore;
+    vaultStore: VaultStore;
 }
 
 interface ICredentialsScreenState {
     isVaultComponentVisible: boolean;
+    isVaultKeyComponentVisible: boolean;
 }
 
-@inject('credentialsStore')
+@inject('credentialsStore', 'vaultStore')
 @observer
 export default class CredentialsScreen extends React.Component<ICredentialsScreenProps, ICredentialsScreenState> {
 
@@ -58,12 +63,18 @@ export default class CredentialsScreen extends React.Component<ICredentialsScree
 
 	componentWillMount() {
 		this.props.navigation.setParams({ toggleVaultComponent: () => this.toggleVaultComponent() });
+		if(this.props.vaultStore.selectedVault && this.props.vaultStore.selectedVaultKey) {
+			this.props.credentialsStore.loadCredentials();
+		}
 	}
 
     constructor(props) {
         super(props);
 
-        this.state = {isVaultComponentVisible: false};
+        this.state = {
+        	isVaultComponentVisible: false,
+	        isVaultKeyComponentVisible: false
+        };
     }
 
     pressCredential(credential) {
@@ -75,7 +86,11 @@ export default class CredentialsScreen extends React.Component<ICredentialsScree
         let lastChar = null
         let currentSection = null
 
-        if(credentials.length == 0) return []
+        if(!credentials || credentials.length == 0) return []
+
+	    credentials.sort((a, b) => {
+		    return a.label.localeCompare(b.label)
+	    })
 
         for(let i in credentials) {
             let firstchar = credentials[i].label.charAt(0).toUpperCase()
@@ -94,42 +109,57 @@ export default class CredentialsScreen extends React.Component<ICredentialsScree
     toggleVaultComponent() {
         const isVisible = this.state.isVaultComponentVisible;
         this.setState({isVaultComponentVisible: !isVisible});
+
+        if(isVisible && !this.props.vaultStore.hasValidVaultKey) {
+        	//on closing and no vault key is saved
+        	this.toggleVaultKeyComponent();
+        } else if(isVisible && this.props.vaultStore.hasValidVaultKey) {
+        	// on closing and vault key is saved -> no need to call the vault key screen
+        	this.props.credentialsStore.loadCredentials()
+        }
     }
 
+	toggleVaultKeyComponent() {
+		const isVisible = this.state.isVaultKeyComponentVisible;
+		this.setState({isVaultKeyComponentVisible: !isVisible});
+
+		if(isVisible && this.props.vaultStore.hasValidVaultKey) {
+			this.props.credentialsStore.loadCredentials()
+		} else if(isVisible && !this.props.vaultStore.hasValidVaultKey) {
+			Alert.alert("Could not load credentials");
+		}
+	}
 
     render() {
-        let sections = this.sectionize(this.props.credentialsStore.credentials)
-        return (
-            <View>
-                <StyledRootView>
-                    <StatusBar
-                        barStyle="light-content"
-                    />
-                    <ImageCacheProvider>
-                        <SectionList
-                            ItemSeparatorComponent={SettingsListSeparator}
-                            renderItem={({item}) => <CredentialItem key={item.guid} title={item.label} subTitle={item.url} url={item.url} onPress={() => {this.pressCredential(item)}} />}
-                            renderSectionHeader={({section}) => {
-                                                    <CredentialSectionHeader key={section.title} title={section.title}/>
-                                                }
-                            }
-                            stickySectionHeadersEnabled={true}
-                            renderSectionFooter={() => <SettingsListSeparator/>}
-                            sections={sections}
-                            refreshing={this.props.credentialsStore.isLoading}
-                            onRefresh={() => {
-                                this.props.credentialsStore.loadCredentials()
-                            }}
-                        />
-                    </ImageCacheProvider>
-                </StyledRootView>
-	            <Modal
+        let sections = this.sectionize(this.props.credentialsStore.credentials.slice());
+ 	    return (
+            <StyledRootView>
+                <StatusBar
+                    barStyle="light-content"
+                />
+                <SectionList
+                    sections={sections}
+                    renderItem={({ item, index, section }) =>
+                        <CredentialItem url={item.url} title={item.label} subTitle={item.url} onPress={() => console.log(item.label)}/>}
+                    keyExtractor={(item) => item.label}
+                    ItemSeparatorComponent={SettingsListSeparator}
+                    SectionSeparatorComponent={SettingsListSeparator}
+                    renderSectionHeader={({ section: { title } }) => <CredentialSectionHeader title={title}/>}
+                    refreshing={this.props.credentialsStore.isLoading}
+                    onRefresh={this.props.credentialsStore.loadCredentials}
+                />
+
+                <Modal
 	                animationType={"slide"}
 	                visible={this.state.isVaultComponentVisible}>
-
-		            <VaultScreen onClose={() => this.toggleVaultComponent()} />
-	            </Modal>
-            </View>
+	                <VaultScreen onClose={() => this.toggleVaultComponent()} />
+                </Modal>
+                <Modal
+	                animationType={"slide"}
+	                visible={this.state.isVaultKeyComponentVisible}>
+	                <VaultKeyScreen onClose={() => this.toggleVaultKeyComponent()} />
+                </Modal>
+            </StyledRootView>
         )
     }
 }

@@ -1,12 +1,12 @@
 import VaultStore from '../stores/VaultStore'
-import FontAwesome, { Icons } from 'react-native-fontawesome'
 import {
-	CenteredView, SettingsButton, SettingsList, SettingsListSeparator, SettingsText, StyledActivityIndicator,
-	StyledRootView, HeaderView, RightView, HeaderCloseButton, HeaderButton
+	SettingsList, StyledActivityIndicator,
+	StyledRootView, HeaderView, HeaderButton, TouchableSettingsText
 } from '../StyledComponents'
 import {inject, observer} from 'mobx-react/native'
 import React from 'react'
-import {Text, TouchableHighlight} from 'react-native'
+import {IVault} from '../../lib/Interfaces'
+
 interface IVaultScreenProps {
 	style?: string;
 	onClose: () => void;
@@ -21,13 +21,25 @@ export default class VaultScreen extends React.Component<IVaultScreenProps, {}> 
 		await this.props.vaultStore.loadVaults();
 	}
 
+	async onPressVault(vault: IVault) {
+		await this.props.vaultStore.selectVault(vault);
+		this.props.onClose();
+	}
+
 	render() {
-		let vaults = this.props.vaultStore.vaults.map((vault) => <SettingsText key={vault.guid} text={vault.name}/>);
+		let vaultList = null;
+		if(!this.props.vaultStore.isLoading) {
+			let vaults = this.props.vaultStore.vaults.map((vault) =>
+				<TouchableSettingsText
+					key={vault.guid}
+					text={vault.name}
+					onPress={() => this.onPressVault(vault)}
+					highlighted={this.props.vaultStore.selectedVault.guid === vault.guid}/>);
 
-		const vaultList = <SettingsList>
-			{vaults}
-		</SettingsList>
-
+			vaultList = <SettingsList>
+				{vaults}
+			</SettingsList>;
+		}
 		return (
 			<StyledRootView>
 				<HeaderView>

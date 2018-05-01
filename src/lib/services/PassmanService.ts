@@ -39,18 +39,23 @@ export default class PassmanService {
 	}
 
 	public async fetchCredentialsForVault(vaultGuid: string): Promise<ICredential[]> {
-
-		const response = await fetch(this.url + '/' + this.PASSMAN_APP_URI + this.VAULTS_URI + '/' + vaultGuid, {
-			method: 'GET',
-			headers: {
-				'Accept': 'application/json',
-				'Content-Type': 'application/json',
-				'Cache-Control': 'no-cache',
-				'Authorization': 'Basic ' + Base64.btoa(this.username + ':' + this.password)
-			}
-		});
-
-		return await response.json();
+		try {
+			const response = await fetch(this.url + '/' + this.PASSMAN_APP_URI + this.VAULTS_URI + '/' + vaultGuid, {
+				method: 'GET',
+				headers: {
+					'Accept': 'application/json',
+					'Content-Type': 'application/json',
+					'Cache-Control': 'no-cache',
+					'Authorization': 'Basic ' + Base64.btoa(this.username + ':' + this.password)
+				}
+			});
+			const json = await response.json();
+			const credentials = await json.credentials;
+			return this.filterCredentials(credentials);
+		} catch(err) {
+			console.log("Could not fetch Credentials for Vault " + vaultGuid + ":", err);
+			return [];
+		}
 	}
 
 	public async pushCredential(credential: ICredential): Promise<void> {
@@ -86,6 +91,14 @@ export default class PassmanService {
 			console.log("Failed to fetch from " + url +":" + e);
 			return false;
 		}
+	}
+
+	private filterCredentials(credentials: ICredential[]): ICredential[] {
+		return credentials.filter((credential: ICredential) => {
+			const date = new Date();
+			const zeroDate = new Date(0 * 1000);
+			return (!credential.hidden && !(credential.delete_time > zeroDate && credential.delete_time<date) && !(credential.expire_time > zeroDate && credential.expire_time<date));
+		});
 	}
 
 }

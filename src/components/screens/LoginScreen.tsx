@@ -1,19 +1,19 @@
-import React, { Component } from 'react';
-import {Alert} from 'react-native';
-import { NavigationActions } from "react-navigation";
-import ConnectionStore from '../stores/ConnectionStore';
+import React, { Component } from 'react'
+import {Alert} from 'react-native'
+import { NavigationActions } from "react-navigation"
+import ConnectionStore from '../stores/ConnectionStore'
 import {
 	StyledRootView, CenteredView, SettingsList, SettingsInput,
-	SettingsListSeparator, SettingsButton, StyledActivityIndicator, Header
-} from '../StyledComponents';
-import DefaultColors from '../DefaultColors';
-import {inject, observer} from 'mobx-react/native';
-import {INavigationScreenProps} from '../../lib/Interfaces';
+	SettingsButton, StyledActivityIndicator, Header
+} from '../StyledComponents'
+import {inject, observer} from 'mobx-react/native'
+import {INavigationScreenProps} from '../../lib/Interfaces'
+import MasterPasswordStore from '../stores/MasterPasswordStore'
 
 interface ILoginScreenProps extends INavigationScreenProps {
     style?: string;
     connectionStore?: ConnectionStore;
-    masterPasswordStore?: masterPasswordStore;
+    masterPasswordStore?: MasterPasswordStore;
 }
 
 @inject('connectionStore')
@@ -21,24 +21,24 @@ interface ILoginScreenProps extends INavigationScreenProps {
 @observer
 export default class LoginScreen extends Component<ILoginScreenProps, {}> {
 
-    static navigationOptions = { title: 'Welcome', header: null };
+    static navigationOptions = { title: 'Welcome', header: null }
 
     async componentWillMount() {
     	//await this.props.connectionStore.loadConnection();
 
     	// nextcloud credentials already saved?
-	    const isConnectionSaved = this.props.connectionStore.isConnectionSaved;
+	    const isConnectionSaved = this.props.connectionStore.isConnectionSaved
 	    if(isConnectionSaved) {
-	    	console.log("Connection is Saved! -> Navigating further");
-	    	this.navigateFurther();
+	    	console.log("Connection is Saved! -> Navigating further")
+	    	this.navigateFurther()
 	    } else {
-	    	console.log("Connection is not Saved!");
+	    	console.log("Connection is not Saved!")
 	    }
     }
 
     navigateFurther() {
-    	let routeName = 'SetupMasterPasswordScreen';
-    	if(this.props.masterPasswordStore.isMasterPasswordValid) routeName = 'LockScreen';
+    	let routeName = 'SetupMasterPasswordScreen'
+    	if(this.props.masterPasswordStore.isMasterPasswordValid) routeName = 'LockScreen'
         const resetAction = NavigationActions.reset({
             index: 0,
             actions: [
@@ -51,7 +51,7 @@ export default class LoginScreen extends Component<ILoginScreenProps, {}> {
     async saveLoginData() {
         if(this.props.connectionStore.isConnectionValid) {
             if(await this.props.connectionStore.saveConnection(this.props.connectionStore.connection)) {
-	            this.navigateFurther();
+	            this.navigateFurther()
             } else {
             	Alert.alert("Credentials could not be saved! Try again!")
             }
@@ -82,14 +82,12 @@ export default class LoginScreen extends Component<ILoginScreenProps, {}> {
 				    returnKeyType="next"
 				    onChangeText={(url) => this.props.connectionStore.setConnectionInfo("url", url)}
 			    />
-			    <SettingsListSeparator />
 			    <SettingsInput
 				    label="Username"
 				    placeholder="John Appleseed"
 				    returnKeyType="next"
 				    onChangeText={(username) => this.props.connectionStore.setConnectionInfo("username", username)}
 			    />
-			    <SettingsListSeparator />
 			    <SettingsInput
 				    secureTextEntry
 				    label="Password"
@@ -107,6 +105,6 @@ export default class LoginScreen extends Component<ILoginScreenProps, {}> {
 	            : connectionSettings
 	          }
           </StyledRootView>
-        );
+        )
     }
 }
