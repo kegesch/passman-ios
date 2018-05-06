@@ -1,5 +1,5 @@
 import {ICredential, IStore, IVault} from '../../lib/Interfaces'
-import {flow, observable} from 'mobx'
+import {action, flow, observable} from 'mobx'
 import PassmanService from '../../lib/services/PassmanService'
 import VaultStore from './VaultStore';
 import {decrypt} from '../../lib/services/CryptoService'
@@ -8,6 +8,7 @@ export default class CredentialsStore implements IStore {
 
 	@observable isLoading: boolean = false;
 	@observable credentials: ICredential[] = [];
+	@observable selectedCredential: ICredential = null;
 
 	private passmanService: PassmanService;
 	private vaultStore: VaultStore;
@@ -20,12 +21,17 @@ export default class CredentialsStore implements IStore {
 	initialize() {
 	}
 
+	@action
+	selectCredential(credential: ICredential) {
+		this.selectedCredential = credential;
+	}
+
 	loadCredentials = flow(function * () {
 		let vault: IVault = this.vaultStore.selectedVault;
 		this.isLoading = true;
 		try {
 			if(!vault) throw new Error("no selected vault");
-			console.log("Fetching credentials for vault ", vault.name)
+			console.log("Fetching credentials for vault", vault.name)
 			this.credentials = yield this.passmanService.fetchCredentialsForVault(vault.guid);
 			this.credentials = this.decryptAll(this.credentials);
 		} catch(err) {
@@ -44,7 +50,7 @@ export default class CredentialsStore implements IStore {
 			for(let j in this.encryptedFields) {
 				const field = this.encryptedFields[j];
 				const encryptedValue = credentials[i][field];
-				credentials[i][field] = decrypt(encryptedValue, this.vaultStore.selectedVaultKey.key)
+				credentials[i][field] = JSON.parse(decrypt(encryptedValue, this.vaultStore.selectedVaultKey.key));
 			}
 		}
 		return credentials;

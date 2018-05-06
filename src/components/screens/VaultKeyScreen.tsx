@@ -8,7 +8,7 @@ import {HeaderButton, HeaderView, SettingsInput, SettingsList, SettingsSwitch, S
 
 interface IVaultKeyScreenProps extends INavigationScreenProps {
     style?: string;
-    vaultStore: VaultStore;
+    vaultStore?: VaultStore;
     onClose: () => void;
 }
 
@@ -30,7 +30,7 @@ export default class VaultKeyScreen extends React.Component<IVaultKeyScreenProps
     render() {
 
 	    const settingsList = (
-            <SettingsList>
+            <SettingsList scrollable>
                 <SettingsInput label={"Key"}
                                secureTextEntry
                                placeholder={"password"}

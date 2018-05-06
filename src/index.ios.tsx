@@ -4,7 +4,6 @@ import VaultKeyScreen from './components/screens/VaultKeyScreen'
 import CredentialsScreen from './components/screens/CredentialsScreen'
 import CredentialInfoScreen from './components/screens/CredentialInfoScreen'
 import SettingsScreen from './components/screens/SettingsScreen'
-import LoginSettingsScreen from './components/screens/LoginSettingsScreen'
 import {StackNavigator, TabNavigator} from 'react-navigation'
 import {Provider} from 'mobx-react'
 import VaultStore from './components/stores/VaultStore'
@@ -26,18 +25,9 @@ const CredentialsNavigator = StackNavigator({
 })
 
 const OptionsNavigator = StackNavigator({
-	OptionsScreen: {screen: SettingsScreen},
-	LoginSettingsScreen: {screen: LoginSettingsScreen}
+	OptionsScreen: {screen: SettingsScreen}
 }, {
-	navigationOptions: {
-		headerTitleStyle: {
-			color: DefaultColors.white
-		},
-		headerStyle: {
-			backgroundColor: DefaultColors.blue
-		},
-		headerTintColor: DefaultColors.white
-	}
+	headerMode: 'none'
 })
 
 const AppNavigator = TabNavigator({
@@ -46,7 +36,8 @@ const AppNavigator = TabNavigator({
 }, {
 	swipeEnabled: false,
 	tabBarOptions: {
-		activeTintColor: DefaultColors.blue
+		activeTintColor: DefaultColors.blue,
+		borderTopColor: DefaultColors.darkGrey,
 	}
 })
 

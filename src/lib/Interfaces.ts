@@ -29,6 +29,10 @@ export interface ICustomField {
 	field_type: string;
 }
 
+export interface IOtp {
+	secret: string;
+}
+
 export interface ICredential {
 	vault_id?: string;
 	label?: string;
@@ -38,6 +42,7 @@ export interface ICredential {
 	tags?: string[];
 	email?: string;
 	username?: string;
+	password?: string;
 	url?: string;
 	favicon?: string;
 	renew_interval?: number;
@@ -45,7 +50,7 @@ export interface ICredential {
 	delete_time?: number;
 	files?: ICredentialFile[];
 	custom_fields?: ICustomField[];
-	otp?: string;
+	otp?: IOtp;
 	hidden?: boolean;
 }
 

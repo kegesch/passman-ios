@@ -74,7 +74,7 @@ export default class LockScreen extends React.Component<ILockScreenProps, {}> {
 	    const loading = <StyledActivityIndicator animating={this.props.masterPasswordStore.isLoading}/>
 
 	    const masterPasswordSettings =
-		    <SettingsList button={button}>
+		    <SettingsList button={button} scrollable>
 			    <SettingsInput
 				    secureTextEntry
 				    label="Password"

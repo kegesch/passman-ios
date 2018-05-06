@@ -51,7 +51,9 @@ export default class SetupMasterPasswordScreen extends React.Component<ISetupMas
 		}
 
 		const settingsPassword =
-			<SettingsList button={
+			<SettingsList
+				scrollable
+				button={
 					<CenteredView>
 						<SettingsButton
 							title="Save"

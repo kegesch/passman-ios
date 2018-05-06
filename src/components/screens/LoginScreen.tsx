@@ -66,6 +66,7 @@ export default class LoginScreen extends Component<ILoginScreenProps, {}> {
 
 	    const connectionSettings =
 		    <SettingsList
+			    scrollable
 			    button={
 				    <CenteredView>
 					    <SettingsButton

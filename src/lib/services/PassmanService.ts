@@ -97,7 +97,11 @@ export default class PassmanService {
 		return credentials.filter((credential: ICredential) => {
 			const date = new Date();
 			const zeroDate = new Date(0 * 1000);
-			return (!credential.hidden && !(credential.delete_time > zeroDate && credential.delete_time<date) && !(credential.expire_time > zeroDate && credential.expire_time<date));
+
+			const deleteTime = new Date(credential.delete_time * 1000);
+			const expireTime = new Date(credential.expire_time * 1000);
+
+			return (!credential.hidden && !(deleteTime > zeroDate && deleteTime < date) && !(expireTime > zeroDate && expireTime < date));
 		});
 	}
 

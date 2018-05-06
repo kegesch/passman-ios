@@ -9,13 +9,13 @@ export default class VaultStore implements IStore {
 
 	private SETTING_KEY_SELECTED_VAULT = "selectedVault";
 	private STORAGE_KEY_VAULT_KEYS = "vaultKeys";
-	private STORAGE_KEY_SELECTED_VAULT_KEYS = "selectedVaultKey";
+	private STORAGE_KEY_SELECTED_VAULT_KEY = "selectedVaultKey";
 
-    @observable vaults: IVault[] = []
+    @observable vaults: IVault[] = [];
     @observable selectedVault: IVault = null;
     @observable isLoading: boolean = true;
-    @observable vaultKeys: IVaultKey[] = [];
-	@observable selectedVaultKey: IVaultKey;
+    @observable vaultKeys = {};
+	@observable selectedVaultKey: IVaultKey = null;
 
 	private passmanService: PassmanService;
 
@@ -32,14 +32,14 @@ export default class VaultStore implements IStore {
     	return (this.selectedVaultKey && this.selectedVaultKey && this.selectedVaultKey.key);
     }
 
-    @action
-    async selectVault(vault: IVault) {
+    selectVault = flow(function * (vault: IVault) {
 	    this.isLoading = true;
 
     	this.selectedVault = vault;
 
         if(vault.guid in this.vaultKeys) {
         	this.selectedVaultKey = this.vaultKeys[vault.guid];
+	        yield StorageService.saveObjectSecure(this.STORAGE_KEY_SELECTED_VAULT_KEY, this.selectedVaultKey);
         } else {
 	        this.selectedVaultKey = {
 		        vaultGuid: vault.guid,
@@ -49,13 +49,13 @@ export default class VaultStore implements IStore {
         }
 
         try {
-	        await SettingsService.setSetting(this.SETTING_KEY_SELECTED_VAULT, vault);
+	        yield SettingsService.setSetting(this.SETTING_KEY_SELECTED_VAULT, vault);
         } catch (err) {
         	console.log("Could not select vault", err);
         } finally {
         	this.isLoading = false;
         }
-    }
+    });
 
     @action
 	editVaultKey(value) {
@@ -69,10 +69,23 @@ export default class VaultStore implements IStore {
 			decrypt(this.selectedVault.challenge_password, this.selectedVaultKey.key);
 			//if correct no exceptions is thrown;
 
-    		this.vaultKeys[this.selectedVault.guid] = this.selectedVaultKey;
+		    const tempVaultKeys = Object.assign({}, this.vaultKeys);
+		    tempVaultKeys[this.selectedVault.guid] = this.selectedVaultKey;
+		    this.vaultKeys.replace(tempVaultKeys);
 
-		    yield StorageService.saveObjectSecure(this.STORAGE_KEY_SELECTED_VAULT_KEYS, this.selectedVaultKey);
-		    yield StorageService.saveObjectSecure(this.STORAGE_KEY_VAULT_KEYS, this.vaultKeys);
+    		if(this.selectedVaultKey.shouldBeSaved) {
+    			yield StorageService.saveObjectSecure(this.STORAGE_KEY_SELECTED_VAULT_KEY, this.selectedVaultKey);
+		    } else {
+    			yield StorageService.saveObjectSecure(this.STORAGE_KEY_SELECTED_VAULT_KEY, null)
+		    }
+
+		    const keysShouldBeSaved = {};
+		    for (let i in this.vaultKeys) {
+			    const key: IVaultKey = this.vaultKeys[i];
+    			if(key.shouldBeSaved) keysShouldBeSaved[key.vaultGuid] = key;
+		    }
+
+		    yield StorageService.saveObjectSecure(this.STORAGE_KEY_VAULT_KEYS, keysShouldBeSaved);
 
 		    return true;
 	    } catch(err) {
@@ -90,7 +103,7 @@ export default class VaultStore implements IStore {
 	        this.vaults = yield this.passmanService.fetchVaults();
 	        this.selectedVault = yield SettingsService.getSetting(this.SETTING_KEY_SELECTED_VAULT);
 	        this.vaultKeys = yield StorageService.loadObjectSecure(this.STORAGE_KEY_VAULT_KEYS);
-	        this.selectedVaultKey = yield StorageService.loadObjectSecure(this.STORAGE_KEY_SELECTED_VAULT_KEYS);
+	        this.selectedVaultKey = yield StorageService.loadObjectSecure(this.STORAGE_KEY_SELECTED_VAULT_KEY);
         } catch(err) {
         	console.log("Error in loading vaults", err);
         } finally {

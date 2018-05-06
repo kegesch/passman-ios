@@ -10,7 +10,7 @@ import {IVault} from '../../lib/Interfaces'
 interface IVaultScreenProps {
 	style?: string;
 	onClose: () => void;
-	vaultStore: VaultStore;
+	vaultStore?: VaultStore;
 }
 
 @inject('vaultStore')
@@ -34,9 +34,9 @@ export default class VaultScreen extends React.Component<IVaultScreenProps, {}> 
 					key={vault.guid}
 					text={vault.name}
 					onPress={() => this.onPressVault(vault)}
-					highlighted={this.props.vaultStore.selectedVault.guid === vault.guid}/>);
+					highlighted={this.props.vaultStore.selectedVault && this.props.vaultStore.selectedVault.guid === vault.guid}/>);
 
-			vaultList = <SettingsList>
+			vaultList = <SettingsList scrollable>
 				{vaults}
 			</SettingsList>;
 		}
