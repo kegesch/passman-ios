@@ -64,6 +64,14 @@ export default class CredentialsScreen extends React.Component<ICredentialsScree
 		}
 	}
 
+	componentDidMount() {
+        if(!this.props.vaultStore.selectedVault) {
+            this.toggleVaultComponent();
+        } else {
+            this.toggleVaultKeyComponent();
+        }
+    }
+
     constructor(props) {
         super(props)
 
@@ -134,6 +142,12 @@ export default class CredentialsScreen extends React.Component<ICredentialsScree
                 <StatusBar
                     barStyle="light-content"
                 />
+                {
+                    (!this.props.vaultStore.selectedVault ? <Text>Please select a vault on the top left.</Text> : null)
+                }
+                {
+                    (!this.props.vaultStore.hasValidVaultKey ? <Text>Please add key to your selected vault!</Text> : null)
+                }
                 <SectionList
                     sections={sections}
                     renderItem={({ item }) =>

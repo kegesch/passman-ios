@@ -15,7 +15,11 @@ export default class VaultStore implements IStore {
     @observable selectedVault: IVault = null;
     @observable isLoading: boolean = true;
     @observable vaultKeys = {};
-	@observable selectedVaultKey: IVaultKey = null;
+	@observable selectedVaultKey: IVaultKey = {
+        vaultGuid: null,
+        shouldBeSaved: false,
+        key: null
+    };
 
 	private passmanService: PassmanService;
 
@@ -71,7 +75,7 @@ export default class VaultStore implements IStore {
 
 		    const tempVaultKeys = Object.assign({}, this.vaultKeys);
 		    tempVaultKeys[this.selectedVault.guid] = this.selectedVaultKey;
-		    this.vaultKeys.replace(tempVaultKeys);
+		    this.vaultKeys = tempVaultKeys;
 
     		if(this.selectedVaultKey.shouldBeSaved) {
     			yield StorageService.saveObjectSecure(this.STORAGE_KEY_SELECTED_VAULT_KEY, this.selectedVaultKey);

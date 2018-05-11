@@ -7,7 +7,6 @@ import {
 } from 'react-native'
 import DefaultColors from './DefaultColors'
 import React from 'react'
-import { CachedImage } from 'react-native-cached-image';
 import {joinElements} from './JoinChildren'
 
 export const StyledRootView = styled(View)`
@@ -64,10 +63,10 @@ const StyledSettingsView = styled(View)`
 	border-top-width: 1px;
 	background-color: ${DefaultColors.white};
     flex-direction: column;
-`
+`;
 
 const StyledScrollView = styled(ScrollView)`
-	padding-top: 25px;
+
 	padding-bottom: 25px;
 `;
 
@@ -75,7 +74,8 @@ const StyledLogo = styled(Image)`
     height: 30px;
     width: 30px;
     margin: 10px;
-`
+`;
+
 export const HeaderView = styled(View)`
 	background-color: ${DefaultColors.blue};
 	border-width: 0px;
@@ -105,13 +105,23 @@ export const Header = () => {
 	)
 }
 
+const PaddedView = styled(View)`
+    padding-top: 25px;
+`;
+
 interface ISettingsListProps extends ViewProperties {
 	children?: any;
 	button?: any;
 	scrollable?: boolean;
+	info?: string;
 }
 
 export const SettingsList = (props: ISettingsListProps) => {
+	const info =
+		(props.info ? <SettingsInfoText>
+            <CredentialInfoText>{props.info}</CredentialInfoText>
+        </SettingsInfoText> : <PaddedView/>);
+
 	const view =
 		<StyledSettingsView style={props.style}>
 			{joinElements(props.children, SettingsListSeparator)}
@@ -120,11 +130,13 @@ export const SettingsList = (props: ISettingsListProps) => {
 
 	if(props.scrollable) {
 		return <StyledScrollView>
+			{info}
 			{view}
 			{props.button}
 		</StyledScrollView>
 	} else {
 		return <View>
+			{info}
 			{view}
 			{props.button}
 		</View>
@@ -438,7 +450,7 @@ export const LabelValue = (props: ILabelValueProps) => {
 	)
 }
 
-const CredentialInfoText = styled(Text)`
+export const CredentialInfoText = styled(Text)`
 	color: ${DefaultColors.darkGrey};
 `;
 
@@ -464,7 +476,6 @@ export const CredentialInfo = (props: ICredentialInfoProps) => {
 }
 
 export const CredentialInfoItem = styled(SettingsList)`
-    margin-bottom: 10px;
 `;
 
 const CredentialInfoFaviconView = styled(View)`
@@ -475,3 +486,7 @@ const CredentialInfoFaviconView = styled(View)`
 export const CredentialInfoFavicon = (props: ICredentialFaviconProps) => {
 	return <CredentialInfoFaviconView><CredentialFavicon {...props}/></CredentialInfoFaviconView>
 }
+
+export const SettingsInfoText = styled(View)`
+	padding: 10px 18px 10px 18px;
+`;

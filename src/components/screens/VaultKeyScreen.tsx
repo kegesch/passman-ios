@@ -1,10 +1,19 @@
 import React from 'react';
-import {Alert, Text} from "react-native"
+import {Alert, Text, View} from "react-native"
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import {inject, observer} from 'mobx-react/native'
 import {INavigationScreenProps} from '../../lib/Interfaces'
 import VaultStore from '../stores/VaultStore'
-import {HeaderButton, HeaderView, SettingsInput, SettingsList, SettingsSwitch, StyledActivityIndicator, StyledRootView} from '../StyledComponents'
+import {
+    CredentialInfoText,
+    HeaderButton,
+    HeaderView, SettingsInfoText,
+    SettingsInput,
+    SettingsList,
+    SettingsSwitch,
+    StyledActivityIndicator,
+    StyledRootView
+} from '../StyledComponents'
 
 interface IVaultKeyScreenProps extends INavigationScreenProps {
     style?: string;
@@ -30,7 +39,8 @@ export default class VaultKeyScreen extends React.Component<IVaultKeyScreenProps
     render() {
 
 	    const settingsList = (
-            <SettingsList scrollable>
+            <SettingsList scrollable
+            info={"Please enter the valid key for vault \"" + this.props.vaultStore.selectedVault.name + "\". When the option \"save\" will be enabled, the vaultkey will be stored securely on your device!"}>
                 <SettingsInput label={"Key"}
                                secureTextEntry
                                placeholder={"password"}
@@ -41,7 +51,7 @@ export default class VaultKeyScreen extends React.Component<IVaultKeyScreenProps
                     label={"Save"}
                     value={this.props.vaultStore.selectedVaultKey.shouldBeSaved}
                     onValueChange={(value) => this.props.vaultStore.selectedVaultKey.shouldBeSaved = value}
-                />
+            />
             </SettingsList>
 	    );
 

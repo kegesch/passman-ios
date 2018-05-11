@@ -51,13 +51,7 @@ export default class LockScreen extends React.Component<ILockScreenProps, {}> {
 	}
 
     navigateToAppScreen() {
-        const resetAction = NavigationActions.reset({
-            index: 0,
-            actions: [
-                NavigationActions.navigate({ routeName: 'AppNavigator'})
-            ]
-        })
-       this.props.navigation.dispatch(resetAction)
+       this.props.navigation.replace('AppNavigator');
     }
 
     render() {

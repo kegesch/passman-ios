@@ -39,13 +39,8 @@ export default class LoginScreen extends Component<ILoginScreenProps, {}> {
     navigateFurther() {
     	let routeName = 'SetupMasterPasswordScreen'
     	if(this.props.masterPasswordStore.isMasterPasswordValid) routeName = 'LockScreen'
-        const resetAction = NavigationActions.reset({
-            index: 0,
-            actions: [
-                NavigationActions.navigate({ routeName: routeName})
-            ]
-        })
-        this.props.navigation.dispatch(resetAction)
+
+        this.props.navigation.replace(routeName);
     }
 
     async saveLoginData() {

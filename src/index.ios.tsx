@@ -4,7 +4,7 @@ import VaultKeyScreen from './components/screens/VaultKeyScreen'
 import CredentialsScreen from './components/screens/CredentialsScreen'
 import CredentialInfoScreen from './components/screens/CredentialInfoScreen'
 import SettingsScreen from './components/screens/SettingsScreen'
-import {StackNavigator, TabNavigator} from 'react-navigation'
+import {createStackNavigator, createBottomTabNavigator} from 'react-navigation'
 import {Provider} from 'mobx-react'
 import VaultStore from './components/stores/VaultStore'
 import * as React from 'react'
@@ -16,21 +16,21 @@ import MasterPasswordStore from './components/stores/MasterPasswordStore'
 import {View} from 'react-native'
 import CredentialsStore from './components/stores/CredentialsStore'
 
-const CredentialsNavigator = StackNavigator({
+const CredentialsNavigator = createStackNavigator({
 	CredentialsScreen: { screen: CredentialsScreen },
 	VaultKeyScreen: {screen: VaultKeyScreen},
 	CredentialInfoScreen: { screen: CredentialInfoScreen }
 }, {
-	headerMode: 'none'
+	header: null
 })
 
-const OptionsNavigator = StackNavigator({
+const OptionsNavigator = createStackNavigator({
 	OptionsScreen: {screen: SettingsScreen}
 }, {
-	headerMode: 'none'
+    header: null
 })
 
-const AppNavigator = TabNavigator({
+const AppNavigator = createBottomTabNavigator({
 	CredentialsTab: {screen: CredentialsNavigator},
 	OptionsTab: {screen: OptionsNavigator}
 }, {
@@ -41,14 +41,14 @@ const AppNavigator = TabNavigator({
 	}
 })
 
-const BaseAppNavigator = StackNavigator({
+const BaseAppNavigator = createStackNavigator({
 	LoginScreen: {screen: LoginScreen},
 	SetupMasterPasswordScreen: {screen: SetupMasterPasswordScreen},
 	LockScreen: {screen: LockScreen},
 	AppNavigator: {screen: AppNavigator}
 }, {
 	navigationOptions: {
-		headerMode: "none",
+        header: null,
 		swipeEnabled: false
 	}
 })

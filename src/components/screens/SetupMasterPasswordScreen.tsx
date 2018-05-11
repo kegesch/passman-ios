@@ -31,13 +31,7 @@ export default class SetupMasterPasswordScreen extends React.Component<ISetupMas
 	}
 
 	navigateFurther() {
-		const resetAction = NavigationActions.reset({
-			index: 0,
-			actions: [
-				NavigationActions.navigate({ routeName: 'AppNavigator'})
-			]
-		})
-		this.props.navigation.dispatch(resetAction)
+		this.props.navigation.replace('AppNavigator');
 	}
 
 	render() {
