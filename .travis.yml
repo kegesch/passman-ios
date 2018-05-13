@@ -10,5 +10,7 @@ script:
   - npm build
   - npm test
   - npm run build:ios
-  - xcodebuild -project ios/Passman.xcodeproj -configuration Release -scheme Passman archive ios/build/Passman.xcarchive
-  - xcodebuild -exportArchive -archivePath ios/build/Passman.xcarchive -exportPath build/
+  - xcodebuild clean -project ios/Passman.xcodepro -configuration Release -alltargets
+# For exporting a enrolled dev-account will be needed therefore archiving makes no sense
+#  - xcodebuild -project ios/Passman.xcodeproj -configuration Release -scheme Passman -archivePath ios/build/Passman.xcarchive
+#  - xcodebuild -exportArchive -archivePath ios/build/Passman.xcarchive -exportPath ios/build/Passman -exportFormat ipa
