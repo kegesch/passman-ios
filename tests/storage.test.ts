@@ -16,7 +16,7 @@ jest.setMock('react-native-secure-key-store', SecureStorage);
 
 afterEach(() => {
 	storageCache = {};
-})
+});
 
 describe("object storage tests", async () => {
 

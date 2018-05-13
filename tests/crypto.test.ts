@@ -24,8 +24,8 @@ test('crypto decrypt', () => {
 	const cipherText = Base64.btoa(JSON.stringify(cipherObject));
 	const t = decrypt(cipherText, key);
 	expect(t).toBe(text);
-})
+});
 
 test('crypto encrypt', () => {
 	encrypt(text, key);
-})
+});

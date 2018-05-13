@@ -104,7 +104,7 @@ export default class CredentialInfoScreen extends React.Component<ICredentialInf
 				/>
 				<ScrollView>
 				<CredentialInfoItem style={{flexDirection: "row"}}>
-					<CredentialInfoFavicon size={40} source={{uri: "https://besticon-demo.herokuapp.com/icon?url="+credential.url+"&size=20..40..200"}} />
+					<CredentialInfoFavicon size={40} source={{uri: "https://passmanfavicon.herokuapp.com/icon?url="+credential.url+"&size=20..40..200"}} />
 					<LabelContent label={"Label"} value={credential.label} editing={false}/>
 				</CredentialInfoItem>
 				{

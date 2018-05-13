@@ -13,7 +13,7 @@ import ConnectionStore from './components/stores/ConnectionStore'
 import DefaultColors from './components/DefaultColors'
 import SetupMasterPasswordScreen from './components/screens/SetupMasterPasswordScreen'
 import MasterPasswordStore from './components/stores/MasterPasswordStore'
-import {View} from 'react-native'
+import {AppState, View} from 'react-native'
 import CredentialsStore from './components/stores/CredentialsStore'
 
 const CredentialsNavigator = createStackNavigator({
@@ -22,13 +22,13 @@ const CredentialsNavigator = createStackNavigator({
 	CredentialInfoScreen: { screen: CredentialInfoScreen }
 }, {
 	header: null
-})
+});
 
 const OptionsNavigator = createStackNavigator({
 	OptionsScreen: {screen: SettingsScreen}
 }, {
     header: null
-})
+});
 
 const AppNavigator = createBottomTabNavigator({
 	CredentialsTab: {screen: CredentialsNavigator},
@@ -39,7 +39,7 @@ const AppNavigator = createBottomTabNavigator({
 		activeTintColor: DefaultColors.blue,
 		borderTopColor: DefaultColors.darkGrey,
 	}
-})
+});
 
 const BaseAppNavigator = createStackNavigator({
 	LoginScreen: {screen: LoginScreen},
@@ -51,7 +51,7 @@ const BaseAppNavigator = createStackNavigator({
         header: null,
 		swipeEnabled: false
 	}
-})
+});
 
 const passmanService = new PassmanService();
 const vaultStore = new VaultStore(passmanService);
@@ -61,7 +61,7 @@ const stores = {
 	vaultStore: vaultStore,
 	credentialsStore: new CredentialsStore(passmanService, vaultStore),
 	masterPasswordStore: new MasterPasswordStore(),
-}
+};
 
 interface IAppState {
 	isLoading: boolean;
@@ -75,7 +75,24 @@ export class App extends React.Component<{}, IAppState> {
 		this.state = {isLoading: true};
 	}
 
+
+    componentDidMount() {
+        AppState.addEventListener('change', this._handleAppStateChange);
+    }
+
+    componentWillUnmount() {
+        AppState.removeEventListener('change', this._handleAppStateChange);
+    }
+
+    _handleAppStateChange = (nextAppState) => {
+        if (nextAppState === /inactive|background/) {
+            console.log("Replace screen with LockScreen"); //TODO
+        }
+    }
+
 	async componentWillMount() {
+        console.log("initializing stores")
+
 		//make sure connection is loaded (and passmanservice knows it)
 		await stores.connectionStore.initialize();
 
@@ -85,10 +102,10 @@ export class App extends React.Component<{}, IAppState> {
 	}
 
 	render() {
-		if(this.state.isLoading) return <View />
+		if(this.state.isLoading) return <View />;
 		return (
 			<Provider {...stores}>
-				<BaseAppNavigator />
+				<BaseAppNavigator/>
 			</Provider>
 		)
 	}

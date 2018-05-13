@@ -19,7 +19,7 @@ interface ILabelContentState {
 export class LabelContent extends React.Component<ILabelContentProps, ILabelContentState> {
 
 	constructor(props) {
-		super(props)
+		super(props);
 		this.state = {}
 	}
 
@@ -31,6 +31,7 @@ export class LabelContent extends React.Component<ILabelContentProps, ILabelCont
 	copyValue() {
 		Clipboard.setString(this.props.value)
 	}
+
 	async openLink(url) {
 		try {
 			if(Linking.canOpenURL(url))
@@ -47,14 +48,14 @@ export class LabelContent extends React.Component<ILabelContentProps, ILabelCont
 
 	render() {
 		if(this.props.value) {
-			const value = (this.state.secured ? "***************" : this.props.value)
+			const value = (this.state.secured ? "***************" : this.props.value);
 
-			const actions = []
-			if(this.props.secure) actions.push({label: (this.state.secured ? 'show' : 'hide'), onPress: () => {this.showValue()}})
-			if(this.props.copy) actions.push({label: 'copy', onPress: () => {this.copyValue()}})
-			if(this.props.link) actions.push({label: 'open', onPress: () => {this.openLink(value)}})
+			const actions = [];
+			if(this.props.secure) actions.push({label: (this.state.secured ? 'show' : 'hide'), onPress: () => {this.showValue()}});
+			if(this.props.copy) actions.push({label: 'copy', onPress: () => {this.copyValue()}});
+			if(this.props.link) actions.push({label: 'open', onPress: () => {this.openLink(value)}});
 
-			const item = <LabelValue value={value} label={this.props.label}/>
+			const item = <LabelValue value={value} label={this.props.label}/>;
 
 			if(actions.length == 0) {
 				return item;

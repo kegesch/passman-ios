@@ -10,6 +10,6 @@ const DefaultColors = {
 	orange: '#DE6B48',
 	green: '#7CEA9C',
 	plain: '#FFFFFF'
-}
+};
 
 export default DefaultColors;

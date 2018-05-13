@@ -17,15 +17,15 @@ const encodedData = "eyJpdiI6IlJKOSs1WUlMdkhmYWNraE4wWFJPU2c9PSIsInYiOjEsIml0ZXI
 test("base64: encode", () => {
 	const atob = Base64.atob(encodedData);
 	expect(atob, decodedData);
-})
+});
 
 test("base64: decode", () => {
 	const btoa = Base64.btoa(decodedData);
 	expect(btoa, encodedData);
-})
+});
 
 test("base64", () => {
 	const source = "TEST1234&\\sdösad";
 	const after = Base64.atob(Base64.btoa(source));
 	expect(after, source);
-})
+});

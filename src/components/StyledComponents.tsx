@@ -1,9 +1,16 @@
 import styled from 'styled-components';
 import styledTS from 'styled-components-ts';
 import {
-	TextInput, View, Text, ScrollView, TouchableHighlight, ActivityIndicator, StatusBar, Image, Switch, SwitchProperties, TextInputProperties,
-	ViewProperties, TouchableHighlightProperties, ButtonProperties, TextProperties, ImageProperties, ActivityIndicatorProperties,
-	ScrollViewProperties, StyleProp, ViewStyle
+    TextInput,
+    View,
+    Text,
+    ScrollView,
+    TouchableHighlight,
+    ActivityIndicator,
+    StatusBar,
+    Image,
+    Switch,
+    TouchableHighlightProps, ImageProps, TextInputProps, ViewProps, ButtonProps, SwitchProps, TextProps
 } from 'react-native'
 import DefaultColors from './DefaultColors'
 import React from 'react'
@@ -12,25 +19,25 @@ import {joinElements} from './JoinChildren'
 export const StyledRootView = styled(View)`
 	background-color: ${DefaultColors.appleGrey};
 	flex: 1;
-`
+`;
 
 export const StyledLogoText = styled(Text)`
 	font-weight: bold;
     font-size: 40;
     color: ${DefaultColors.white};
-`
+`;
 
 export const CenteredView = styled(View)`
     justify-content: center;
     align-items: center;
-`
+`;
 export const InlineView = styled(View)`
 	flex-direction: row;
-`
+`;
 export const RightView = styled(View)`
 	flex-direction: column;
 	align-self: stretch;
-`
+`;
 const HeaderText = styled(Text)`
 	align-self: flex-end;
 	text-align: right;
@@ -40,20 +47,20 @@ const HeaderText = styled(Text)`
 	margin-top: 10px;
 `;
 
-export const HeaderButton = (props: ButtonProperties) => {
+export const HeaderButton = (props: ButtonProps) => {
 	return (<TouchableHighlight onPress={props.onPress} underlayColor={"transparent"}>
 		<RightView>
 			<HeaderText>{props.title}</HeaderText>
 		</RightView>
 	</TouchableHighlight>);
-}
+};
 
 export const SettingsListSeparator = styled(View)`
 	height: 1px;
 	margin-left: 15px;
 	background-color: ${DefaultColors.lightGrey};
 	align-self: stretch;
-`
+`;
 
 const StyledSettingsView = styled(View)`
 	align-self: stretch; 
@@ -85,7 +92,7 @@ export const HeaderView = styled(View)`
 	padding-top: 40px;
 	justify-content: center;
     align-items: center;
-`
+`;
 
 export const Header = () => {
 	return (
@@ -103,13 +110,13 @@ export const Header = () => {
 			</InlineView>
 		</HeaderView>
 	)
-}
+};
 
 const PaddedView = styled(View)`
     padding-top: 25px;
 `;
 
-interface ISettingsListProps extends ViewProperties {
+interface ISettingsListProps extends ViewProps {
 	children?: any;
 	button?: any;
 	scrollable?: boolean;
@@ -125,7 +132,7 @@ export const SettingsList = (props: ISettingsListProps) => {
 	const view =
 		<StyledSettingsView style={props.style}>
 			{joinElements(props.children, SettingsListSeparator)}
-		</StyledSettingsView>
+		</StyledSettingsView>;
 
 
 	if(props.scrollable) {
@@ -141,7 +148,7 @@ export const SettingsList = (props: ISettingsListProps) => {
 			{props.button}
 		</View>
 	}
-}
+};
 
 const SettingsLabel = styled(Text)`
 	padding: 13px;
@@ -150,7 +157,7 @@ const SettingsLabel = styled(Text)`
 	font-weight: normal;
 	color: ${DefaultColors.darkBlue};
 	font-size: 16px;
-`
+`;
 
 const SettingsTextInput = styled(TextInput)`
 	padding: 13px;
@@ -158,7 +165,7 @@ const SettingsTextInput = styled(TextInput)`
 	flex: 2;
 	margin-right: 15px;
 	color: ${DefaultColors.darkGrey};
-`
+`;
 
 const StyledSettingsRowView = styled(View)`
 	flex: 1;
@@ -166,9 +173,9 @@ const StyledSettingsRowView = styled(View)`
     background-color: transparent;
     height: 46px;
     align-items: flex-end;
-`
+`;
 
-interface ISettingsRowProps extends ViewProperties {
+interface ISettingsRowProps extends ViewProps {
 	label: string;
 	right: any;
 }
@@ -182,9 +189,9 @@ export const StyledSettingsRow = (props: ISettingsRowProps) => {
 			{props.right}
 		</StyledSettingsRowView>
 	)
-}
+};
 
-interface ISettingsInputProps extends TextInputProperties{
+interface ISettingsInputProps extends TextInputProps{
 	label: string;
 }
 
@@ -198,7 +205,7 @@ export const SettingsInput = (props: ISettingsInputProps) => {
 			/>}
 		/>
 	)
-}
+};
 
 export const RightSwitch = styled(Switch)`
 	align-self: flex-end;
@@ -207,7 +214,7 @@ export const RightSwitch = styled(Switch)`
 	margin-right: 15px;
 `;
 
-interface ISettingsSwitch extends SwitchProperties {
+interface ISettingsSwitch extends SwitchProps {
 	label: string;
 }
 
@@ -220,13 +227,13 @@ export const SettingsSwitch = (props: ISettingsSwitch) => {
 		}
 		/>
 	)
-}
+};
 
-interface IHighlightedTextProps extends TextProperties {
+interface IHighlightedTextProps extends TextProps{
 	highlighted: boolean;
 }
 
-const HighlightedText = (props: IHighlightedTextProps) => <Text {...props} />
+const HighlightedText = (props: IHighlightedTextProps) => <Text {...props} />;
 
 const SettingsTextItem = styledTS<IHighlightedTextProps>(styled(HighlightedText))`
 	padding: 13px;
@@ -247,9 +254,9 @@ export const SettingsText = (props: ISettingsText) => {
 			<SettingsTextItem highlighted={props.highlighted}>{props.text}</SettingsTextItem>
 		} />
 	);
-}
+};
 
-interface ITouchableSettingsText extends ISettingsText, TouchableHighlightProperties {
+interface ITouchableSettingsText extends ISettingsText, TouchableHighlightProps {
 
 }
 
@@ -261,9 +268,9 @@ export const TouchableSettingsText = (props: ITouchableSettingsText) => {
 			</View>
 		</TouchableHighlight>
 	)
-}
+};
 
-interface ISettingsButtonProps extends TouchableHighlightProperties{
+interface ISettingsButtonProps extends TouchableHighlightProps{
 	title: string;
 }
 
@@ -277,12 +284,12 @@ const SettingsButtonView = styled(View)`
 	margin: 15px;
 	margin-top: 20px;
 	width: 350px;
-`
+`;
 
 const SettingsButtonText = styled(Text)`
 	color: ${DefaultColors.white};
 	font-weight: bold;
-`
+`;
 
 export const SettingsButton = (props: ISettingsButtonProps) => {
 	return (
@@ -293,7 +300,7 @@ export const SettingsButton = (props: ISettingsButtonProps) => {
 				</SettingsButtonText>
 			</SettingsButtonView>
 		</TouchableHighlight>	)
-}
+};
 
 export const StyledActivityIndicator = styled(ActivityIndicator)`
 	margin: 5px;
@@ -305,33 +312,6 @@ export const StyledActivityIndicator = styled(ActivityIndicator)`
     align-items: center;
     justify-content: center;
 `;
-
-const SettingsAvatar = styled(Image)`
-	padding: 13px;
-	padding-left: 15px;
-	width: 30px;
-`;
-
-const SettingsImageIconView = styled(View)`
-	flex: 1;
-    flex-direction: row;
-    background-color: ${DefaultColors.white};
-    align-items: flex-end;
-`;
-
-interface ISettingsImageItemProps {
-	imageUri: string;
-	rightItem: any;
-}
-
-export const SettingsImageIcon = (props: ISettingsImageItemProps) => {
-	return (
-		<SettingsImageIconView>
-			<SettingsAvatar source={{uri: props.imageUri}}/>
-			{props.rightItem}
-		</SettingsImageIconView>
-	)
-}
 
 interface ITitleItemProps {
 	title: string;
@@ -360,17 +340,17 @@ export const TitleItem = (props: ITitleItemProps) => {
 			<SubTitleText>{props.subTitle}</SubTitleText>
 		</TitleItemView>
 	)
-}
+};
 
-interface ICredentialFaviconProps extends ImageProperties{
+interface ICredentialFaviconProps extends ImageProps{
 	size: number;
 }
 
 export const CredentialFavicon = (props: ICredentialFaviconProps) => {
 	return <Image style={[{width: props.size, height: props.size}, props.style]} {...props} />;
-}
+};
 
-interface ICredentialItemProps extends TouchableHighlightProperties {
+interface ICredentialItemProps extends TouchableHighlightProps {
 	url: string;
 	title: string;
 	subTitle: string;
@@ -380,12 +360,12 @@ const UnstyledCredentialItem = (props: ICredentialItemProps) => {
 	return (
 		<TouchableHighlight underlayColor={"transparent"} {...props}>
 			<InlineView>
-				<CredentialFavicon source={{uri: "https://besticon-demo.herokuapp.com/icon?url="+props.url+"&size=20..30..200"}} size={30}/>
+				<CredentialFavicon source={{uri: "https://passmanfavicon.herokuapp.com/icon?url="+props.url+"&size=20..30..200"}} size={30}/>
 				<TitleItem title={props.title} subTitle={props.subTitle} />
 			</InlineView>
 		</TouchableHighlight>
 	)
-}
+};
 
 export const CredentialItem = styledTS<ICredentialItemProps>(styled(UnstyledCredentialItem))`
 	background-color: ${DefaultColors.white};
@@ -417,7 +397,7 @@ export const CredentialSectionHeader = (props: ICredentialSectionHeaderProps) =>
 			<SectionHeaderText>{props.title}</SectionHeaderText>
 		</CredentialSectionHeaderView>
 	)
-}
+};
 
 const Label = styled(Text)`
 	color: ${DefaultColors.blue};
@@ -448,7 +428,7 @@ export const LabelValue = (props: ILabelValueProps) => {
 			<Value>{props.value}</Value>
 		</LabelValueView>
 	)
-}
+};
 
 export const CredentialInfoText = styled(Text)`
 	color: ${DefaultColors.darkGrey};
@@ -473,7 +453,7 @@ export const CredentialInfo = (props: ICredentialInfoProps) => {
 			<CredentialInfoText>CREATED {props.created}</CredentialInfoText>
 		</CredentialInfoView>
 	)
-}
+};
 
 export const CredentialInfoItem = styled(SettingsList)`
 `;
@@ -485,7 +465,7 @@ const CredentialInfoFaviconView = styled(View)`
 
 export const CredentialInfoFavicon = (props: ICredentialFaviconProps) => {
 	return <CredentialInfoFaviconView><CredentialFavicon {...props}/></CredentialInfoFaviconView>
-}
+};
 
 export const SettingsInfoText = styled(View)`
 	padding: 10px 18px 10px 18px;
