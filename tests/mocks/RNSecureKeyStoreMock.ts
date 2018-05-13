@@ -1,5 +1,7 @@
 export default class RNSecureKeyStoreMock {
 
+	private storageCache;
+
 	constructor(cache = {}) {
 		this.storageCache = cache;
 	}
@@ -13,7 +15,7 @@ export default class RNSecureKeyStoreMock {
 	});
 
 	get = jest.fn((key) => {
-		return new Promise((resolve) => {
+		return new Promise((resolve, rejects) => {
 			return this.storageCache.hasOwnProperty(key)
 				? resolve(this.storageCache[key])
 				: rejects(new Error('no such key'));
@@ -27,4 +29,8 @@ export default class RNSecureKeyStoreMock {
 				: reject('No such key!');
 		});
 	});
+
+    clear = jest.fn(() => {
+        return new Promise((resolve,) =>  resolve(this.storageCache = {}));
+    })
 }

@@ -41,11 +41,13 @@
     "typescript": "^2.8.3"
   },
   "jest": {
+    "verbose": true,
     "preset": "react-native",
     "transform": {
       "^.+\\.jsx?$": "<rootDir>/node_modules/babel-jest",
       "^.+\\.tsx?$": "ts-jest"
     },
+    "testPathIgnorePatterns": ["/node_modules/", "/tests/mocks/"],
     "testRegex": "(/tests/.*|(\\.|/)(test))\\.(jsx?|tsx?)$",
     "moduleFileExtensions": [
       "ts",

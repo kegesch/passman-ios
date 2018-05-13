@@ -1,4 +1,3 @@
-
 import Base64 from '../src/lib/Base64'
 
 const data = {"iv":"RJ9+5YILvHfackhN0XROSg==",
@@ -16,16 +15,16 @@ const encodedData = "eyJpdiI6IlJKOSs1WUlMdkhmYWNraE4wWFJPU2c9PSIsInYiOjEsIml0ZXI
 
 test("base64: encode", () => {
 	const atob = Base64.atob(encodedData);
-	expect(atob, decodedData);
+	expect(atob).toBe(decodedData);
 });
 
 test("base64: decode", () => {
 	const btoa = Base64.btoa(decodedData);
-	expect(btoa, encodedData);
+	expect(btoa).toBe(encodedData);
 });
 
 test("base64", () => {
 	const source = "TEST1234&\\sdösad";
 	const after = Base64.atob(Base64.btoa(source));
-	expect(after, source);
+	expect(after).toBe(source);
 });
