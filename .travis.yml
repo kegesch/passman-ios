@@ -3,6 +3,7 @@ node_js:
   - "7.1"
 sudo: false
 os: osx
+osx_image: xcode9.3
 install:
   - rm -rf node_modules/
   - npm install
@@ -10,7 +11,6 @@ script:
   - npm build
   - npm test
   - npm run build:ios
-  - xcodebuild clean -project ios/Passman.xcodeproj -configuration Release -alltargets
-  - xcodebuild -project ios/Passman.xcodeproj -configuration Release -scheme Passman -archivePath ios/build/Passman.xcarchive
+  - xcodebuild clean build -project ios/Passman.xcodeproj -configuration Release CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
 # For exporting a enrolled dev-account will be needed therefore archiving makes no sense
 #  - xcodebuild -exportArchive -archivePath ios/build/Passman.xcarchive -exportPath ios/build/Passman -exportFormat ipa
