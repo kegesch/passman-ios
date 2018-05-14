@@ -1,57 +1,14 @@
-import LockScreen from "./components/screens/LockScreen"
-import LoginScreen from './components/screens/LoginScreen'
-import VaultKeyScreen from './components/screens/VaultKeyScreen'
-import CredentialsScreen from './components/screens/CredentialsScreen'
-import CredentialInfoScreen from './components/screens/CredentialInfoScreen'
-import SettingsScreen from './components/screens/SettingsScreen'
 import {createStackNavigator, createBottomTabNavigator} from 'react-navigation'
 import {Provider} from 'mobx-react'
 import VaultStore from './components/stores/VaultStore'
 import * as React from 'react'
 import PassmanService from './lib/services/PassmanService'
 import ConnectionStore from './components/stores/ConnectionStore'
-import DefaultColors from './components/DefaultColors'
-import SetupMasterPasswordScreen from './components/screens/SetupMasterPasswordScreen'
 import MasterPasswordStore from './components/stores/MasterPasswordStore'
-import {AppState, View} from 'react-native'
+import {AppState} from 'react-native'
 import CredentialsStore from './components/stores/CredentialsStore'
-
-const CredentialsNavigator = createStackNavigator({
-	CredentialsScreen: { screen: CredentialsScreen },
-	VaultKeyScreen: {screen: VaultKeyScreen},
-	CredentialInfoScreen: { screen: CredentialInfoScreen }
-}, {
-	header: null
-});
-
-const OptionsNavigator = createStackNavigator({
-	OptionsScreen: {screen: SettingsScreen}
-}, {
-    header: null
-});
-
-const AppNavigator = createBottomTabNavigator({
-	CredentialsTab: {screen: CredentialsNavigator},
-	OptionsTab: {screen: OptionsNavigator}
-}, {
-	swipeEnabled: false,
-	tabBarOptions: {
-		activeTintColor: DefaultColors.blue,
-		borderTopColor: DefaultColors.darkGrey,
-	}
-});
-
-const BaseAppNavigator = createStackNavigator({
-	LoginScreen: {screen: LoginScreen},
-	SetupMasterPasswordScreen: {screen: SetupMasterPasswordScreen},
-	LockScreen: {screen: LockScreen},
-	AppNavigator: {screen: AppNavigator}
-}, {
-	navigationOptions: {
-        header: null,
-		swipeEnabled: false
-	}
-});
+import {Loader} from "./components/screens/Loader";
+import Navigator from "./components/Navigator";
 
 const passmanService = new PassmanService();
 const vaultStore = new VaultStore(passmanService);
@@ -102,12 +59,13 @@ export class App extends React.Component<{}, IAppState> {
 	}
 
 	render() {
-		if(this.state.isLoading) return <View />;
 		return (
-			<Provider {...stores}>
-				<BaseAppNavigator/>
-			</Provider>
-		)
+			<Loader isLoading={this.state.isLoading}>
+				<Provider {...stores}>
+					<Navigator/>
+				</Provider>
+			</Loader>
+		);
 	}
 
 }

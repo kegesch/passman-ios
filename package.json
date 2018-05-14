@@ -1,13 +1,13 @@
 {
   "name": "Passman",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "ios": "node node_modules/react-native/local-cli/cli.js run-ios",
     "test": "jest",
     "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/Passman/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios'",
- 	"tsc": "tsc"
+    "tsc": "tsc"
   },
   "dependencies": {
     "jssha": "^2.3.1",
@@ -47,7 +47,10 @@
       "^.+\\.jsx?$": "<rootDir>/node_modules/babel-jest",
       "^.+\\.tsx?$": "ts-jest"
     },
-    "testPathIgnorePatterns": ["/node_modules/", "/tests/mocks/"],
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/tests/mocks/"
+    ],
     "testRegex": "(/tests/.*|(\\.|/)(test))\\.(jsx?|tsx?)$",
     "moduleFileExtensions": [
       "ts",

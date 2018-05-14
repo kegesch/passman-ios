@@ -62,6 +62,12 @@ export const SettingsListSeparator = styled(View)`
 	align-self: stretch;
 `;
 
+export const CredentialsListHeaderSeparator = styled(View)`
+	height: 1px;
+	background-color: ${DefaultColors.lightGrey};
+	align-self: stretch;
+`;
+
 const StyledSettingsView = styled(View)`
 	align-self: stretch; 
 	border-color: ${DefaultColors.lightGrey};
@@ -73,7 +79,6 @@ const StyledSettingsView = styled(View)`
 `;
 
 const StyledScrollView = styled(ScrollView)`
-
 	padding-bottom: 25px;
 `;
 
@@ -121,13 +126,18 @@ interface ISettingsListProps extends ViewProps {
 	button?: any;
 	scrollable?: boolean;
 	info?: string;
+	noPadding?: boolean;
 }
 
 export const SettingsList = (props: ISettingsListProps) => {
 	const info =
-		(props.info ? <SettingsInfoText>
-            <CredentialInfoText>{props.info}</CredentialInfoText>
-        </SettingsInfoText> : <PaddedView/>);
+		(props.info
+			? 	<SettingsInfoText>
+					<CredentialInfoText>{props.info}</CredentialInfoText>
+				</SettingsInfoText>
+			: (props.noPadding
+				? null
+				: <PaddedView/>));
 
 	const view =
 		<StyledSettingsView style={props.style}>
@@ -342,12 +352,12 @@ export const TitleItem = (props: ITitleItemProps) => {
 	)
 };
 
-interface ICredentialFaviconProps extends ImageProps{
+interface ICredentialFaviconProps extends ImageProps {
 	size: number;
 }
 
 export const CredentialFavicon = (props: ICredentialFaviconProps) => {
-	return <Image style={[{width: props.size, height: props.size}, props.style]} {...props} />;
+	return <Image style={{width: props.size, height: props.size, margin: 0, padding: 0}} {...props}  />;
 };
 
 interface ICredentialItemProps extends TouchableHighlightProps {
@@ -385,17 +395,17 @@ const SectionHeaderText = styled(Text)`
     padding-top: 5px;
 `;
 
-const CredentialSectionHeaderView = styled(View)`
-	border-bottom-width: 1px;
-    border-bottom-color: ${DefaultColors.appleGrey};
-    background-color: ${DefaultColors.darkWhite};
+const SectionHeaderView = styled(View)`
+	background-color: ${DefaultColors.white};
+	border-bottom-width: 1px; 
+	border-bottom-color: ${DefaultColors.lightGrey};
 `;
 
 export const CredentialSectionHeader = (props: ICredentialSectionHeaderProps) => {
 	return (
-		<CredentialSectionHeaderView>
+		<SectionHeaderView>
 			<SectionHeaderText>{props.title}</SectionHeaderText>
-		</CredentialSectionHeaderView>
+		</SectionHeaderView>
 	)
 };
 
@@ -431,7 +441,7 @@ export const LabelValue = (props: ILabelValueProps) => {
 };
 
 export const CredentialInfoText = styled(Text)`
-	color: ${DefaultColors.darkGrey};
+	color: ${DefaultColors.grey};
 `;
 
 interface ICredentialInfoProps {
@@ -440,7 +450,7 @@ interface ICredentialInfoProps {
 }
 
 const CredentialInfoView = styled(View)`
-	margin-top: 10px;
+	margin-bottom: 20px;
 	align-items: center;
 	justify-content: center;
 `;
@@ -456,15 +466,19 @@ export const CredentialInfo = (props: ICredentialInfoProps) => {
 };
 
 export const CredentialInfoItem = styled(SettingsList)`
+	margin-bottom: 15px;
 `;
 
 const CredentialInfoFaviconView = styled(View)`
 	margin-left: 15px;
 	margin-top: 8px;
+	padding: 0px;
 `;
 
 export const CredentialInfoFavicon = (props: ICredentialFaviconProps) => {
-	return <CredentialInfoFaviconView><CredentialFavicon {...props}/></CredentialInfoFaviconView>
+	return <CredentialInfoFaviconView>
+        <Image style={{width: props.size, height: props.size}} source={props.source} />;
+	</CredentialInfoFaviconView>
 };
 
 export const SettingsInfoText = styled(View)`

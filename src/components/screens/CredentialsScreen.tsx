@@ -8,7 +8,13 @@ import {
 } from 'react-native'
 import {INavigationScreenProps} from '../../lib/Interfaces'
 import DefaultColors from '../DefaultColors'
-import {CredentialItem, CredentialSectionHeader, SettingsListSeparator, StyledRootView} from '../StyledComponents'
+import {
+    CredentialItem,
+    CredentialSectionHeader,
+    CredentialsListHeaderSeparator,
+    SettingsListSeparator,
+    StyledRootView
+} from '../StyledComponents'
 import {inject, observer} from 'mobx-react/native'
 import CredentialsStore from '../stores/CredentialsStore'
 import VaultScreen from './VaultScreen'
@@ -143,12 +149,13 @@ export default class CredentialsScreen extends React.Component<ICredentialsScree
                     barStyle="light-content"
                 />
                 <SectionList
+                    style={{backgroundColor: DefaultColors.white}}
                     sections={sections}
                     renderItem={({ item }) =>
                         <CredentialItem url={item.url} title={item.label} subTitle={item.url} onPress={() => this.pressCredential(item)}/>}
                     keyExtractor={(item) => item.label}
                     ItemSeparatorComponent={SettingsListSeparator}
-                    SectionSeparatorComponent={SettingsListSeparator}
+                    SectionSeparatorComponent={CredentialsListHeaderSeparator}
                     renderSectionHeader={({ section: { title } }) => <CredentialSectionHeader title={title}/>}
                     refreshing={this.props.credentialsStore.isLoading}
                     onRefresh={() => this.props.credentialsStore.loadCredentials()}

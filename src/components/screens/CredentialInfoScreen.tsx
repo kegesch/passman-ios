@@ -10,7 +10,14 @@ import {
 import TOTP from '../../lib/TOTP'
 import {ICredential, INavigationScreenProps} from '../../lib/Interfaces'
 import DefaultColors from '../DefaultColors'
-import {CredentialFavicon, CredentialInfo, CredentialInfoFavicon, CredentialInfoItem, StyledRootView} from '../StyledComponents'
+import {
+    CredentialFavicon,
+    CredentialInfo,
+    CredentialInfoFavicon,
+    CredentialInfoItem,
+    InlineView,
+    StyledRootView
+} from '../StyledComponents'
 import CredentialsStore from '../stores/CredentialsStore'
 import {inject, observer} from 'mobx-react/native'
 import {LabelContent} from '../CredentialValue'
@@ -46,9 +53,9 @@ export default class CredentialInfoScreen extends React.Component<ICredentialInf
 			<TouchableHighlight underlayColor={"transparent"} onPress={() => navigation.goBack()}>
 				<Text style={{
 					color: DefaultColors.white,
-					padding: 10,
+					padding: 0,
 					paddingLeft: 15,
-					fontSize: 25
+					fontSize: 35
 				}}><FontAwesome>{Icons.angleLeft}</FontAwesome></Text>
 			</TouchableHighlight>
 
@@ -92,7 +99,7 @@ export default class CredentialInfoScreen extends React.Component<ICredentialInf
 		const credential: ICredential = this.props.credentialsStore.selectedCredential;
 
 		const customFieldsView = credential.custom_fields.map((customField) =>
-			<CredentialInfoItem key={customField.label}>
+			<CredentialInfoItem noPadding key={customField.label}>
 				<LabelContent label={customField.label} value={customField.value} copy secure={customField.secret}/>
 			</CredentialInfoItem>
 		);
@@ -103,13 +110,15 @@ export default class CredentialInfoScreen extends React.Component<ICredentialInf
 					barStyle="light-content"
 				/>
 				<ScrollView>
-				<CredentialInfoItem style={{flexDirection: "row"}}>
-					<CredentialInfoFavicon size={40} source={{uri: "https://passmanfavicon.herokuapp.com/icon?url="+credential.url+"&size=20..40..200"}} />
+				<CredentialInfoItem noPadding>
+					<InlineView>
+					<CredentialInfoFavicon size={38} resizeMode={"stretch"} source={{uri: "https://passmanfavicon.herokuapp.com/icon?url="+credential.url+"&size=20..38..200"}} />
 					<LabelContent label={"Label"} value={credential.label} editing={false}/>
+					</InlineView>
 				</CredentialInfoItem>
 				{
 					(credential.username && credential.password ?
-						<CredentialInfoItem>
+						<CredentialInfoItem noPadding>
 							<LabelContent label={"Username"} value={credential.username} copy />
 							<LabelContent label={"Password"} value={credential.password} secure copy />
 						</CredentialInfoItem>
@@ -117,7 +126,7 @@ export default class CredentialInfoScreen extends React.Component<ICredentialInf
 				}
 				{
 					(credential.email ?
-							<CredentialInfoItem>
+							<CredentialInfoItem noPadding>
 								<LabelContent label={"E-Mail"} value={credential.email} copy />
 							</CredentialInfoItem>
 					: null
@@ -125,7 +134,7 @@ export default class CredentialInfoScreen extends React.Component<ICredentialInf
 				}
 				{
 					(credential.url ?
-							<CredentialInfoItem>
+							<CredentialInfoItem noPadding>
 								<LabelContent label={"URL"} value={credential.url} copy link />
 							</CredentialInfoItem>
 					: null
@@ -133,7 +142,7 @@ export default class CredentialInfoScreen extends React.Component<ICredentialInf
 				}
 				{
 					(credential.description ?
-						<CredentialInfoItem>
+						<CredentialInfoItem noPadding>
 							<LabelContent label={"Description"} value={credential.description} />
 						</CredentialInfoItem>
 					: null
@@ -141,7 +150,7 @@ export default class CredentialInfoScreen extends React.Component<ICredentialInf
 				}
 				{
 					(credential.otp.secret != undefined ?
-						<CredentialInfoItem>
+						<CredentialInfoItem noPadding>
 							<LabelContent label={"One-Time-Password"} value={this.state.otp+" "+this.state.otpTimer+"s"} />
 						</CredentialInfoItem>
 					: null)

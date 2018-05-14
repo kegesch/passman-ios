@@ -5,6 +5,7 @@ const DefaultColors = {
 	lightGrey: '#EAEAEA',
 	appleGrey: '#f1f1f1',
 	darkGrey: '#46494C',
+	grey: '#6f7479',
 	white: '#FBFCFF',
 	darkWhite: '#FAFAFA',
 	orange: '#DE6B48',
