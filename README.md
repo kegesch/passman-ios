@@ -1,6 +1,7 @@
 # Passman App for iOS <img src="https://passman.cc/img/icon128.png" height="30" />
 iOS client for nextclouds password-manager extension [Passman](https://passman.cc/) 
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c17f8f31c7314def9da0bf68b78369b1)](https://app.codacy.com/app/Y0nnyy/passman-ios?utm_source=github.com&utm_medium=referral&utm_content=Y0nnyy/passman-ios&utm_campaign=badger)
 [![Build Status](https://travis-ci.org/Y0nnyy/passman-ios.svg?branch=master)](https://travis-ci.org/Y0nnyy/passman-ios)
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FY0nnyy%2Fpassman-ios.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2FY0nnyy%2Fpassman-ios?ref=badge_shield)
 
