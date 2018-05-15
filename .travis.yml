@@ -11,6 +11,6 @@ script:
   - npm build
   - npm test
   - npm run build:ios
-  - xcodebuild clean build -project ios/Passman.xcodeproj -configuration Release CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO
+  - xcodebuild -project ios/Passman.xcodeproj -configuration Release -scheme Passman -sdk iphonesimulator ONLY_ACTIVE_ARCH=NO
 # For exporting a enrolled dev-account will be needed therefore archiving makes no sense
 #  - xcodebuild -exportArchive -archivePath ios/build/Passman.xcarchive -exportPath ios/build/Passman -exportFormat ipa
