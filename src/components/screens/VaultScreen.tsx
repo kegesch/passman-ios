@@ -1,11 +1,11 @@
-import VaultStore from '../stores/VaultStore'
+import VaultStore from '../stores/VaultStore';
 import {
 	SettingsList, StyledActivityIndicator,
 	StyledRootView, HeaderView, HeaderButton, TouchableSettingsText
-} from '../StyledComponents'
-import {inject, observer} from 'mobx-react/native'
-import React from 'react'
-import {IVault} from '../../lib/Interfaces'
+} from '../StyledComponents';
+import {inject, observer} from 'mobx-react/native';
+import React from 'react';
+import {IVault} from '../../lib/Interfaces';
 
 interface IVaultScreenProps {
 	style?: string;
@@ -28,7 +28,7 @@ export default class VaultScreen extends React.Component<IVaultScreenProps, {}> 
 
 	render() {
 		let vaultList = null;
-		if(!this.props.vaultStore.isLoading) {
+		if (!this.props.vaultStore.isLoading) {
 			let vaults = this.props.vaultStore.vaults.map((vault) =>
 				<TouchableSettingsText
 					key={vault.guid}
@@ -43,7 +43,7 @@ export default class VaultScreen extends React.Component<IVaultScreenProps, {}> 
 		return (
 			<StyledRootView>
 				<HeaderView>
-					<HeaderButton title={"Close"} onPress={this.props.onClose}/>
+					<HeaderButton title={'Close'} onPress={this.props.onClose}/>
 				</HeaderView>
 				{this.props.vaultStore.isLoading
 					? <StyledActivityIndicator animating={this.props.vaultStore.isLoading}/>

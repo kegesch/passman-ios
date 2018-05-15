@@ -25,7 +25,7 @@ export interface ICredentialFile {
 export interface ICustomField {
 	label: string;
 	value: string;
-	secret: boolean,
+	secret: boolean;
 	field_type: string;
 }
 

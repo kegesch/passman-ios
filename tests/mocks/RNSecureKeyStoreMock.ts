@@ -1,11 +1,5 @@
 export default class RNSecureKeyStoreMock {
 
-	private storageCache;
-
-	constructor(cache = {}) {
-		this.storageCache = cache;
-	}
-
 	set = jest.fn((key, value) => {
 		return new Promise((resolve, reject) => {
 			return (typeof key !== 'string' || typeof value !== 'string')
@@ -30,7 +24,13 @@ export default class RNSecureKeyStoreMock {
 		});
 	});
 
-    clear = jest.fn(() => {
-        return new Promise((resolve,) =>  resolve(this.storageCache = {}));
-    })
+	clear = jest.fn(() => {
+		return new Promise((resolve) =>  resolve(this.storageCache = {}));
+	});
+
+	private storageCache;
+
+	constructor(cache = {}) {
+		this.storageCache = cache;
+	}
 }

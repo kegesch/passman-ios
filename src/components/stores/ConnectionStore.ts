@@ -1,22 +1,22 @@
-import {action, computed, flow, observable} from 'mobx'
-import {IConnection, IStore} from '../../lib/Interfaces'
-import StorageService from '../../lib/services/StorageService'
-import PassmanService from '../../lib/services/PassmanService'
+import {action, computed, flow, observable} from 'mobx';
+import {IConnection, IStore} from '../../lib/Interfaces';
+import StorageService from '../../lib/services/StorageService';
+import PassmanService from '../../lib/services/PassmanService';
 
 export default class ConnectionStore implements IStore {
 
 	@observable connection: IConnection = {
-		url: "",
-		username: "",
-		password: ""
+		url: '',
+		username: '',
+		password: ''
 	};
 
 	@observable isLoading: boolean = false;
 
 	@computed
 	get isConnectionValid() {
-		if(this.connection === null) return false;
-		if(!(this.connection && this.connection.url && this.connection.username && this.connection.password)) {
+		if (this.connection === null) return false;
+		if (!(this.connection && this.connection.url && this.connection.username && this.connection.password)) {
 			return false;
 		}
 
@@ -29,30 +29,6 @@ export default class ConnectionStore implements IStore {
 	@computed
 	get isConnectionSaved() {
 		return (this.connection !== null && this.isConnectionValid);
-	}
-
-	private passmanService: PassmanService;
-
-	constructor(passmanService: PassmanService){
-		this.passmanService = passmanService;
-	}
-
-	async initialize(): Promise<void> {
-		await this.loadConnection();
-	}
-
-	@action("Set partial connection data")
-	setConnectionInfo(key: string, info: string) {
-		if(!(key == 'url' || key == 'username' || key == 'password')) return;
-
-		this.connection[key] = info;
-		this.passmanService.setAuth(this.connection.url, this.connection.username, this.connection.password);
-	}
-
-	@action("Set connection")
-	setConnection(connection: IConnection) {
-		this.connection = connection;
-		this.passmanService.setAuth(connection.url, connection.username, connection.password);
 	}
 
 	loadConnection = flow(function * () {
@@ -84,4 +60,27 @@ export default class ConnectionStore implements IStore {
 		}
 	});
 
+	private passmanService: PassmanService;
+
+	constructor(passmanService: PassmanService) {
+		this.passmanService = passmanService;
+	}
+
+	async initialize(): Promise<void> {
+		await this.loadConnection();
+	}
+
+	@action('Set partial connection data')
+	setConnectionInfo(key: string, info: string) {
+		if (!(key === 'url' || key === 'username' || key === 'password')) return;
+
+		this.connection[key] = info;
+		this.passmanService.setAuth(this.connection.url, this.connection.username, this.connection.password);
+	}
+
+	@action('Set connection')
+	setConnection(connection: IConnection) {
+		this.connection = connection;
+		this.passmanService.setAuth(connection.url, connection.username, connection.password);
+	}
 }

@@ -1,11 +1,5 @@
 export default class MockStorage {
 
-	private storageCache;
-
-	constructor(cache = {}) {
-		this.storageCache = cache;
-	}
-
 	setItem = jest.fn((key, value) => {
 		return new Promise((resolve, reject) => {
 			return (typeof key !== 'string' || typeof value !== 'string')
@@ -31,10 +25,16 @@ export default class MockStorage {
 	});
 
 	clear = jest.fn(() => {
-		return new Promise((resolve,) =>  resolve(this.storageCache = {}));
+		return new Promise((resolve) =>  resolve(this.storageCache = {}));
 	});
 
 	getAllKeys = jest.fn(() => {
-		return new Promise((resolve,) => resolve(Object.keys(this.storageCache)));
+		return new Promise((resolve) => resolve(Object.keys(this.storageCache)));
 	});
+
+	private storageCache;
+
+	constructor(cache = {}) {
+		this.storageCache = cache;
+	}
 }

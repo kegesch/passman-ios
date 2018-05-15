@@ -1,13 +1,11 @@
-import * as React from 'react';
+import React from 'react';
 import {
-	StyledRootView, Header, StyledActivityIndicator, SettingsList, SettingsInput, SettingsListSeparator,
-	SettingsButton, CenteredView, SettingsSwitch
+	StyledRootView, Header, StyledActivityIndicator, SettingsList, SettingsInput, SettingsButton, CenteredView, SettingsSwitch
 } from '../StyledComponents';
 import {INavigationScreenProps} from '../../lib/Interfaces';
 import {inject, observer} from 'mobx-react/native';
 import {Alert} from 'react-native';
-import { NavigationActions } from "react-navigation";
-import MasterPasswordStore from '../stores/MasterPasswordStore'
+import MasterPasswordStore from '../stores/MasterPasswordStore';
 
 interface ISetupMasterPasswordScreenProps extends INavigationScreenProps {
 	style?: string;
@@ -21,12 +19,12 @@ export default class SetupMasterPasswordScreen extends React.Component<ISetupMas
 	static navigationOptions = { header: null };
 
 	async save() {
-		if(this.props.masterPasswordStore.isMasterPasswordValid) {
+		if (this.props.masterPasswordStore.isMasterPasswordValid) {
 			await this.props.masterPasswordStore.save();
-			console.log("MasterPassword was saved successfully.");
+			console.log('MasterPassword was saved successfully.');
 			this.navigateFurther();
 		} else {
-			Alert.alert("Passwords are not equal or could not be saved! Try again!");
+			Alert.alert('Passwords are not equal or could not be saved! Try again!');
 		}
 	}
 
@@ -36,12 +34,12 @@ export default class SetupMasterPasswordScreen extends React.Component<ISetupMas
 
 	render() {
 		let biometricsSwitch = null;
-		if(this.props.masterPasswordStore.supportedBiometrics) {
+		if (this.props.masterPasswordStore.supportedBiometrics) {
 			biometricsSwitch = <SettingsSwitch
 					label={this.props.masterPasswordStore.supportedBiometrics}
 					value={this.props.masterPasswordStore.activateBiometrics}
 					onValueChange={(value) => this.props.masterPasswordStore.setBiometricsActivation(value)}
-				/>
+				/>;
 		}
 
 		const settingsPassword =
@@ -70,7 +68,7 @@ export default class SetupMasterPasswordScreen extends React.Component<ISetupMas
 					onChangeText={(pw) => this.props.masterPasswordStore.setMasterPasswordAgain(pw)}
 				/>
 				{biometricsSwitch}
-			</SettingsList>
+			</SettingsList>;
 
 		const loading = <StyledActivityIndicator animating={this.props.masterPasswordStore.isLoading}/>;
 
@@ -82,7 +80,7 @@ export default class SetupMasterPasswordScreen extends React.Component<ISetupMas
 					: settingsPassword
 				}
 			</StyledRootView>
-		)
+		);
 	}
 
 }

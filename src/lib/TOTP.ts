@@ -1,6 +1,35 @@
-import jsSHA from 'jssha'
+import JsSHA from 'jssha';
 
 export default class TOTP {
+
+	/**
+	 * Calculates the OTP from secret to the current time.
+	 * @param secret
+	 * @returns {string}
+	 */
+	public static getOTP(secret): string {
+		try {
+
+			const epoch = Math.round(new Date().getTime() / 1000.0);
+			const time = this.leftpad(this.dec2hex(Math.floor(epoch / 30)), 16, '0');
+
+			const shaObj = new JsSHA('SHA-1', 'HEX');
+			shaObj.setHMACKey(this.base32tohex(secret), 'HEX');
+			shaObj.update(time);
+
+			const hmac = shaObj.getHMAC('HEX');
+
+			const offset = this.hex2dec(hmac.substring(hmac.length - 1));
+
+			let otp = (TOTP.hex2dec(hmac.substr(offset * 2, 8)) & this.hex2dec('7fffffff')) + '';
+			otp = (otp).substr(otp.length - 6, 6);
+
+			return otp;
+
+		} catch (err) {
+			throw new Error('One-Time-Password could not be calcualted: ' + err);
+		}
+	}
 
 	private static dec2hex(dec): string {
 		return (dec < 15.5 ? '0' : '') + Math.round(dec).toString(16);
@@ -23,7 +52,7 @@ export default class TOTP {
 		let hex: string = '';
 
 		for (let i = 0; i < base32.length; i++) {
-			const val = base32chars.indexOf(base32.charAt(i).toUpperCase())
+			const val = base32chars.indexOf(base32.charAt(i).toUpperCase());
 			bits += this.leftpad(val.toString(2), 5, '0');
 		}
 
@@ -33,34 +62,5 @@ export default class TOTP {
 		}
 
 		return hex;
-	}
-
-	/**
-	 * Calculates the OTP from secret to the current time.
-	 * @param secret
-	 * @returns {string}
-	 */
-	public static getOTP(secret): string {
-		try {
-
-			const epoch = Math.round(new Date().getTime() / 1000.0);
-			const time = this.leftpad(this.dec2hex(Math.floor(epoch / 30)), 16, '0');
-
-			const shaObj = new jsSHA('SHA-1', 'HEX');
-			shaObj.setHMACKey(this.base32tohex(secret), 'HEX');
-			shaObj.update(time)
-
-			const hmac = shaObj.getHMAC('HEX');
-
-			const offset = this.hex2dec(hmac.substring(hmac.length - 1));
-
-			let otp = (TOTP.hex2dec(hmac.substr(offset * 2, 8)) & this.hex2dec('7fffffff')) + '';
-			otp = (otp).substr(otp.length - 6, 6);
-
-			return otp;
-
-		} catch (err) {
-			throw new Error("One-Time-Password could not be calcualted: " + err);
-		}
 	}
 }

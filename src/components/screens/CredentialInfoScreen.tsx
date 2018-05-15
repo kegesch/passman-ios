@@ -2,28 +2,25 @@ import React from 'react';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import {
 	Text,
-	View,
 	StatusBar,
-	Image,
 	ScrollView,
 	TouchableHighlight} from 'react-native';
-import TOTP from '../../lib/TOTP'
-import {ICredential, INavigationScreenProps} from '../../lib/Interfaces'
-import DefaultColors from '../DefaultColors'
+import TOTP from '../../lib/TOTP';
+import {ICredential, INavigationScreenProps} from '../../lib/Interfaces';
+import DefaultColors from '../DefaultColors';
 import {
-    CredentialFavicon,
-    CredentialInfo,
-    CredentialInfoFavicon,
-    CredentialInfoItem,
-    InlineView,
-    StyledRootView
-} from '../StyledComponents'
-import CredentialsStore from '../stores/CredentialsStore'
-import {inject, observer} from 'mobx-react/native'
-import {LabelContent} from '../CredentialValue'
+	CredentialInfo,
+	CredentialInfoFavicon,
+	CredentialInfoItem,
+	InlineView,
+	StyledRootView
+} from '../StyledComponents';
+import CredentialsStore from '../stores/CredentialsStore';
+import {inject, observer} from 'mobx-react/native';
+import {LabelContent} from '../CredentialValue';
 
-interface ICredentialInfoScreenProps extends INavigationScreenProps{
-	credentialsStore: CredentialsStore
+interface ICredentialInfoScreenProps extends INavigationScreenProps {
+	credentialsStore: CredentialsStore;
 }
 
 interface ICredentialInfoScreenState {
@@ -31,14 +28,14 @@ interface ICredentialInfoScreenState {
 	otpTimer?: number;
 }
 
-@inject("credentialsStore")
+@inject('credentialsStore')
 @observer
 export default class CredentialInfoScreen extends React.Component<ICredentialInfoScreenProps, ICredentialInfoScreenState> {
 
 	private interval;
 
-	static navigationOptions = ({navigation}) => {return {
-		title: "",
+	static navigationOptions = ({navigation}) => { return {
+		title: '',
 		headerTitleStyle: {
 			color: DefaultColors.white
 		},
@@ -50,7 +47,7 @@ export default class CredentialInfoScreen extends React.Component<ICredentialInf
 		tabBarIcon: ({tintColor}) => ((
 			<Text style={{color: tintColor, fontSize: 24}}><FontAwesome>{Icons.key}</FontAwesome></Text>)),
 		headerLeft:
-			<TouchableHighlight underlayColor={"transparent"} onPress={() => navigation.goBack()}>
+			<TouchableHighlight underlayColor={'transparent'} onPress={() => navigation.goBack()}>
 				<Text style={{
 					color: DefaultColors.white,
 					padding: 0,
@@ -59,27 +56,27 @@ export default class CredentialInfoScreen extends React.Component<ICredentialInf
 				}}><FontAwesome>{Icons.angleLeft}</FontAwesome></Text>
 			</TouchableHighlight>
 
-		}
-	};
+		};
+	}
 
 	componentWillMount() {
 		const credential: ICredential = this.props.credentialsStore.selectedCredential;
-		if(!credential) this.props.navigation.goBack();
+		if (!credential) this.props.navigation.goBack();
 
-		if(credential.otp.secret != undefined) {
-			this.updateOTP(credential.otp.secret)
+		if (credential.otp.secret != undefined) {
+			this.updateOTP(credential.otp.secret);
 			this.calculateRemainingOTPTime();
-			this.interval = setInterval(() => {this.otpTimer(credential.otp.secret)}, 1000);
+			this.interval = setInterval(() => {this.otpTimer(credential.otp.secret); }, 1000);
 		}
 	}
 
 	componentWillUnmount() {
-		if(this.interval != null) clearInterval(this.interval);
+		if (this.interval != undefined) clearInterval(this.interval);
 	}
 
 	updateOTP(otpSecret: string) {
-		const otp = TOTP.getOTP(otpSecret)
-		this.setState({otp: otp})
+		const otp = TOTP.getOTP(otpSecret);
+		this.setState({otp: otp});
 	}
 
 	calculateRemainingOTPTime(): number {
@@ -92,7 +89,7 @@ export default class CredentialInfoScreen extends React.Component<ICredentialInf
 	otpTimer(otpSecret: string) {
 		this.calculateRemainingOTPTime();
 		const epoch = Math.round(new Date().getTime() / 1000.0);
-		if (epoch % 30 == 0) this.updateOTP(otpSecret);
+		if (epoch % 30 === 0) this.updateOTP(otpSecret);
 	}
 
 	render() {
@@ -112,22 +109,25 @@ export default class CredentialInfoScreen extends React.Component<ICredentialInf
 				<ScrollView>
 				<CredentialInfoItem noPadding>
 					<InlineView>
-					<CredentialInfoFavicon size={38} resizeMode={"stretch"} source={{uri: "https://passmanfavicon.herokuapp.com/icon?url="+credential.url+"&size=20..38..200"}} />
-					<LabelContent label={"Label"} value={credential.label} editing={false}/>
+					<CredentialInfoFavicon
+						size={38}
+						resizeMode={'stretch'}
+						source={{uri: 'https://passmanfavicon.herokuapp.com/icon?url=' + credential.url + '&size=20..38..200'}} />
+					<LabelContent label={'Label'} value={credential.label} editing={false}/>
 					</InlineView>
 				</CredentialInfoItem>
 				{
 					(credential.username && credential.password ?
 						<CredentialInfoItem noPadding>
-							<LabelContent label={"Username"} value={credential.username} copy />
-							<LabelContent label={"Password"} value={credential.password} secure copy />
+							<LabelContent label={'Username'} value={credential.username} copy />
+							<LabelContent label={'Password'} value={credential.password} secure copy />
 						</CredentialInfoItem>
 					: null)
 				}
 				{
 					(credential.email ?
 							<CredentialInfoItem noPadding>
-								<LabelContent label={"E-Mail"} value={credential.email} copy />
+								<LabelContent label={'E-Mail'} value={credential.email} copy />
 							</CredentialInfoItem>
 					: null
 					)
@@ -135,7 +135,7 @@ export default class CredentialInfoScreen extends React.Component<ICredentialInf
 				{
 					(credential.url ?
 							<CredentialInfoItem noPadding>
-								<LabelContent label={"URL"} value={credential.url} copy link />
+								<LabelContent label={'URL'} value={credential.url} copy link />
 							</CredentialInfoItem>
 					: null
 					)
@@ -143,7 +143,7 @@ export default class CredentialInfoScreen extends React.Component<ICredentialInf
 				{
 					(credential.description ?
 						<CredentialInfoItem noPadding>
-							<LabelContent label={"Description"} value={credential.description} />
+							<LabelContent label={'Description'} value={credential.description} />
 						</CredentialInfoItem>
 					: null
 					)
@@ -151,7 +151,7 @@ export default class CredentialInfoScreen extends React.Component<ICredentialInf
 				{
 					(credential.otp.secret != undefined ?
 						<CredentialInfoItem noPadding>
-							<LabelContent label={"One-Time-Password"} value={this.state.otp+" "+this.state.otpTimer+"s"} />
+							<LabelContent label={'One-Time-Password'} value={this.state.otp + ' ' + this.state.otpTimer + 's'} />
 						</CredentialInfoItem>
 					: null)
 				}
@@ -162,7 +162,7 @@ export default class CredentialInfoScreen extends React.Component<ICredentialInf
 				/>
 				</ScrollView>
 			</StyledRootView>
-		)
+		);
 
 	}
 }

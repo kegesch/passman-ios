@@ -1,6 +1,6 @@
 import RNSecureKeyStore from 'react-native-secure-key-store';
-import {IConnection, ISettings} from '../Interfaces'
-import {AsyncStorage} from 'react-native'
+import {IConnection, ISettings} from '../Interfaces';
+import {AsyncStorage} from 'react-native';
 
 export default class StorageService {
 
@@ -17,12 +17,12 @@ export default class StorageService {
 	}
 
 	public static async loadMasterPassword(): Promise<string> {
-		let masterPassword = null;
+		let masterPassword = undefined;
 
 		try {
 			masterPassword = await RNSecureKeyStore.get(StorageService.MP_KEY);
-		} catch(err) {
-			throw new Error("Could not fetch masterpassword from secure storage: " + err);
+		} catch (err) {
+			throw new Error('Could not fetch masterpassword from secure storage: ' + err);
 		}
 
 		return masterPassword;
@@ -31,8 +31,8 @@ export default class StorageService {
 	public static async saveMasterPassword(masterPassword: string): Promise<void> {
 		try {
 			await RNSecureKeyStore.set(StorageService.MP_KEY, masterPassword);
-		} catch(err) {
-			throw new Error("Could not save masterpassword to secure storage: " + err);
+		} catch (err) {
+			throw new Error('Could not save masterpassword to secure storage: ' + err);
 		}
 	}
 
@@ -53,8 +53,8 @@ export default class StorageService {
 	public static async saveObjectSecure<T>(key: string, object: T): Promise<void> {
 		try {
 			await RNSecureKeyStore.set(key, JSON.stringify(object));
-		} catch(err) {
-			throw new Error("Could not save "+key+" to secure storage: " + err);
+		} catch (err) {
+			throw new Error('Could not save ' + key + ' to secure storage: ' + err);
 		}
 	}
 
@@ -64,13 +64,13 @@ export default class StorageService {
 	 * @returns {Promise<T>}
 	 */
 	public static async loadObjectSecure<T>(key: string): Promise<T> {
-		let object: T = null;
+		let object: T = undefined;
 
 		try {
 			const objectString = await RNSecureKeyStore.get(key);
 			object = JSON.parse(objectString);
-		} catch(err) {
-			throw new Error("Could not load "+key+" from secure storage: " + err);
+		} catch (err) {
+			throw new Error('Could not load ' + key + ' from secure storage: ' + err);
 		}
 
 		return object;
@@ -85,8 +85,8 @@ export default class StorageService {
 	public static async saveObject<T>(key: string, object: T): Promise<void> {
 		try {
 			await AsyncStorage.setItem(key, JSON.stringify(object));
-		} catch(err) {
-			throw new Error("Could not save "+key+" to storage: " + err);
+		} catch (err) {
+			throw new Error('Could not save ' + key + ' to storage: ' + err);
 		}
 	}
 
@@ -96,12 +96,12 @@ export default class StorageService {
 	 * @returns {Promise<T>}
 	 */
 	public static async loadObject<T>(key: string): Promise<T> {
-		let object: T = null;
+		let object: T = undefined;
 		try {
 			const objectString = await AsyncStorage.getItem(key);
 			object = JSON.parse(objectString);
-		} catch(err) {
-			throw new Error("Could not load "+key+" from storage: " + err);
+		} catch (err) {
+			throw new Error('Could not load ' + key + ' from storage: ' + err);
 		}
 
 		return object;

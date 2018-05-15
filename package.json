@@ -7,7 +7,8 @@
     "ios": "node node_modules/react-native/local-cli/cli.js run-ios",
     "test": "jest",
     "build:ios": "react-native bundle --entry-file='index.js' --bundle-output='./ios/Passman/main.jsbundle' --dev=false --platform='ios' --assets-dest='./ios'",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "lint": "tslint -p ./"
   },
   "dependencies": {
     "jssha": "^2.3.1",
@@ -38,6 +39,7 @@
     "react-native-typescript-transformer": "^1.2.5",
     "react-test-renderer": "16.3.1",
     "ts-jest": "^22.4.6",
+    "tslint": "^5.10.0",
     "typescript": "^2.8.3"
   },
   "jest": {

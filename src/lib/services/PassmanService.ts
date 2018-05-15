@@ -1,13 +1,13 @@
-import Base64 from '../Base64'
-import {ICredential, IVault} from '../Interfaces'
+import Base64 from '../Base64';
+import {ICredential, IVault} from '../Interfaces';
 
 export default class PassmanService {
 
 	// Endpoints
 	public PASSMAN_APP_URI = 'index.php/apps/passman/api/v2/';
 	private VAULTS_URI = 'vaults';
-	private CREDENTIALS_URI = 'credentials'
-	private SETTINGS_URI = 'settings'
+	private CREDENTIALS_URI = 'credentials';
+	private SETTINGS_URI = 'settings';
 
 	private username: string;
 	private password: string;
@@ -19,7 +19,7 @@ export default class PassmanService {
 		this.password = password;
 	}
 
-	public async fetchVaults() : Promise<IVault[]> {
+	public async fetchVaults(): Promise<IVault[]> {
 		const url = this.url + '/' + this.PASSMAN_APP_URI + this.VAULTS_URI;
 		try {
 			const response = await fetch(url, {
@@ -32,8 +32,8 @@ export default class PassmanService {
 				}
 			});
 			return await response.json();
-		} catch(err) {
-			console.log("Could not fetch Vaults from Passman API ("+url+")", err);
+		} catch (err) {
+			console.log('Could not fetch Vaults from Passman API (' + url + ')', err);
 			return [];
 		}
 	}
@@ -52,14 +52,14 @@ export default class PassmanService {
 			const json = await response.json();
 			const credentials = await json.credentials;
 			return this.filterCredentials(credentials);
-		} catch(err) {
-			console.log("Could not fetch Credentials for Vault " + vaultGuid + ":", err);
+		} catch (err) {
+			console.log('Could not fetch Credentials for Vault ' + vaultGuid + ':', err);
 			return [];
 		}
 	}
 
 	public async pushCredential(credential: ICredential): Promise<void> {
-		if(credential.vault_id === null || credential.label === null) throw new Error("Creating credential: vault_id and label are required!" );
+		if (credential.vault_id === null || credential.label === null) throw new Error('Creating credential: vault_id and label are required!' );
 
 		const response = await fetch(this.url + '/' + this.PASSMAN_APP_URI + this.CREDENTIALS_URI, {
 			method: 'POST',
@@ -68,14 +68,14 @@ export default class PassmanService {
 				'Cache-Control': 'no-cache',
 				'Authorization': 'Basic ' + Base64.btoa(this.username + ':' + this.password)
 			},
-			body: JSON.stringify(credential),
+			body: JSON.stringify(credential)
 		});
 
 		return await response.json();
 	}
 
 	public async checkAuth(): Promise<boolean> {
-		const url = this.url + "/" + this.PASSMAN_APP_URI  + this.SETTINGS_URI;
+		const url = this.url + '/' + this.PASSMAN_APP_URI  + this.SETTINGS_URI;
 		try {
 			const response = await fetch(url, {
 				method: 'GET',
@@ -83,12 +83,12 @@ export default class PassmanService {
 					'Accept': 'application/json',
 					'Content-Type': 'application/json',
 					'Cache-Control': 'no-cache',
-					'Authorization': 'Basic ' + Base64.btoa(this.username + ":" + this.password)
+					'Authorization': 'Basic ' + Base64.btoa(this.username + ':' + this.password)
 				}
 			});
 			return (response.status === 200);
-		} catch(e) {
-			console.log("Failed to fetch from " + url +":" + e);
+		} catch (e) {
+			console.log('Failed to fetch from ' + url + ':' + e);
 			return false;
 		}
 	}
@@ -96,7 +96,7 @@ export default class PassmanService {
 	private filterCredentials(credentials: ICredential[]): ICredential[] {
 		return credentials.filter((credential: ICredential) => {
 			const date = new Date();
-			const zeroDate = new Date(0 * 1000);
+			const zeroDate = new Date(0);
 
 			const deleteTime = new Date(credential.delete_time * 1000);
 			const expireTime = new Date(credential.expire_time * 1000);

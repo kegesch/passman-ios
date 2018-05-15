@@ -1,10 +1,10 @@
-import {Clipboard, Linking} from 'react-native'
-import React from 'react'
-import {LabelValue} from './StyledComponents'
+import {Clipboard, Linking} from 'react-native';
+import React from 'react';
+import {LabelValue} from './StyledComponents';
 import PopoverTooltip from 'react-native-popover-tooltip';
 
 interface ILabelContentProps {
-	secure?: boolean
+	secure?: boolean;
 	value: string;
 	label: string;
 	copy?: boolean;
@@ -20,44 +20,43 @@ export class LabelContent extends React.Component<ILabelContentProps, ILabelCont
 
 	constructor(props) {
 		super(props);
-		this.state = {}
+		this.state = {};
 	}
 
 	showValue() {
 		this.setState(previousState => {
-			return {secured: !previousState.secured}
-		})
+			return {secured: !previousState.secured};
+		});
 	}
 	copyValue() {
-		Clipboard.setString(this.props.value)
+		Clipboard.setString(this.props.value);
 	}
 
 	async openLink(url) {
 		try {
-			if(Linking.canOpenURL(url))
+			if (Linking.canOpenURL(url))
 			await Linking.openURL(url);
-		}
-		catch(err) {
+		} catch (err) {
 			console.error('Could not link to url', err);
 		}
 	}
 
 	componentDidMount() {
-		if(this.props.secure) this.setState({secured: true})
+		if (this.props.secure) this.setState({secured: true});
 	}
 
 	render() {
-		if(this.props.value) {
-			const value = (this.state.secured ? "***************" : this.props.value);
+		if (this.props.value) {
+			const value = (this.state.secured ? '***************' : this.props.value);
 
 			const actions = [];
-			if(this.props.secure) actions.push({label: (this.state.secured ? 'show' : 'hide'), onPress: () => {this.showValue()}});
-			if(this.props.copy) actions.push({label: 'copy', onPress: () => {this.copyValue()}});
-			if(this.props.link) actions.push({label: 'open', onPress: () => {this.openLink(value)}});
+			if (this.props.secure) actions.push({label: (this.state.secured ? 'show' : 'hide'), onPress: () => {this.showValue(); }});
+			if (this.props.copy) actions.push({label: 'copy', onPress: () => {this.copyValue(); }});
+			if (this.props.link) actions.push({label: 'open', onPress: () => {this.openLink(value); }});
 
 			const item = <LabelValue value={value} label={this.props.label}/>;
 
-			if(actions.length == 0) {
+			if (actions.length === 0) {
 				return item;
 			} else {
 				return (
@@ -68,11 +67,11 @@ export class LabelContent extends React.Component<ILabelContentProps, ILabelCont
 						}
 						items={actions}
 					/>
-				)
+				);
 			}
 
 		} else {
-			return null
+			return null;
 		}
 	}
 }
