@@ -36,14 +36,14 @@ export default class VaultKeyScreen extends React.Component<IVaultKeyScreenProps
 	render() {
 
 		const settingsList = (
-			<SettingsList scrollable
-                        info={'Please enter the valid key for vault "' + this.props.vaultStore.selectedVault.name +
-                        '". When the option "save" will be enabled, the vaultkey will be stored securely on your device!'}>
+		<SettingsList scrollable
+						info={'Please enter the valid key for vault "' + this.props.vaultStore.selectedVault.name +
+						'". When the option "save" will be enabled, the vaultkey will be stored securely on your device!'}>
 				<SettingsInput label={'Key'}
-                    secureTextEntry
-                    placeholder={'password'}
-                    returnKeyType={'done'}
-                    onChangeText={(value) => this.props.vaultStore.editVaultKey(value)}
+					secureTextEntry
+					placeholder={'password'}
+					returnKeyType={'done'}
+					onChangeText={(value) => this.props.vaultStore.editVaultKey(value)}
 				/>
 				<SettingsSwitch
 					label={'Save'}

@@ -10,21 +10,7 @@ export default class CredentialsStore implements IStore {
 	@observable credentials: ICredential[] = [];
 	@observable selectedCredential: ICredential = null;
 
-	loadCredentials = flow(function * () {
-		let vault: IVault = this.vaultStore.selectedVault;
-		this.isLoading = true;
-		try {
-			if (!vault) throw new Error('no selected vault');
-			console.log('Fetching credentials for vault', vault.name);
-			this.credentials = yield this.passmanService.fetchCredentialsForVault(vault.guid);
-			this.credentials = this.decryptAll(this.credentials);
-		} catch (err) {
-			console.log('Error in fetching credentials', err);
-			this.credentials = [];
-		} finally {
-			this.isLoading = false;
-		}
-	});
+	loadCredentials = flow(this.loadCredentialsAsync);
 
 	private passmanService: PassmanService;
 	private vaultStore: VaultStore;
@@ -55,5 +41,24 @@ export default class CredentialsStore implements IStore {
 			}
 		}
 		return credentials;
+	}
+
+	* loadCredentialsAsync() {
+		let vault: IVault = this.vaultStore.selectedVault;
+
+		this.isLoading = true;
+
+		try {
+			if (!vault) throw new Error('no selected vault');
+
+			console.log('Fetching credentials for vault', vault.name);
+			this.credentials = yield this.passmanService.fetchCredentialsForVault(vault.guid);
+			this.credentials = this.decryptAll(this.credentials);
+		} catch (err) {
+			console.log('Error in fetching credentials', err);
+			this.credentials = [];
+		} finally {
+			this.isLoading = false;
+		}
 	}
 }
