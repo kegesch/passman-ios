@@ -26,7 +26,7 @@ export default class BiometricService {
 			return await Biometrics.isSupported();
 		} catch (err) {
 			console.log('Error in loading supported Biometrics: ', err);
-			return undefined;
+			return null;
 		}
 	}
 

@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import {Alert} from 'react-native';
 import ConnectionStore from '../stores/ConnectionStore';
 import {
-	StyledRootView, CenteredView, SettingsList, SettingsInput,
-	SettingsButton, StyledActivityIndicator, Header
+	StyledRootView, CenteredView, List, ListInput,
+	ListButton, StyledActivityIndicator, Header
 } from '../StyledComponents';
 import {inject, observer} from 'mobx-react/native';
 import {INavigationScreenProps} from '../../lib/Interfaces';
@@ -59,38 +59,38 @@ export default class LoginScreen extends Component<ILoginScreenProps, {}> {
 		const loading = <StyledActivityIndicator animating={this.props.connectionStore.isLoading}/>;
 
 		const connectionSettings =
-			<SettingsList
+			<List
 				scrollable
 				button={
 					<CenteredView>
-						<SettingsButton
+						<ListButton
 							title="Next"
 							onPress={() => this.saveLoginData()}
 						/>
 					</CenteredView>
 				}
 			>
-				<SettingsInput
+				<ListInput
 					label="Address"
 					placeholder="https://next.cloud.com"
 					keyboardType="url"
 					returnKeyType="next"
 					onChangeText={(url) => this.props.connectionStore.setConnectionInfo('url', url)}
 				/>
-				<SettingsInput
+				<ListInput
 					label="Username"
 					placeholder="John Appleseed"
 					returnKeyType="next"
 					onChangeText={(username) => this.props.connectionStore.setConnectionInfo('username', username)}
 				/>
-				<SettingsInput
+				<ListInput
 					secureTextEntry
 					label="Password"
 					placeholder="password"
 					returnKeyType="done"
 					onChangeText={(password) => this.props.connectionStore.setConnectionInfo('password', password)}
 				/>
-			</SettingsList>;
+			</List>;
 
 		return (
 			<StyledRootView>

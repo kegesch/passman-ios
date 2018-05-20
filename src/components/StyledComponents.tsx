@@ -10,11 +10,12 @@ import {
 	StatusBar,
 	Image,
 	Switch,
-	TouchableHighlightProps, ImageProps, TextInputProps, ViewProps, ButtonProps, SwitchProps, TextProps
+	TouchableHighlightProps, ImageProps, TextInputProps, ViewProps, ButtonProps, SwitchProps, TextProps, TouchableHighlightComponent
 } from 'react-native';
 import DefaultColors from './DefaultColors';
 import React from 'react';
 import {joinElements} from './JoinChildren';
+import FontAwesome, { Icons } from 'react-native-fontawesome';
 
 export const StyledRootView = styled(View)`
 	background-color: ${DefaultColors.appleGrey};
@@ -55,7 +56,7 @@ export const HeaderButton = (props: ButtonProps) => {
 	</TouchableHighlight>);
 };
 
-export const SettingsListSeparator = styled(View)`
+export const ListSeparator = styled(View)`
 	height: 1px;
 	margin-left: 15px;
 	background-color: ${DefaultColors.lightGrey};
@@ -68,7 +69,7 @@ export const CredentialsListHeaderSeparator = styled(View)`
 	align-self: stretch;
 `;
 
-const StyledSettingsView = styled(View)`
+const StyledListView = styled(View)`
 	align-self: stretch;
 	border-color: ${DefaultColors.lightGrey};
 	border-width: 0px;
@@ -125,32 +126,33 @@ export const CredentialInfoText = styled(Text)`
 	color: ${DefaultColors.grey};
 `;
 
-export const SettingsInfoText = styled(View)`
+export const ListInfoText = styled(View)`
 	padding: 10px 18px 10px 18px;
 `;
 
-interface ISettingsListProps extends ViewProps {
+interface IListProps extends ViewProps {
 	children?: any;
 	button?: any;
 	scrollable?: boolean;
 	info?: string;
 	noPadding?: boolean;
+	separatorComponent?: any;
 }
 
-export const SettingsList = (props: ISettingsListProps) => {
+export const List = (props: IListProps) => {
 	const info =
 		(props.info
-			? 	<SettingsInfoText>
+			? 	<ListInfoText>
 					<CredentialInfoText>{props.info}</CredentialInfoText>
-				</SettingsInfoText>
+				</ListInfoText>
 			: (props.noPadding
 				? null
 				: <PaddedView/>));
 
 	const view =
-		<StyledSettingsView style={props.style}>
-			{joinElements(props.children, SettingsListSeparator)}
-		</StyledSettingsView>;
+		<StyledListView style={props.style}>
+			{joinElements(props.children, props.separatorComponent || ListSeparator)}
+		</StyledListView>;
 
 	if (props.scrollable) {
 		return <StyledScrollView>
@@ -167,7 +169,7 @@ export const SettingsList = (props: ISettingsListProps) => {
 	}
 };
 
-const SettingsLabel = styled(Text)`
+const ListLabel = styled(Text)`
 	padding: 13px;
 	padding-left: 15px;
 	min-width: 100px;
@@ -176,7 +178,7 @@ const SettingsLabel = styled(Text)`
 	font-size: 16px;
 `;
 
-const SettingsTextInput = styled(TextInput)`
+const ListTextInput = styled(TextInput)`
 	padding: 13px;
 	font-size: 16px;
 	flex: 2;
@@ -184,38 +186,38 @@ const SettingsTextInput = styled(TextInput)`
 	color: ${DefaultColors.darkGrey};
 `;
 
-const StyledSettingsRowView = styled(View)`
+const StyledListRowView = styled(View)`
 	flex: 1;
 	flex-direction: row;
 	background-color: transparent;
-	height: 46px;
+	min-height: 46px;
 	align-items: flex-end;
 `;
 
-interface ISettingsRowProps extends ViewProps {
+interface IListRowProps extends ViewProps {
 	label: string;
 	right: any;
 }
 
-export const StyledSettingsRow = (props: ISettingsRowProps) => {
+export const StyledListRow = (props: IListRowProps) => {
 	return (
-		<StyledSettingsRowView>
-			<SettingsLabel>
+		<StyledListRowView>
+			<ListLabel>
 				{props.label}
-			</SettingsLabel>
+			</ListLabel>
 			{props.right}
-		</StyledSettingsRowView>
+		</StyledListRowView>
 	);
 };
 
-interface ISettingsInputProps extends TextInputProps {
+interface IListInputProps extends TextInputProps {
 	label: string;
 }
 
-export const SettingsInput = (props: ISettingsInputProps) => {
+export const ListInput = (props: IListInputProps) => {
 	return (
-		<StyledSettingsRow label={props.label} right={
-			<SettingsTextInput
+		<StyledListRow label={props.label} right={
+			<ListTextInput
 				autoCorrect={false}
 				autoCapitalize={'none'}
 				{...props}
@@ -231,13 +233,13 @@ export const RightSwitch = styled(Switch)`
 	margin-right: 15px;
 `;
 
-interface ISettingsSwitch extends SwitchProps {
+interface IListSwitch extends SwitchProps {
 	label: string;
 }
 
-export const SettingsSwitch = (props: ISettingsSwitch) => {
+export const ListSwitch = (props: IListSwitch) => {
 	return (
-		<StyledSettingsRow label={props.label} right={
+		<StyledListRow label={props.label} right={
 			<RightSwitch
 				{...props}
 			/>
@@ -252,7 +254,7 @@ interface IHighlightedTextProps extends TextProps {
 
 const HighlightedText = (props: IHighlightedTextProps) => <Text {...props} />;
 
-const SettingsTextItem = styledTS<IHighlightedTextProps>(styled(HighlightedText))`
+const ListTextItem = styledTS<IHighlightedTextProps>(styled(HighlightedText))`
 	padding: 13px;
 	font-size: 16px;
 	flex: 2;
@@ -260,38 +262,38 @@ const SettingsTextItem = styledTS<IHighlightedTextProps>(styled(HighlightedText)
 	color: ${props => props.highlighted ? DefaultColors.blue : DefaultColors.darkGrey};
 `;
 
-interface ISettingsText {
+interface IListTextProps {
 	highlighted: boolean;
 	text: string;
 }
 
-export const SettingsText = (props: ISettingsText) => {
+export const ListText = (props: IListTextProps) => {
 	return (
-		<StyledSettingsRow label={'«'} right={
-			<SettingsTextItem highlighted={props.highlighted}>{props.text}</SettingsTextItem>
+		<StyledListRow label={'«'} right={
+			<ListTextItem highlighted={props.highlighted}>{props.text}</ListTextItem>
 		} />
 	);
 };
 
-interface ITouchableSettingsText extends ISettingsText, TouchableHighlightProps {
+interface ITouchableListText extends IListTextProps, TouchableHighlightProps {
 
 }
 
-export const TouchableSettingsText = (props: ITouchableSettingsText) => {
+export const TouchableListText = (props: ITouchableListText) => {
 	return (
 		<TouchableHighlight underlayColor={'transparent'} {...props}>
 			<View>
-				<SettingsText text={props.text} highlighted={props.highlighted}/>
+				<ListText text={props.text} highlighted={props.highlighted}/>
 			</View>
 		</TouchableHighlight>
 	);
 };
 
-interface ISettingsButtonProps extends TouchableHighlightProps {
+interface IListButtonProps extends TouchableHighlightProps {
 	title: string;
 }
 
-const SettingsButtonView = styled(View)`
+const ListButtonView = styled(View)`
 	min-height: 40px;
 	background-color: ${DefaultColors.blue};
 	border-radius: 5px;
@@ -303,19 +305,19 @@ const SettingsButtonView = styled(View)`
 	width: 350px;
 `;
 
-const SettingsButtonText = styled(Text)`
+const ListButtonText = styled(Text)`
 	color: ${DefaultColors.white};
 	font-weight: bold;
 `;
 
-export const SettingsButton = (props: ISettingsButtonProps) => {
+export const ListButton = (props: IListButtonProps) => {
 	return (
 		<TouchableHighlight underlayColor={'transparent'} {...props}>
-			<SettingsButtonView>
-				<SettingsButtonText>
+			<ListButtonView>
+				<ListButtonText>
 					{props.title}
-				</SettingsButtonText>
-			</SettingsButtonView>
+				</ListButtonText>
+			</ListButtonView>
 		</TouchableHighlight>	);
 };
 
@@ -332,22 +334,21 @@ export const StyledActivityIndicator = styled(ActivityIndicator)`
 
 interface ITitleItemProps {
 	title: string;
-	subTitle: string;
+	subTitle?: string;
 }
 
-const TitleText = styled(Text)`
-	padding-left: 10px;
-`;
+const TitleText = styled(Text)``;
 
 const SubTitleText = styled(Text)`
 	color: ${DefaultColors.darkGrey};
 	font-size: 10;
-	padding-left: 10px;
 `;
 
 const TitleItemView = styled(View)`
-	padding-left: 10px;
+	margin-left: 18px;
 	padding-right 18px;
+	justify-content: center;
+	flex: 1;
 `;
 
 export const TitleItem = (props: ITitleItemProps) => {
@@ -455,6 +456,7 @@ const CredentialInfoView = styled(View)`
 	margin-bottom: 20px;
 	align-items: center;
 	justify-content: center;
+	margin-top: 18px;
 `;
 
 export const CredentialInfo = (props: ICredentialInfoProps) => {
@@ -466,8 +468,8 @@ export const CredentialInfo = (props: ICredentialInfoProps) => {
 	);
 };
 
-export const CredentialInfoItem = styled(SettingsList)`
-	margin-bottom: 15px;
+export const CredentialInfoItem = styled(List)`
+	margin-top: 15px;
 `;
 
 const CredentialInfoFaviconView = styled(View)`
@@ -481,3 +483,75 @@ export const CredentialInfoFavicon = (props: ICredentialFaviconProps) => {
 		<Image style={{width: props.size, height: props.size}} source={props.source} />;
 	</CredentialInfoFaviconView>;
 };
+
+const SettingsListItemIconView = styled(View)`
+	width: 30px;
+	height: 46px;
+	justify-content: center;
+	align-items: center;
+	margin-right: 18px
+	margin-left: 18px;
+`;
+
+export const IconText = styled(Text)`
+	padding: 0px;
+	margin: 0px;
+	font-size: 30px;
+	width: 30px;
+	height: 30px;
+`;
+
+const SettingsListTextView = styled(View)`
+	justify-content: center;
+	flex: 2;
+`;
+
+const SettingsListItemArrowView = styled(View)`
+	width: 30px;
+	height: 46px;
+	justify-content: center;
+	align-items: center;
+	margin-left: 18px;
+`;
+
+const SettingsListItemArrow = styled(IconText)`
+	font-size: 35px;
+	height: 35px;
+	width: 35px;
+`;
+
+const SettingsListText = (props: ITitleItemProps) => {
+	return (
+		<SettingsListTextView>
+			<TitleText>{props.title}</TitleText>
+			<SubTitleText>{props.subTitle}</SubTitleText>
+		</SettingsListTextView>
+	);
+};
+
+interface ISettingsListItemProps extends TouchableHighlightProps {
+	icon: any;
+	label: string;
+	subLabel?: string;
+}
+
+export const SettingsListItem = (props: ISettingsListItemProps) => {
+	return (
+		<TouchableHighlight underlayColor={DefaultColors.lightGrey} {...props}>
+			<StyledListRowView>
+				<SettingsListItemIconView>{props.icon}</SettingsListItemIconView>
+				<SettingsListText title={props.label} subTitle={props.subLabel}/>
+				<SettingsListItemArrowView>
+					<SettingsListItemArrow><FontAwesome>{Icons.angleRight}</FontAwesome></SettingsListItemArrow>
+				</SettingsListItemArrowView>
+			</StyledListRowView>
+		</TouchableHighlight>
+	);
+};
+
+export const SettingsListSeperator = styled(View)`
+	height: 1px;
+	margin-left: 60px;
+	background-color: ${DefaultColors.lightGrey};
+	align-self: stretch;
+`;

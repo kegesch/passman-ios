@@ -5,7 +5,7 @@ import {INavigationScreenProps} from '../../lib/Interfaces';
 import MasterPasswordStore from '../stores/MasterPasswordStore';
 import BiometricService from '../../lib/services/BiometricService';
 import {
-	CenteredView, Header, SettingsButton, SettingsInput, SettingsList, StyledActivityIndicator,
+	CenteredView, Header, ListButton, ListInput, List, StyledActivityIndicator,
 	StyledRootView
 } from '../StyledComponents';
 
@@ -57,7 +57,7 @@ export default class LockScreen extends React.Component<ILockScreenProps, {}> {
 		let button = null;
 		if (this.props.masterPasswordStore.supportedBiometrics !== null) {
 			button = <CenteredView>
-						<SettingsButton
+						<ListButton
 							title={this.props.masterPasswordStore.supportedBiometrics}
 							onPress={() => this.authorize()}
 						/>
@@ -67,8 +67,8 @@ export default class LockScreen extends React.Component<ILockScreenProps, {}> {
 		const loading = <StyledActivityIndicator animating={this.props.masterPasswordStore.isLoading}/>;
 
 		const masterPasswordSettings =
-			<SettingsList button={button} scrollable>
-				<SettingsInput
+			<List button={button} scrollable>
+				<ListInput
 					secureTextEntry
 					label="Password"
 					placeholder="masterpassword"
@@ -76,7 +76,7 @@ export default class LockScreen extends React.Component<ILockScreenProps, {}> {
 					onChangeText={(pw) => this.authenticate(pw)}
 					onEndEditing={() => this.authenticateFinal()}
 				/>
-			</SettingsList>;
+			</List>;
 
 		return (
 			<StyledRootView>

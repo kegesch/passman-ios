@@ -12,7 +12,7 @@ import {
 	CredentialItem,
 	CredentialSectionHeader,
 	CredentialsListHeaderSeparator,
-	SettingsListSeparator,
+	ListSeparator,
 	StyledRootView
 } from '../StyledComponents';
 import {inject, observer} from 'mobx-react/native';
@@ -154,7 +154,7 @@ export default class CredentialsScreen extends React.Component<ICredentialsScree
 					renderItem={({ item }) =>
 						<CredentialItem url={item.url} title={item.label} subTitle={item.url} onPress={() => this.pressCredential(item)}/>}
 					keyExtractor={(item) => item.label}
-					ItemSeparatorComponent={SettingsListSeparator}
+					ItemSeparatorComponent={ListSeparator}
 					SectionSeparatorComponent={CredentialsListHeaderSeparator}
 					renderSectionHeader={({ section: { title } }) => <CredentialSectionHeader title={title}/>}
 					refreshing={this.props.credentialsStore.isLoading}

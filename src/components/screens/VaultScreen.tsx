@@ -1,7 +1,7 @@
 import VaultStore from '../stores/VaultStore';
 import {
-	SettingsList, StyledActivityIndicator,
-	StyledRootView, HeaderView, HeaderButton, TouchableSettingsText
+	List, StyledActivityIndicator,
+	StyledRootView, HeaderView, HeaderButton, TouchableListText
 } from '../StyledComponents';
 import {inject, observer} from 'mobx-react/native';
 import React from 'react';
@@ -30,15 +30,15 @@ export default class VaultScreen extends React.Component<IVaultScreenProps, {}> 
 		let vaultList = null;
 		if (!this.props.vaultStore.isLoading) {
 			let vaults = this.props.vaultStore.vaults.map((vault) =>
-				<TouchableSettingsText
+				<TouchableListText
 					key={vault.guid}
 					text={vault.name}
 					onPress={() => this.onPressVault(vault)}
 					highlighted={this.props.vaultStore.selectedVault && this.props.vaultStore.selectedVault.guid === vault.guid}/>);
 
-			vaultList = <SettingsList scrollable>
+			vaultList = <List scrollable>
 				{vaults}
-			</SettingsList>;
+			</List>;
 		}
 		return (
 			<StyledRootView>

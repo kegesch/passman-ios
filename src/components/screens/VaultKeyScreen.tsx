@@ -6,9 +6,9 @@ import {INavigationScreenProps} from '../../lib/Interfaces';
 import VaultStore from '../stores/VaultStore';
 import {
 	HeaderButton,
-	HeaderView, SettingsInput,
-	SettingsList,
-	SettingsSwitch,
+	HeaderView, ListInput,
+	List,
+	ListSwitch,
 	StyledActivityIndicator,
 	StyledRootView
 } from '../StyledComponents';
@@ -36,21 +36,21 @@ export default class VaultKeyScreen extends React.Component<IVaultKeyScreenProps
 	render() {
 
 		const settingsList = (
-		<SettingsList scrollable
-						info={'Please enter the valid key for vault "' + this.props.vaultStore.selectedVault.name +
+		<List scrollable
+			  info={'Please enter the valid key for vault "' + this.props.vaultStore.selectedVault.name +
 						'". When the option "save" will be enabled, the vaultkey will be stored securely on your device!'}>
-				<SettingsInput label={'Key'}
-					secureTextEntry
-					placeholder={'password'}
-					returnKeyType={'done'}
-					onChangeText={(value) => this.props.vaultStore.editVaultKey(value)}
+				<ListInput label={'Key'}
+						   secureTextEntry
+						   placeholder={'password'}
+						   returnKeyType={'done'}
+						   onChangeText={(value) => this.props.vaultStore.editVaultKey(value)}
 				/>
-				<SettingsSwitch
+				<ListSwitch
 					label={'Save'}
 					value={this.props.vaultStore.selectedVaultKey.shouldBeSaved}
 					onValueChange={(value) => this.props.vaultStore.selectedVaultKey.shouldBeSaved = value}
 			/>
-			</SettingsList>
+			</List>
 		);
 
 		return (
