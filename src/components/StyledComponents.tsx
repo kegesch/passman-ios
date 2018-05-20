@@ -263,13 +263,14 @@ const ListTextItem = styledTS<IHighlightedTextProps>(styled(HighlightedText))`
 `;
 
 interface IListTextProps {
-	highlighted: boolean;
+	highlighted?: boolean;
 	text: string;
+	label: string;
 }
 
 export const ListText = (props: IListTextProps) => {
 	return (
-		<StyledListRow label={'«'} right={
+		<StyledListRow label={props.label} right={
 			<ListTextItem highlighted={props.highlighted}>{props.text}</ListTextItem>
 		} />
 	);
@@ -283,7 +284,7 @@ export const TouchableListText = (props: ITouchableListText) => {
 	return (
 		<TouchableHighlight underlayColor={'transparent'} {...props}>
 			<View>
-				<ListText text={props.text} highlighted={props.highlighted}/>
+				<ListText {...props}/>
 			</View>
 		</TouchableHighlight>
 	);

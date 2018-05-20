@@ -31,6 +31,7 @@ export default class VaultScreen extends React.Component<IVaultScreenProps, {}> 
 		if (!this.props.vaultStore.isLoading) {
 			let vaults = this.props.vaultStore.vaults.map((vault) =>
 				<TouchableListText
+					label={'Vault'}
 					key={vault.guid}
 					text={vault.name}
 					onPress={() => this.onPressVault(vault)}

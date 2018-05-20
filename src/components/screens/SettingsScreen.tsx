@@ -13,6 +13,7 @@ import {
 } from '../StyledComponents';
 import {INavigationScreenProps} from '../../lib/Interfaces';
 import DefaultColors from '../DefaultColors';
+import VersionNumber from 'react-native-version-number';
 
 interface ISettingsScreenProps extends INavigationScreenProps {
 	style?: string;
@@ -41,7 +42,7 @@ export default class SettingsScreen extends React.Component<ISettingsScreenProps
 						<Image
 							style={{width: 100, height: 100, marginTop: 20, marginBottom: 5}}
 							borderRadius={100 * 10 / 57} source={require('../../../resources/apple-touch-icon.png')}/>
-						<CredentialInfoText>Version 1.0</CredentialInfoText>
+						<CredentialInfoText>Version {VersionNumber.appVersion}</CredentialInfoText>
 					</CenteredView>
 					<List separatorComponent={SettingsListSeperator}>
 						<SettingsListItem
@@ -49,14 +50,14 @@ export default class SettingsScreen extends React.Component<ISettingsScreenProps
 								<IconText style={{color: DefaultColors.blue}}><FontAwesome>{Icons.server}</FontAwesome></IconText>
 							}
 							label={'nextcloud connection'}
-							onPress={() => console.log('pressed connection')}
+							onPress={() => this.props.navigation.navigate('ConnectionSettings')}
 						/>
 						<SettingsListItem
 							icon={
 								<IconText style={{color: DefaultColors.orange}}><FontAwesome>{Icons.lock}</FontAwesome></IconText>
 							}
 							label={'masterpassword'}
-							onPress={() => console.log('pressed masterpassword')}
+							onPress={() => this.props.navigation.navigate('MasterPasswordSettings')}
 						/>
 						<SettingsListItem
 							icon={

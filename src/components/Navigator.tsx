@@ -10,6 +10,8 @@ import CredentialInfoScreen from './screens/CredentialInfoScreen';
 import SetupMasterPasswordScreen from './screens/SetupMasterPasswordScreen';
 import LoginScreen from './screens/LoginScreen';
 import LockScreen from './screens/LockScreen';
+import ConnectionSettingsScreen from './screens/settings/ConnectionSettingsScreen';
+import MasterPasswordSettingsScreen from './screens/settings/MasterPasswordSettingsScreen';
 
 const CredentialsNavigator = createStackNavigator({
 	CredentialsScreen: { screen: CredentialsScreen },
@@ -20,7 +22,9 @@ const CredentialsNavigator = createStackNavigator({
 });
 
 const OptionsNavigator = createStackNavigator({
-	OptionsScreen: {screen: SettingsScreen}
+	OptionsScreen: {screen: SettingsScreen},
+	ConnectionSettings: {screen: ConnectionSettingsScreen},
+	MasterPasswordSettings: {screen: MasterPasswordSettingsScreen}
 }, {
 	header: null
 });
@@ -42,7 +46,8 @@ const TabNavigator = createBottomTabNavigator(
 				}
 
 				return <Text style={{color: tintColor, fontSize: 24}}><FontAwesome>{iconName}</FontAwesome></Text>;
-			}
+			},
+			tabBarLabel: (navigation.state.routeName === 'CredentialsTab' ? 'Credentials' : 'Settings')
 		}),
 		tabBarOptions: {
 			inactiveTintColor: DefaultColors.grey,
