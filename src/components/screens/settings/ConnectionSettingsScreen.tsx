@@ -19,10 +19,9 @@ export default class ConnectionSettingsScreen extends React.Component<IConnectio
 			color: DefaultColors.white
 		},
 		headerStyle: {
-			backgroundColor: DefaultColors.blue,
-			color: DefaultColors.white
+			backgroundColor: DefaultColors.blue
 		},
-		headerTintColor: DefaultColors.white,
+		headerTintColor: DefaultColors.white
 	};
 
 	render() {

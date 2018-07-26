@@ -1,7 +1,6 @@
 import React from 'react';
-import FontAwesome, { Icons } from 'react-native-fontawesome';
+import Icon from 'react-native-vector-icons/Ionicons';
 import {
-	Text,
 	StatusBar,
 	TouchableHighlight,
 	SectionList, Modal, Alert
@@ -47,16 +46,12 @@ export default class CredentialsScreen extends React.Component<ICredentialsScree
 				backgroundColor: DefaultColors.blue
 			},
 			headerTintColor: DefaultColors.white,
-			tabBarIcon: ({tintColor}) => ((<Text style={{color: tintColor, fontSize: 24}}><FontAwesome>{Icons.key}</FontAwesome></Text>)),
 			headerLeft: (
 
 				<TouchableHighlight underlayColor={'transparent'} onPress={params.toggleVaultComponent}>
-					<Text style={{
-						color: DefaultColors.white,
+				<Icon name={'ios-list'} size={30} color={DefaultColors.white} style={{
 						padding: 10,
-						paddingLeft: 15,
-						fontSize: 16
-					}}><FontAwesome>{Icons.database}</FontAwesome></Text>
+						paddingLeft: 15}} />
 				</TouchableHighlight>
 			)
 

@@ -137,6 +137,8 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-vector-icons')
+    compile project(':react-native-fetch-blob')
     compile project(':react-native-version-number')
     compile project(':react-native-touch-id')
     compile project(':react-native-secure-key-store')

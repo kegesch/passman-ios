@@ -1,7 +1,7 @@
 import VaultStore from '../stores/VaultStore';
 import {
 	List, StyledActivityIndicator,
-	StyledRootView, HeaderView, HeaderButton, TouchableListText
+	StyledRootView, HeaderView, HeaderButton, TouchableListText, CheckListItem, SettingsListSeperator
 } from '../StyledComponents';
 import {inject, observer} from 'mobx-react/native';
 import React from 'react';
@@ -30,14 +30,14 @@ export default class VaultScreen extends React.Component<IVaultScreenProps, {}> 
 		let vaultList = null;
 		if (!this.props.vaultStore.isLoading) {
 			let vaults = this.props.vaultStore.vaults.map((vault) =>
-				<TouchableListText
-					label={'Vault'}
+				<CheckListItem
 					key={vault.guid}
-					text={vault.name}
+					checked={this.props.vaultStore.selectedVault && this.props.vaultStore.selectedVault.guid === vault.guid}
+					label={vault.name}
 					onPress={() => this.onPressVault(vault)}
-					highlighted={this.props.vaultStore.selectedVault && this.props.vaultStore.selectedVault.guid === vault.guid}/>);
+				/>);
 
-			vaultList = <List scrollable>
+			vaultList = <List scrollable separatorComponent={SettingsListSeperator}>
 				{vaults}
 			</List>;
 		}

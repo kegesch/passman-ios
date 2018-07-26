@@ -9,6 +9,7 @@ const DefaultColors = {
 	white: '#FBFCFF',
 	darkWhite: '#FAFAFA',
 	orange: '#DE6B48',
+	darkOrange: '#bc5e3e',
 	green: '#7CEA9C',
 	plain: '#FFFFFF'
 };

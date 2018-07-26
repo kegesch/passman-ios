@@ -94,6 +94,35 @@ export default class VaultStore implements IStore {
 		}
 	}
 
+	* deleteSavedVaultKeyAsync (key: IVaultKey) {
+		this.isLoading = true;
+
+		try {
+
+			if (this.selectedVaultKey.vaultGuid === key.vaultGuid) {
+				this.selectedVaultKey.shouldBeSaved = false;
+				yield StorageService.saveObjectSecure(this.STORAGE_KEY_SELECTED_VAULT_KEY, null);
+			}
+
+			this.vaultKeys[key.vaultGuid].shouldBeSaved = false;
+
+			const keysShouldBeSaved = {};
+			for (let i in this.vaultKeys) {
+				const k: IVaultKey = this.vaultKeys[i];
+				if (k.shouldBeSaved) keysShouldBeSaved[k.vaultGuid] = k;
+			}
+
+			yield StorageService.saveObjectSecure(this.STORAGE_KEY_VAULT_KEYS, keysShouldBeSaved);
+
+			return true;
+		} catch (err) {
+			console.log('Could not delete VaultKey', err);
+			return false;
+		} finally {
+			this.isLoading = false;
+		}
+	}
+
 	* selectVaultAsync (vault: IVault) {
 		this.isLoading = true;
 

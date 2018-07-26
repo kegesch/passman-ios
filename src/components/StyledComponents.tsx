@@ -16,6 +16,7 @@ import DefaultColors from './DefaultColors';
 import React from 'react';
 import {joinElements} from './JoinChildren';
 import FontAwesome, { Icons } from 'react-native-fontawesome';
+import {CachedImage} from 'react-native-img-cache';
 
 export const StyledRootView = styled(View)`
 	background-color: ${DefaultColors.appleGrey};
@@ -37,7 +38,7 @@ export const InlineView = styled(View)`
 `;
 export const RightView = styled(View)`
 	flex-direction: column;
-	align-self: stretch;
+	align-self: flex-end;
 `;
 const HeaderText = styled(Text)`
 	align-self: flex-end;
@@ -97,7 +98,7 @@ export const HeaderView = styled(View)`
 	padding: 20px;
 	padding-top: 40px;
 	justify-content: center;
-	align-items: center;
+	align-self: stretch;
 `;
 
 export const Header = () => {
@@ -106,14 +107,18 @@ export const Header = () => {
 			<StatusBar
 				barStyle="light-content"
 			/>
-			<InlineView>
-				<StyledLogo
-					source={require('../../resources/app.png')}
-				/>
-				<StyledLogoText>
-					Passman
-				</StyledLogoText>
-			</InlineView>
+			<CenteredView>
+				<InlineView>
+
+						<StyledLogo
+							source={require('../../resources/app.png')}
+						/>
+						<StyledLogoText>
+							Passman
+						</StyledLogoText>
+
+				</InlineView>
+			</CenteredView>
 		</HeaderView>
 	);
 };
@@ -366,7 +371,7 @@ interface ICredentialFaviconProps extends ImageProps {
 }
 
 export const CredentialFavicon = (props: ICredentialFaviconProps) => {
-	return <Image style={{width: props.size, height: props.size, margin: 0, padding: 0}} {...props}  />;
+	return <Image style={{width: props.size, height: props.size, margin: 0, padding: 0}} {...props} />;
 };
 
 interface ICredentialItemProps extends TouchableHighlightProps {
@@ -374,17 +379,18 @@ interface ICredentialItemProps extends TouchableHighlightProps {
 	title: string;
 	subTitle: string;
 }
-
-const UnstyledCredentialItem = (props: ICredentialItemProps) => {
-	return (
-		<TouchableHighlight underlayColor={'transparent'} {...props}>
-			<InlineView>
-				<CredentialFavicon source={{uri: 'https://passmanfavicon.herokuapp.com/icon?url=' + props.url + '&size=20..30..200'}} size={30}/>
-				<TitleItem title={props.title} subTitle={props.subTitle} />
-			</InlineView>
-		</TouchableHighlight>
-	);
-};
+class UnstyledCredentialItem extends React.PureComponent<ICredentialItemProps, {}> {
+	render() {
+		return (
+			<TouchableHighlight underlayColor={'transparent'} {...this.props}>
+				<InlineView>
+					<CredentialFavicon source={{uri: 'https://passmanfavicon.herokuapp.com/icon?url=' + this.props.url + '&size=20..30..200', cache: 'force-cache'}} size={30}/>
+					<TitleItem title={this.props.title} subTitle={this.props.subTitle} />
+				</InlineView>
+			</TouchableHighlight>
+		);
+	}
+}
 
 export const CredentialItem = styledTS<ICredentialItemProps>(styled(UnstyledCredentialItem))`
 	background-color: ${DefaultColors.white};
@@ -494,10 +500,9 @@ const SettingsListItemIconView = styled(View)`
 	margin-left: 18px;
 `;
 
-export const IconText = styled(Text)`
+export const IconView = styled(View)`
 	padding: 0px;
 	margin: 0px;
-	font-size: 30px;
 	width: 30px;
 	height: 30px;
 `;
@@ -505,6 +510,7 @@ export const IconText = styled(Text)`
 const SettingsListTextView = styled(View)`
 	justify-content: center;
 	flex: 2;
+	margin-right: 15px;
 `;
 
 const SettingsListItemArrowView = styled(View)`
@@ -515,10 +521,12 @@ const SettingsListItemArrowView = styled(View)`
 	margin-left: 18px;
 `;
 
-const SettingsListItemArrow = styled(IconText)`
+const SettingsListItemArrow = styled(Text)`
 	font-size: 35px;
 	height: 35px;
 	width: 35px;
+	padding: 0px;
+	margin: 0px;
 `;
 
 const SettingsListText = (props: ITitleItemProps) => {
@@ -556,3 +564,58 @@ export const SettingsListSeperator = styled(View)`
 	background-color: ${DefaultColors.lightGrey};
 	align-self: stretch;
 `;
+
+interface ICheckListItemProps extends TouchableHighlightProps {
+	checked: boolean;
+	label: string;
+	subLabel?: string;
+}
+
+export const CheckListItem = (props: ICheckListItemProps) => {
+	return (
+		<TouchableHighlight underlayColor={DefaultColors.lightGrey} {...props}>
+			<StyledListRowView>
+				<SettingsListItemIconView>
+					{
+						props.checked
+							? <Text><FontAwesome>{Icons.check}</FontAwesome></Text>
+							: null
+					}
+				</SettingsListItemIconView>
+				<SettingsListText title={props.label} subTitle={props.subLabel}/>
+			</StyledListRowView>
+		</TouchableHighlight>
+	);
+};
+
+const HighlightedSettingsListText = styledTS<IHighlightedTextProps>(styled(HighlightedText))`
+	justify-content: center;
+	color: ${props => props.highlighted ? DefaultColors.blue : DefaultColors.darkGrey};
+`;
+
+const VerticalCenteredView = styled(View)`
+	justify-content: center
+	min-height: 46px;
+	padding: 10px;
+	flex: 1;
+	padding-left: 15px;
+`;
+
+interface ISettingsTouchTextItemProps extends TouchableHighlightProps {
+	label: string;
+	rightText?: string;
+	highlighted?: boolean;
+}
+
+export const SettingsTouchTextItem = (props: ISettingsTouchTextItemProps) => {
+	return (
+		<TouchableHighlight underlayColor={DefaultColors.lightGrey} {...props}>
+			<StyledListRowView>
+				<VerticalCenteredView>
+					<HighlightedSettingsListText highlighted={props.highlighted}>{props.label}</HighlightedSettingsListText>
+				</VerticalCenteredView>
+				<RightView><SettingsListText title={props.rightText} /></RightView>
+			</StyledListRowView>
+		</TouchableHighlight>
+	);
+};

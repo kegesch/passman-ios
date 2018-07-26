@@ -1,7 +1,6 @@
 import { createBottomTabNavigator, createStackNavigator } from 'react-navigation';
-import {Text} from 'react-native';
 import React from 'react';
-import FontAwesome, { Icons } from 'react-native-fontawesome';
+import Icon from 'react-native-vector-icons/Ionicons';
 import DefaultColors from './DefaultColors';
 import SettingsScreen from './screens/SettingsScreen';
 import VaultKeyScreen from './screens/VaultKeyScreen';
@@ -12,6 +11,7 @@ import LoginScreen from './screens/LoginScreen';
 import LockScreen from './screens/LockScreen';
 import ConnectionSettingsScreen from './screens/settings/ConnectionSettingsScreen';
 import MasterPasswordSettingsScreen from './screens/settings/MasterPasswordSettingsScreen';
+import VaultSettingsScreen from './screens/settings/VaultSettingsScreen';
 
 const CredentialsNavigator = createStackNavigator({
 	CredentialsScreen: { screen: CredentialsScreen },
@@ -24,7 +24,8 @@ const CredentialsNavigator = createStackNavigator({
 const OptionsNavigator = createStackNavigator({
 	OptionsScreen: {screen: SettingsScreen},
 	ConnectionSettings: {screen: ConnectionSettingsScreen},
-	MasterPasswordSettings: {screen: MasterPasswordSettingsScreen}
+	MasterPasswordSettings: {screen: MasterPasswordSettingsScreen},
+	VaultSettings: {screen: VaultSettingsScreen}
 }, {
 	header: null
 });
@@ -36,16 +37,15 @@ const TabNavigator = createBottomTabNavigator(
 	},
 	{
 		navigationOptions: ({ navigation }) => ({
-			tabBarIcon: ({ tintColor }) => {
+			tabBarIcon: ({ focused, tintColor }) => {
 				const { routeName } = navigation.state;
 				let iconName;
 				if (routeName === 'CredentialsTab') {
-					iconName = Icons.key;
+					iconName = 'ios-key';
 				} else if (routeName === 'OptionsTab') {
-					iconName = Icons.cogs;
+					iconName = 'ios-cog';
 				}
-
-				return <Text style={{color: tintColor, fontSize: 24}}><FontAwesome>{iconName}</FontAwesome></Text>;
+				return <Icon name={iconName + (focused ? '' : '-outline')} size={30} color={tintColor} />;
 			},
 			tabBarLabel: (navigation.state.routeName === 'CredentialsTab' ? 'Credentials' : 'Settings')
 		}),
