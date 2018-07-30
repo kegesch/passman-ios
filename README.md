@@ -37,6 +37,8 @@ Run ```react-native  link```. This should do it unless the library says otherwis
 
 ## License
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2FY0nnyy%2Fpassman-ios.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2FY0nnyy%2Fpassman-ios?ref=badge_large)
+
+
 The source code is available under the MIT license. See the ```LICENSE``` file for more information.
 
 Although technically allowed by the licensing terms, please do not simply submit your own version of passman-ios to the App Store.
