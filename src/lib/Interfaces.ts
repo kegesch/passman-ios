@@ -34,6 +34,9 @@ export interface IOtp {
 }
 
 export interface ICredential {
+	credential_id: number;
+	guid: string;
+	user_id?: string;
 	vault_id?: string;
 	label?: string;
 	description?: string;

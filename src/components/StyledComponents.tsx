@@ -487,7 +487,7 @@ const CredentialInfoFaviconView = styled(View)`
 
 export const CredentialInfoFavicon = (props: ICredentialFaviconProps) => {
 	return <CredentialInfoFaviconView>
-		<Image style={{width: props.size, height: props.size}} source={props.source} />;
+		<Image style={{width: props.size, height: props.size}} source={props.source} />
 	</CredentialInfoFaviconView>;
 };
 

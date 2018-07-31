@@ -5,7 +5,7 @@ import {
 	TouchableHighlight,
 	SectionList, Modal, Alert
 } from 'react-native';
-import {INavigationScreenProps} from '../../lib/Interfaces';
+import {ICredential, INavigationScreenProps} from '../../lib/Interfaces';
 import DefaultColors from '../DefaultColors';
 import {
 	CredentialItem,
@@ -148,7 +148,7 @@ export default class CredentialsScreen extends React.Component<ICredentialsScree
 					sections={sections}
 					renderItem={({ item }) =>
 						<CredentialItem url={item.url} title={item.label} subTitle={item.url} onPress={() => this.pressCredential(item)}/>}
-					keyExtractor={(item) => item.label}
+					keyExtractor={(item: ICredential) => item.guid}
 					ItemSeparatorComponent={ListSeparator}
 					SectionSeparatorComponent={CredentialsListHeaderSeparator}
 					renderSectionHeader={({ section: { title } }) => <CredentialSectionHeader title={title}/>}

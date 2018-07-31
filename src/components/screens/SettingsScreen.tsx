@@ -35,49 +35,11 @@ export default class SettingsScreen extends React.Component<ISettingsScreenProps
 		headerStyle: {
 			backgroundColor: DefaultColors.blue
 		},
-		headerTintColor: DefaultColors.white,
+		headerTintColor: DefaultColors.white
 	};
-
-	private BASE_CACHE_DIR = RNFetchBlob.fs.dirs.CacheDir + '/react-native-img-cache';
 
 	constructor(props) {
 		super(props);
-
-		this.state = {cacheSize: '0B'};
-	}
-
-	clearCache() {
-		ImageCache.get().clear();
-	}
-
-	async calculateCacheSize(): Promise<string> {
-		try {
-			const cacheStat = await RNFetchBlob.fs.stat(this.BASE_CACHE_DIR);
-			return this.humanFileSize(cacheStat.size, false);
-		} catch (err) {
-			console.error('could not calculate cache size.', err);
-			return '0B';
-		}
-	}
-
-	humanFileSize(bytes, si) {
-		let thresh = si ? 1000 : 1024;
-		if (Math.abs(bytes) < thresh) {
-			return bytes + ' B';
-		}
-		let units = si
-			? ['kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB']
-			: ['KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
-		let u = -1;
-		do {
-			bytes /= thresh;
-			++u;
-		} while (Math.abs(bytes) >= thresh && u < units.length - 1);
-		return bytes.toFixed(1) + ' ' + units[u];
-	}
-
-	async UNSAFE_componentWillMount() {
-		this.setState({cacheSize: await this.calculateCacheSize()});
 	}
 
 	render() {
@@ -121,9 +83,6 @@ export default class SettingsScreen extends React.Component<ISettingsScreenProps
 							label={'feedback'}
 							onPress={() => Linking.openURL('https://github.com/Y0nnyy/passman-ios/issues')}
 						/>
-					</List>
-					<List>
-						<SettingsTouchTextItem highlighted label={'Clear Cache'} rightText={this.state.cacheSize} onPress={() => this.clearCache()} />
 					</List>
 				</ScrollView>
 			</StyledRootView>
