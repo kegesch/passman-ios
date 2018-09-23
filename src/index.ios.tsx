@@ -8,6 +8,7 @@ import {AppState} from 'react-native';
 import CredentialsStore from './components/stores/CredentialsStore';
 import {Loader} from './components/screens/Loader';
 import Navigator from './components/Navigator';
+import {StackActions, NavigationActions} from 'react-navigation';
 
 const passmanService = new PassmanService();
 const vaultStore = new VaultStore(passmanService);
@@ -21,14 +22,17 @@ const stores = {
 
 interface IAppState {
 	isLoading: boolean;
+	navigationState: any;
 }
 
 export class App extends React.Component<{}, IAppState> {
 
+	private navigator: any;
+
 	constructor(props) {
 		super(props);
 
-		this.state = {isLoading: true};
+		this.state = {isLoading: true, navigationState: null};
 	}
 
 	componentDidMount() {
@@ -40,8 +44,14 @@ export class App extends React.Component<{}, IAppState> {
 	}
 
 	_handleAppStateChange = (nextAppState) => {
-		if (nextAppState === /inactive|background/) {
-			console.log('Replace screen with LockScreen'); // TODO
+		console.log(this.getActiveRouteName(this.state.navigationState));
+		debugger;
+		if (
+			nextAppState === 'inactive' &&
+			this.state.navigationState &&
+			this.getActiveRouteName(this.state.navigationState).indexOf('AppNavigator') > -1 &&
+			this.navigator !== undefined) {
+			this.navigateToTop();
 		}
 	}
 
@@ -60,10 +70,39 @@ export class App extends React.Component<{}, IAppState> {
 		return (
 			<Loader isLoading={this.state.isLoading}>
 				<Provider {...stores}>
-					<Navigator/>
+					<Navigator
+						ref={navigator => this.navigator = navigator}
+						onNavigationStateChange={(currentState) => {
+							this.setState({navigationState: currentState});
+						}}
+					/>
 				</Provider>
 			</Loader>
 		);
+	}
+
+	private navigateToTop() {
+		const resetAction = StackActions.reset({
+			index: 0,
+			key: null,
+			actions: [
+				NavigationActions.navigate({ routeName: 'LockScreen', params: { resetOrder: 1 }})
+			]
+		});
+		this.navigator.dispatch(resetAction);
+	}
+
+	private getActiveRouteName(navigationState) {
+		if (!navigationState) {
+			return null;
+		}
+		const route = navigationState.routes[navigationState.index];
+		// dive into nested navigators
+		if (route.routes) {
+			return this.getActiveRouteName(route) + '/' + route.routeName;
+		} else {
+			return route.routeName;
+		}
 	}
 
 }

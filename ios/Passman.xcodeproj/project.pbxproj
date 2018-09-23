@@ -52,7 +52,6 @@
 		C638B6F3AB1D40CDAE0FB707 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6608D07936DD4B48A04A19AE /* FontAwesome.ttf */; };
 		D0BCB0C842F34FB2BFA698D7 /* libRNVersionNumber.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EC68E7683D46485A8C196A22 /* libRNVersionNumber.a */; };
 		DAC399249FF34936B85DEE6B /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0A3BB4A8E8224996A4ED18A7 /* Ionicons.ttf */; };
-		DD856C8520A5F8E40061EF3A /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DD856C8420A5F8E40061EF3A /* FontAwesome.ttf */; };
 		ECA0917C61094E54B90CC133 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3C8182D165AB4A25AD3991E4 /* Entypo.ttf */; };
 		FC46BF67B4F84E17862F378E /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ACEF4C69F4894BCFA3959080 /* EvilIcons.ttf */; };
 		FDA175DBE0254C228181EB76 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 215DA06CA7704422A0C45877 /* Zocial.ttf */; };
@@ -422,7 +421,6 @@
 		B6AF66B54ADC48DCB9359558 /* libRNSecureKeyStore.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSecureKeyStore.a; sourceTree = "<group>"; };
 		BBD15311B0BA407C81E2FCD2 /* TouchID.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = TouchID.xcodeproj; path = "../node_modules/react-native-touch-id/TouchID.xcodeproj"; sourceTree = "<group>"; };
 		C3A3156BFC0E44F6A3521086 /* libRNVersionNumber-tvOS.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = "libRNVersionNumber-tvOS.a"; sourceTree = "<group>"; };
-		DD856C8420A5F8E40061EF3A /* FontAwesome.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = FontAwesome.ttf; sourceTree = "<group>"; };
 		EC68E7683D46485A8C196A22 /* libRNVersionNumber.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVersionNumber.a; sourceTree = "<group>"; };
 		F3C8F60B075C4584BA60B30A /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
 		F4934A6AF6E644EDB03FB110 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
@@ -667,7 +665,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				DD856C8420A5F8E40061EF3A /* FontAwesome.ttf */,
 				13B07FAE1A68108700A75B9A /* Passman */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* PassmanTests */,
@@ -1285,7 +1282,6 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				DD856C8520A5F8E40061EF3A /* FontAwesome.ttf in Resources */,
 				ECA0917C61094E54B90CC133 /* Entypo.ttf in Resources */,
 				FC46BF67B4F84E17862F378E /* EvilIcons.ttf in Resources */,
 				B0F77726C08542BA8AFABC13 /* Feather.ttf in Resources */,
@@ -1496,6 +1492,7 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 				);
 				INFOPLIST_FILE = Passman/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1504,6 +1501,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = cc.passman.app;
 				PRODUCT_NAME = Passman;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1523,6 +1521,7 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 				);
 				INFOPLIST_FILE = Passman/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1531,6 +1530,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = cc.passman.app;
 				PRODUCT_NAME = Passman;
+				TARGETED_DEVICE_FAMILY = 1;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

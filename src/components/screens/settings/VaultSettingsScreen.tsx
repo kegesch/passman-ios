@@ -17,9 +17,13 @@ interface IVaultSettingsScreenProps extends INavigationScreenProps {
 	vaultStore: VaultStore;
 }
 
+interface IVaultSettingsScreenState {
+	scrollActive: boolean;
+}
+
 @inject('vaultStore')
 @observer
-export default class VaultSettingsScreen extends React.Component<IVaultSettingsScreenProps, {}> {
+export default class VaultSettingsScreen extends React.Component<IVaultSettingsScreenProps, IVaultSettingsScreenState> {
 
 	static navigationOptions = {
 		title: '',
@@ -32,7 +36,16 @@ export default class VaultSettingsScreen extends React.Component<IVaultSettingsS
 		headerTintColor: DefaultColors.white
 	};
 
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			scrollActive: false
+		};
+	}
+
 	async _deleteVaultKey(guid) {
+		console.log(guid);
 		await this.props.vaultStore.deleteSavedVaultKeyAsync(this.props.vaultStore.vaultKeys[guid]);
 	}
 
@@ -46,29 +59,24 @@ export default class VaultSettingsScreen extends React.Component<IVaultSettingsS
 
 		const vaultsForKeys = vaultKeysSaved.map((key: IVaultKey) => this.props.vaultStore.vaults.filter(vault => vault.guid === key.vaultGuid)[0]);
 
-		const swipeButtons = [{
-			text: 'Delete',
-			onPress: () => console.log('delete'),
-			backgroundColor: DefaultColors.orange
-		}];
-
 		const vaultKeysList = vaultsForKeys.map((vault: IVault) =>
 			<Swipeout
+				key={vault.guid}
 				backgroundColor="transparent"
+				autoClose={true}
+				scroll={() => { this.setState({ scrollActive: !this.state.scrollActive }); }}
 				right={[{
+					type: 'delete',
 					text: 'Delete',
-					onPress: () => this._deleteVaultKey(vault.guid),
-					backgroundColor: DefaultColors.orange,
-					underlayColor: DefaultColors.darkOrange
+					onPress: () => this._deleteVaultKey(vault.guid)
 				}]}>
 					<CheckListItem
-						key={vault.guid}
 						checked={this.props.vaultStore.selectedVault.guid === vault.guid}
 						label={vault.name} />
 			</Swipeout>);
 
 		const settings =
-			<List scrollable separatorComponent={SettingsListSeperator}
+			<List scrollable separatorComponent={SettingsListSeperator} scrollEnabled={!this.state.scrollActive}
 			info={'Saved vault keys'}>
 				{vaultKeysList}
 			</List>;

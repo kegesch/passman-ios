@@ -142,6 +142,7 @@ interface IListProps extends ViewProps {
 	info?: string;
 	noPadding?: boolean;
 	separatorComponent?: any;
+	scrollEnabled?: boolean;
 }
 
 export const List = (props: IListProps) => {
@@ -160,7 +161,7 @@ export const List = (props: IListProps) => {
 		</StyledListView>;
 
 	if (props.scrollable) {
-		return <StyledScrollView>
+		return <StyledScrollView scrollEnabled={props.scrollEnabled}>
 			{info}
 			{view}
 			{props.button}
@@ -384,7 +385,9 @@ class UnstyledCredentialItem extends React.PureComponent<ICredentialItemProps, {
 		return (
 			<TouchableHighlight underlayColor={'transparent'} {...this.props}>
 				<InlineView>
-					<CredentialFavicon source={{uri: 'https://passmanfavicon.herokuapp.com/icon?url=' + this.props.url + '&size=20..30..200', cache: 'force-cache'}} size={30}/>
+					<CredentialFavicon
+						source={{uri: 'https://passmanfavicon.herokuapp.com/icon?url=' + this.props.url + '&size=20..30..200', cache: 'force-cache'}}
+						size={30}/>
 					<TitleItem title={this.props.title} subTitle={this.props.subTitle} />
 				</InlineView>
 			</TouchableHighlight>
