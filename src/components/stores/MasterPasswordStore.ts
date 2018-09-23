@@ -42,6 +42,21 @@ export default class MasterPasswordStore implements IStore {
 		}
 	});
 
+	reset = flow(function * () {
+		this.isLoading = true;
+		try {
+			this.setMasterPassword(null);
+			this.setMasterPasswordAgain(null);
+			yield StorageService.saveMasterPassword('');
+			yield SettingsService.setSetting('activateBiometrics', false);
+			return true;
+		} catch (err) {
+			console.error('Error in resetting master password: ', err);
+		} finally {
+			this.isLoading = false;
+		}
+	});
+
 	@computed
 	get isMasterPasswordValid() {
 		return (this.masterpassword && this.masterpassword === this.masterpasswordAgain);

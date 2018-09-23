@@ -49,7 +49,7 @@ export class App extends React.Component<{}, IAppState> {
 			this.state.navigationState &&
 			this.getActiveRouteName(this.state.navigationState).indexOf('AppNavigator') > -1 &&
 			this.navigator !== undefined) {
-			this.navigateToTop();
+			this.navigateToLockScreen();
 		}
 	}
 
@@ -79,7 +79,7 @@ export class App extends React.Component<{}, IAppState> {
 		);
 	}
 
-	private navigateToTop() {
+	private navigateToLockScreen() {
 		const resetAction = StackActions.reset({
 			index: 0,
 			key: null,

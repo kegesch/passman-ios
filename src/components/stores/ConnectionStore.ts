@@ -5,11 +5,13 @@ import PassmanService from '../../lib/services/PassmanService';
 
 export default class ConnectionStore implements IStore {
 
-	@observable connection: IConnection = {
+	EMPTY_CONNECTION: IConnection = {
 		url: '',
 		username: '',
 		password: ''
 	};
+
+	@observable connection: IConnection = this.EMPTY_CONNECTION;
 
 	@observable isLoading: boolean = false;
 
@@ -20,7 +22,7 @@ export default class ConnectionStore implements IStore {
 			return false;
 		}
 
-		const expression = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
+		const expression = /https:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/g;
 		if (!this.connection.url.match(expression)) return false;
 
 		return true;
@@ -34,7 +36,8 @@ export default class ConnectionStore implements IStore {
 	loadConnection = flow(function * () {
 		try {
 			this.isLoading = true;
-			const connection = yield StorageService.loadConnection();
+			let connection = yield StorageService.loadConnection();
+			if (connection === null) connection = this.EMPTY_CONNECTION;
 			this.setConnection(connection);
 		} catch {
 			// do nothing
@@ -53,6 +56,21 @@ export default class ConnectionStore implements IStore {
 				return true;
 			}
 			return false;
+		} catch {
+			return false;
+		} finally {
+			this.isLoading = false;
+		}
+	});
+
+	resetConnection = flow(function * () {
+		try {
+			this.isLoading = true;
+
+			yield StorageService.saveConnection(this.EMPTY_CONNECTION);
+			this.setConnection(this.EMPTY_CONNECTION);
+
+			return true;
 		} catch {
 			return false;
 		} finally {

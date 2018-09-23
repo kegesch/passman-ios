@@ -1,8 +1,8 @@
 import {inject, observer} from 'mobx-react/native';
 import React from 'react';
 import {
-	CheckListItem,
-	List,
+	CheckListItem, CredentialInfoText,
+	List, ListInfoText,
 	SettingsListSeperator,
 	StyledActivityIndicator,
 	StyledRootView
@@ -79,11 +79,18 @@ export default class VaultSettingsScreen extends React.Component<IVaultSettingsS
 						label={vault.name} />
 			</Swipeout>);
 
-		const settings =
+		let settings =
 			<List scrollable separatorComponent={SettingsListSeperator} scrollEnabled={!this.state.scrollActive}
 			info={'Saved vault keys'}>
 				{vaultKeysList}
 			</List>;
+
+		if (vaultsForKeys.length === 0) {
+			settings =
+				<ListInfoText>
+					<CredentialInfoText>{'There are 0 saved vault keys.'}</CredentialInfoText>
+				</ListInfoText>;
+		}
 
 		const loading = <StyledActivityIndicator animating={this.props.vaultStore.isLoading}/>;
 

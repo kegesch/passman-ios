@@ -19,6 +19,7 @@ export default class VaultStore implements IStore {
 	saveVaultKey = flow(this.saveVaultKeyAsync);
 	loadVaults = flow(this.loadVaultsAsync);
 	deleteSavedVaultKey = flow(this.deleteSavedVaultKeyAsync);
+	reset = flow(this.resetAsync);
 
 	private SETTING_KEY_SELECTED_VAULT = 'selectedVault';
 	private STORAGE_KEY_VAULT_KEYS = 'vaultKeys';
@@ -146,6 +147,20 @@ export default class VaultStore implements IStore {
 			yield SettingsService.setSetting(this.SETTING_KEY_SELECTED_VAULT, vault);
 		} catch (err) {
 			console.log('Could not select vault', err);
+		} finally {
+			this.isLoading = false;
+		}
+	}
+
+	* resetAsync () {
+		this.isLoading = true;
+
+		try {
+			yield StorageService.saveObjectSecure(this.SETTING_KEY_SELECTED_VAULT, null);
+			yield StorageService.saveObjectSecure(this.STORAGE_KEY_VAULT_KEYS, {});
+			yield StorageService.saveObjectSecure(this.SETTING_KEY_SELECTED_VAULT, null);
+		} catch (e) {
+			console.log('Error in resetting vault data: ', e);
 		} finally {
 			this.isLoading = false;
 		}
