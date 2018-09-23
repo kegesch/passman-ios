@@ -15,8 +15,7 @@ import {
 import DefaultColors from './DefaultColors';
 import React from 'react';
 import {joinElements} from './JoinChildren';
-import FontAwesome, { Icons } from 'react-native-fontawesome';
-import {CachedImage} from 'react-native-img-cache';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 export const StyledRootView = styled(View)`
 	background-color: ${DefaultColors.appleGrey};
@@ -508,7 +507,25 @@ export const IconView = styled(View)`
 	margin: 0px;
 	width: 30px;
 	height: 30px;
+	padding: 5px;
+	justify-content: center;
 `;
+
+export const StyledIconView = styled(IconView)`
+	border-radius: 7px;
+	background-color: ${props => props.backgroundColor || DefaultColors.blue};
+`;
+
+export interface  ISettingsIconProps {
+	name: string;
+	backgroundColor: string;
+}
+
+export const SettingsIcon = (props: ISettingsIconProps) => {
+	return <StyledIconView backgroundColor={props.backgroundColor}>
+		<Icon name={props.name} size={20} color={DefaultColors.white} style={{alignSelf: 'center'}} />
+	</StyledIconView>;
+};
 
 const SettingsListTextView = styled(View)`
 	justify-content: center;
@@ -554,7 +571,7 @@ export const SettingsListItem = (props: ISettingsListItemProps) => {
 				<SettingsListItemIconView>{props.icon}</SettingsListItemIconView>
 				<SettingsListText title={props.label} subTitle={props.subLabel}/>
 				<SettingsListItemArrowView>
-					<SettingsListItemArrow><FontAwesome>{Icons.angleRight}</FontAwesome></SettingsListItemArrow>
+					<SettingsListItemArrow><Icon name={'ios-arrow-forward'} size={35} style={{alignSelf: 'center'}} color={DefaultColors.darkGrey} /></SettingsListItemArrow>
 				</SettingsListItemArrowView>
 			</StyledListRowView>
 		</TouchableHighlight>
@@ -581,7 +598,9 @@ export const CheckListItem = (props: ICheckListItemProps) => {
 				<SettingsListItemIconView>
 					{
 						props.checked
-							? <Text><FontAwesome>{Icons.check}</FontAwesome></Text>
+							? <SettingsListItemArrowView>
+								<SettingsListItemArrow><Icon name={'ios-checkmark'} size={35} style={{alignSelf: 'center'}} color={DefaultColors.darkGrey} /></SettingsListItemArrow>
+							</SettingsListItemArrowView>
 							: null
 					}
 				</SettingsListItemIconView>

@@ -37,7 +37,7 @@ const TabNavigator = createBottomTabNavigator(
 	},
 	{
 		navigationOptions: ({ navigation }) => ({
-			tabBarIcon: ({ focused, tintColor }) => {
+			tabBarIcon: ({tintColor }) => {
 				const { routeName } = navigation.state;
 				let iconName;
 				if (routeName === 'CredentialsTab') {
@@ -45,7 +45,7 @@ const TabNavigator = createBottomTabNavigator(
 				} else if (routeName === 'OptionsTab') {
 					iconName = 'ios-cog';
 				}
-				return <Icon name={iconName + (focused ? '' : '-outline')} size={30} color={tintColor} />;
+				return <Icon name={iconName} size={30} color={tintColor} />;
 			},
 			tabBarLabel: (navigation.state.routeName === 'CredentialsTab' ? 'Credentials' : 'Settings')
 		}),

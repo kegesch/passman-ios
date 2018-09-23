@@ -5,7 +5,7 @@ import {
 	CenteredView,
 	CredentialInfoText,
 	IconView,
-	List,
+	List, SettingsIcon,
 	SettingsListItem,
 	SettingsListSeperator, SettingsTouchTextItem,
 	StyledRootView
@@ -13,8 +13,6 @@ import {
 import {INavigationScreenProps} from '../../lib/Interfaces';
 import DefaultColors from '../DefaultColors';
 import VersionNumber from 'react-native-version-number';
-import RNFetchBlob from 'react-native-fetch-blob';
-import {ImageCache} from 'react-native-img-cache';
 
 interface ISettingsScreenProps extends INavigationScreenProps {
 	style?: string;
@@ -55,21 +53,21 @@ export default class SettingsScreen extends React.Component<ISettingsScreenProps
 					<List separatorComponent={SettingsListSeperator}>
 						<SettingsListItem
 							icon={
-								<IconView><Icon name={'ios-contacts'} size={30} color={DefaultColors.blue}/></IconView>
+								<IconView><SettingsIcon name={'ios-contacts'} backgroundColor={DefaultColors.blue} /></IconView>
 							}
 							label={'nextcloud connection'}
 							onPress={() => this.props.navigation.navigate('ConnectionSettings')}
 						/>
 						<SettingsListItem
 							icon={
-								<IconView><Icon name={'ios-lock'}  size={30} color={DefaultColors.orange}/></IconView>
+								<IconView><SettingsIcon name={'ios-lock'} backgroundColor={DefaultColors.orange} /></IconView>
 							}
 							label={'masterpassword'}
 							onPress={() => this.props.navigation.navigate('MasterPasswordSettings')}
 						/>
 						<SettingsListItem
 							icon={
-								<IconView><Icon name={'ios-list'}  size={30} color={DefaultColors.grey}/></IconView>
+								<IconView><SettingsIcon name={'ios-list'} backgroundColor={DefaultColors.grey} /></IconView>
 							}
 							label={'vaults'}
 							onPress={() => this.props.navigation.navigate('VaultSettings')}
@@ -78,7 +76,7 @@ export default class SettingsScreen extends React.Component<ISettingsScreenProps
 					<List separatorComponent={SettingsListSeperator}>
 						<SettingsListItem
 							icon={
-								<IconView><Icon name={'logo-github'}  size={30} color={DefaultColors.darkGrey}/></IconView>
+								<IconView><SettingsIcon name={'logo-github'} backgroundColor={DefaultColors.darkGrey} /></IconView>
 							}
 							label={'feedback'}
 							onPress={() => Linking.openURL('https://github.com/Y0nnyy/passman-ios/issues')}
