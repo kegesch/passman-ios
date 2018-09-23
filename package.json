@@ -70,11 +70,6 @@
       "jsx",
       "json",
       "node"
-    ],
-    "globals": {
-      "ts-jest": {
-        "useBabelrc": true
-      }
-    }
+    ]
   }
 }
