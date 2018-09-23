@@ -44,8 +44,6 @@ export class App extends React.Component<{}, IAppState> {
 	}
 
 	_handleAppStateChange = (nextAppState) => {
-		console.log(this.getActiveRouteName(this.state.navigationState));
-		debugger;
 		if (
 			nextAppState === 'inactive' &&
 			this.state.navigationState &&
