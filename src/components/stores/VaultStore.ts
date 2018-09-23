@@ -4,7 +4,9 @@ import {IVault, IStore, IVaultKey} from '../../lib/Interfaces';
 import SettingsService from '../../lib/services/SettingsService';
 import StorageService from '../../lib/services/StorageService';
 import {decrypt} from '../../lib/services/CryptoService';
+import remotedev from 'mobx-remotedev';
 
+@remotedev()
 export default class VaultStore implements IStore {
 
 	@observable vaults: IVault[] = [];
@@ -16,6 +18,7 @@ export default class VaultStore implements IStore {
 	selectVault = flow(this.selectVaultAsync);
 	saveVaultKey = flow(this.saveVaultKeyAsync);
 	loadVaults = flow(this.loadVaultsAsync);
+	deleteSavedVaultKey = flow(this.deleteSavedVaultKeyAsync);
 
 	private SETTING_KEY_SELECTED_VAULT = 'selectedVault';
 	private STORAGE_KEY_VAULT_KEYS = 'vaultKeys';
@@ -96,7 +99,7 @@ export default class VaultStore implements IStore {
 
 	* deleteSavedVaultKeyAsync (key: IVaultKey) {
 		this.isLoading = true;
-
+		console.log('Loading');
 		try {
 
 			if (this.selectedVaultKey.vaultGuid === key.vaultGuid) {

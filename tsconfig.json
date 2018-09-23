@@ -14,7 +14,8 @@
     "noImplicitReturns": true,
     "noUnusedParameters": true,
     "noUnusedLocals": false,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "esModuleInterop": true
   },
   "filesGlob": [
     "typings/index.d.ts",

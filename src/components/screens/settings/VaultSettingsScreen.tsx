@@ -11,6 +11,7 @@ import DefaultColors from '../../DefaultColors';
 import {INavigationScreenProps, IVault, IVaultKey} from '../../../lib/Interfaces';
 import VaultStore from '../../stores/VaultStore';
 import Swipeout from 'react-native-swipeout';
+import {Alert} from 'react-native';
 
 interface IVaultSettingsScreenProps extends INavigationScreenProps {
 	style?: string;
@@ -45,8 +46,11 @@ export default class VaultSettingsScreen extends React.Component<IVaultSettingsS
 	}
 
 	async _deleteVaultKey(guid) {
-		console.log(guid);
-		await this.props.vaultStore.deleteSavedVaultKeyAsync(this.props.vaultStore.vaultKeys[guid]);
+		const vaultKey = this.props.vaultStore.vaultKeys[guid];
+
+		if (!(await this.props.vaultStore.deleteSavedVaultKey(vaultKey))) {
+			Alert.alert('Key could not be removed! Try again later.');
+		}
 	}
 
 	render() {
@@ -64,7 +68,7 @@ export default class VaultSettingsScreen extends React.Component<IVaultSettingsS
 				key={vault.guid}
 				backgroundColor="transparent"
 				autoClose={true}
-				scroll={() => { this.setState({ scrollActive: !this.state.scrollActive }); }}
+				scroll={(scrollEnabled) => { this.setState({ scrollActive: scrollEnabled }); }}
 				right={[{
 					type: 'delete',
 					text: 'Delete',

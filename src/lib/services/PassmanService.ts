@@ -50,7 +50,6 @@ export default class PassmanService {
 				}
 			});
 			const json = await response.json();
-			console.log(JSON.stringify(json));
 			const credentials = await json.credentials;
 			return this.filterCredentials(credentials);
 		} catch (err) {
