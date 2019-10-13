@@ -1,3 +1,5 @@
+# DISCONTINUED -> Feel free to fork it :)
+
 # Passman App for iOS <img src="https://passman.cc/img/icon128.png" height="30" />
 iOS client for nextclouds password-manager extension [Passman](https://passman.cc/) 
 
@@ -40,5 +42,3 @@ Run ```react-native  link```. This should do it unless the library says otherwis
 
 
 The source code is available under the MIT license. See the ```LICENSE``` file for more information.
-
-Although technically allowed by the licensing terms, please do not simply submit your own version of passman-ios to the App Store.
